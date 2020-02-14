@@ -1,0 +1,12 @@
+@import './variables';
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: $backgroundColor;
+  color: white;
+  font-family: 'Open Sans', sans-serif;
+}
