@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
-import {authenticateUser} from "./api/authentication";
+import { authenticateUser } from "./api/authentication";
 
 import styles from "./styles/app.scss";
 
