@@ -10,7 +10,7 @@ module.exports = {
             '/api': "http://localhost:5000",
         },
     },
-    entry: "./src/App.js",
+    entry: "./src/components/App.js",
     output: {
         path: path.join(__dirname, 'public', 'dist'),
         filename: 'bundle.js',
