@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { Provider } from "mobx-react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { authenticateUser } from "./api";
-import Store from "./Store";
+import { authenticateUser } from "../api";
+import Store from "../Store";
 
 import Quotes from "./Quotes";
 
