@@ -34,10 +34,9 @@ const App = () => {
     return (
         <>
             <Provider store={store}>
-                <h1>Quotable</h1>
                 <BrowserRouter>
                     <Switch>
-                        <Route path="/quotes" component={Quotes}/>
+                        <Route path="/quotes" component={Quotes} />
                     </Switch>
                 </BrowserRouter>
                 <div id="g-signin2" />

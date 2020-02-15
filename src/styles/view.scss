@@ -1,0 +1,18 @@
+@import './variables';
+
+:local {
+  $headerHeight: 3rem;
+
+  .header {
+    height: $headerHeight;
+    width: 100%;
+    background: $black;
+    line-height: $headerHeight;
+    box-shadow: 0 0 15px black;
+  }
+
+  .section {
+    height: calc(100vh - #{$headerHeight});
+    overflow-y: scroll;
+  }
+}
