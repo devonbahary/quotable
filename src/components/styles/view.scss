@@ -2,6 +2,11 @@
 
 :local {
   $headerHeight: 3rem;
+  $transitionDelay: 0.2s;
+
+  @mixin box-shadow() {
+    box-shadow: 0 0 15px black;
+  }
 
   .header {
     display: grid;
@@ -11,16 +16,50 @@
     width: 100%;
     background: $black;
     line-height: $headerHeight;
-    box-shadow: 0 0 15px black;
     z-index: 1;
+    @include box-shadow();
 
     .headerIcon {
       text-align: center;
+      transition: color $transitionDelay;
+
+      &.active {
+        color: $red;
+      }
     }
   }
 
-  .section {
+  .section,
+  .menu {
+    position: absolute;
+    top: $headerHeight;
+    right: 0;
+    bottom: 0;
+    left: 0;
     height: calc(100vh - #{$headerHeight});
+  }
+
+  .section {
     overflow-y: scroll;
+  }
+
+  .menu {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: $red;
+    transition: opacity $transitionDelay;
+
+    &.closed {
+      opacity: 0;
+    }
+
+    .card {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: $darkGray;
+      margin: 10%;
+      @include box-shadow();
+    }
   }
 }
