@@ -1,9 +1,11 @@
 @import "./variables";
 
 :local {
+  $quoteBuffer: 6px;
+
   .quote {
     position: relative;
-    padding: 12px 20px;
+    padding: 12px 24px;
     min-height: 3rem;
 
     &:nth-child(odd) {
@@ -12,14 +14,14 @@
 
     .quoteLeft {
       position: absolute;
-      top: 4px;
-      left: 4px;
+      top: $quoteBuffer;
+      left: $quoteBuffer;
     }
 
     .quoteRight {
       position: absolute;
-      right: 4px;
-      bottom: 4px;
+      right: $quoteBuffer;
+      bottom: $quoteBuffer;
     }
   }
 }

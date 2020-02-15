@@ -4,13 +4,19 @@
   $headerHeight: 3rem;
 
   .header {
-    padding-left: 4px;
+    display: grid;
+    grid-template-columns: $headerHeight 1fr;
     position: sticky;
     height: $headerHeight;
     width: 100%;
     background: $black;
     line-height: $headerHeight;
     box-shadow: 0 0 15px black;
+    z-index: 1;
+
+    .headerIcon {
+      text-align: center;
+    }
   }
 
   .section {
