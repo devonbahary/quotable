@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { Provider } from "mobx-react";
 import ReactDOM from "react-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { authenticateUser } from "./api";
 import Store from "./Store";
 
+import Quotes from "./Quotes";
 
 import styles from "./styles/app.scss";
 
@@ -33,6 +35,11 @@ const App = () => {
         <>
             <Provider store={store}>
                 <h1>Quotable</h1>
+                <BrowserRouter>
+                    <Switch>
+                        <Route path="/quotes" component={Quotes}/>
+                    </Switch>
+                </BrowserRouter>
                 <div id="g-signin2" />
             </Provider>
         </>
