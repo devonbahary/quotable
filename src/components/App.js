@@ -20,7 +20,7 @@ const App = () => {
             await store.getUser();
         };
 
-        gapi.signin2.render(
+        setTimeout(() => gapi.signin2.render(
             'g-signin2',
             {
                 'scope': 'profile email',
@@ -28,7 +28,7 @@ const App = () => {
                 'theme': 'dark',
                 'onsuccess': onSignIn,
             }
-        );
+        ), 500);
     });
 
     return (
