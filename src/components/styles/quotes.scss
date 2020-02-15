@@ -1,0 +1,25 @@
+@import "./variables";
+
+:local {
+  .quote {
+    position: relative;
+    padding: 12px 20px;
+    min-height: 3rem;
+
+    &:nth-child(odd) {
+      background: $gray;
+    }
+
+    .quoteLeft {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+    }
+
+    .quoteRight {
+      position: absolute;
+      right: 4px;
+      bottom: 4px;
+    }
+  }
+}

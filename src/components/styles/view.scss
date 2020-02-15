@@ -4,6 +4,8 @@
   $headerHeight: 3rem;
 
   .header {
+    padding-left: 4px;
+    position: sticky;
     height: $headerHeight;
     width: 100%;
     background: $black;
