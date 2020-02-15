@@ -1,8 +1,9 @@
 import jwt from "jsonwebtoken";
 import express from "express";
 import { OAuth2Client } from "google-auth-library";
-import UsersRepository from "../repositories/UsersRepository";
 import config from "../config";
+import UsersRepository from "../repositories/UsersRepository";
+import { validateUser } from "../auth";
 
 const googleAuthClient = new OAuth2Client(config.google.clientId);
 const router = express.Router();
@@ -18,6 +19,10 @@ const generateJSONWebToken = userId => {
 
     return jwt.sign(payload, secretKey, options);
 };
+
+router.get('/user', validateUser, async (req, res) => {
+    res.send(req.user);
+});
 
 router.post('/token', async (req, res) => {
     const usersRepository = new UsersRepository();
