@@ -12,14 +12,18 @@
       background: $gray;
     }
 
-    .quoteLeft {
+    .quoteLeft,
+    .quoteRight {
       position: absolute;
+      color: $sage;
+    }
+
+    .quoteLeft {
       top: $quoteBuffer;
       left: $quoteBuffer;
     }
 
     .quoteRight {
-      position: absolute;
       right: $quoteBuffer;
       bottom: $quoteBuffer;
     }
