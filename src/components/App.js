@@ -5,7 +5,12 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { authenticateUser } from "../api";
 import Store from "../Store";
 
+import Collections from "./Collections";
+import Home from "./Home";
 import Quotes from "./Quotes";
+import User from "./User";
+
+import ROUTES from "../../constants/routes";
 
 import styles from "./styles/app.scss";
 
@@ -36,7 +41,10 @@ const App = () => {
             <Provider store={store}>
                 <BrowserRouter>
                     <Switch>
-                        <Route path="/quotes" component={Quotes} />
+                        <Route path={ROUTES.HOME} exact component={Home} />
+                        <Route path={ROUTES.COLLECTIONS} component={Collections} />
+                        <Route path={ROUTES.QUOTES} component={Quotes} />
+                        <Route path={ROUTES.LOGIN} component={User} />
                     </Switch>
                 </BrowserRouter>
                 <div id="g-signin2" />
