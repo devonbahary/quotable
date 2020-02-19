@@ -22,3 +22,7 @@ $homeColor: $darkGreen;
 $quotesColor: $darkBlue;
 $collectionsColor: $red;
 $loginColor: $darkPurple;
+
+@mixin box-shadow() {
+  box-shadow: 0 0 15px black;
+}

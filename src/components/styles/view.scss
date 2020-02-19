@@ -4,10 +4,6 @@
   $headerHeight: 3rem;
   $transitionDelay: 0.2s;
 
-  @mixin box-shadow() {
-    box-shadow: 0 0 15px black;
-  }
-
   .header {
     display: grid;
     grid-template-columns: $headerHeight 1fr;
@@ -64,6 +60,7 @@
 
     &.closed {
       opacity: 0;
+      z-index: -1;
     }
 
     &.home {

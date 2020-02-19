@@ -1,0 +1,26 @@
+@import "./variables";
+
+:local {
+  .container {
+    display: grid;
+    grid-template-rows: 2fr 1fr;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+
+    .userInfo {
+      margin-bottom: 2rem;
+
+      .image {
+        border-radius: 50%;
+        @include box-shadow();
+      }
+    }
+
+    .gSignIn2 {
+
+    }
+  }
+}
