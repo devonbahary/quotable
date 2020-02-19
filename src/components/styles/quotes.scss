@@ -2,30 +2,61 @@
 
 :local {
   $quoteBuffer: 6px;
+  $toolBarDimension: 3rem;
 
   .quote {
     position: relative;
-    padding: 12px 24px;
-    min-height: 3rem;
 
     &:nth-child(odd) {
       background: $gray;
     }
 
-    .quoteLeft,
-    .quoteRight {
-      position: absolute;
-      color: $slateGray;
-    }
+    .content {
+      position: relative;
+      padding: 12px 24px;
+      min-height: $toolBarDimension;
 
-    .quoteLeft {
-      top: $quoteBuffer;
-      left: $quoteBuffer;
-    }
+      .quoteLeft,
+      .quoteRight {
+        position: absolute;
+        color: $slateGray;
+      }
 
-    .quoteRight {
-      right: $quoteBuffer;
-      bottom: $quoteBuffer;
+      .quoteLeft {
+        top: $quoteBuffer;
+        left: $quoteBuffer;
+      }
+
+      .quoteRight {
+        right: $quoteBuffer;
+        bottom: $quoteBuffer;
+      }
+
+      textarea {
+        background: inherit;
+        color: inherit;
+        font-family: inherit;
+        font-size: inherit;
+        border: none;
+        width: 100%;
+        height: 100%;
+        outline: none;
+      }
+    }
+  }
+
+  .toolBar {
+    background: rgba(25, 25, 25, 0.1);
+    height: $toolBarDimension;
+    line-height: $toolBarDimension;
+
+    .icon {
+      float: right;
+      display: inline-block;
+      height: inherit;
+      line-height: inherit;
+      text-align: center;
+      width: $toolBarDimension;
     }
   }
 }

@@ -1,5 +1,6 @@
 import { action, observable, reaction, runInAction } from "mobx";
 import { authenticateUser, getUserQuotes } from "./api";
+import Quote from "./models/Quote";
 import User from "./models/User";
 
 class Store {
@@ -24,7 +25,7 @@ class Store {
 
         const quotes = await getUserQuotes();
         runInAction(() => {
-            this.quotes = quotes;
+            this.quotes = quotes.map(q => new Quote(q));
         });
     };
 
