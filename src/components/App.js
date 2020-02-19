@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Provider } from "mobx-react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { authenticateUser } from "../api";
 import Store from "../Store";
 
 import Collections from "./Collections";
@@ -14,26 +13,20 @@ import ROUTES from "../../constants/routes";
 
 import "./styles/app.scss";
 
-
 const store = new Store();
+
 
 const App = () => {
     useEffect(() => {
-        const onSignIn = async googleUser => {
-            const { id_token: token } = googleUser.getAuthResponse();
-            await authenticateUser(token);
-            await store.getUser();
-        };
+        setTimeout(() => {
+            gapi.load('auth2', async () => {
+                const googleAuth = await gapi.auth2.init();
 
-        setTimeout(() => gapi.signin2.render(
-            'g-signin2',
-            {
-                'scope': 'profile email',
-                'longtitle': true,
-                'theme': 'dark',
-                'onsuccess': onSignIn,
-            }
-        ), 500);
+                const googleUser = googleAuth.currentUser.get();
+                if (!googleUser.isSignedIn()) return;
+                await store.onSignIn(googleUser);
+            });
+        }, 500);
     });
 
     return (
@@ -47,7 +40,6 @@ const App = () => {
                         <Route path={ROUTES.LOGIN} component={User} />
                     </Switch>
                 </BrowserRouter>
-                <div id="g-signin2" />
             </Provider>
         </>
     );

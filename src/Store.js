@@ -1,5 +1,6 @@
 import { action, observable, reaction, runInAction } from "mobx";
-import { getUser, getUserQuotes } from "./api";
+import { authenticateUser, getUserQuotes } from "./api";
+import User from "./models/User";
 
 class Store {
     @observable user;
@@ -12,13 +13,10 @@ class Store {
                 await this.getUserQuotes();
             },
         );
-    }
+    };
 
-    @action getUser = async () => {
-        const user = await getUser();
-        runInAction(() => {
-            this.user = user;
-        });
+    @action setUser = googleUser => {
+        this.user = new User(googleUser);
     };
 
     @action getUserQuotes = async () => {
@@ -28,6 +26,13 @@ class Store {
         runInAction(() => {
             this.quotes = quotes;
         });
+    };
+
+    onSignIn = async googleUser => {
+        const authResponse = googleUser.getAuthResponse();
+        const { id_token: token } = authResponse;
+        await authenticateUser(token);
+        await this.setUser(googleUser);
     };
 }
 
