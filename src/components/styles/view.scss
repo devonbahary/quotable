@@ -58,7 +58,9 @@
       justify-content: center;
       align-items: center;
       background: $darkGray;
-      margin: 10%;
+      min-height: 4rem;
+      min-width: 4rem;
+      margin: 20% 10%;
       @include box-shadow();
     }
   }
