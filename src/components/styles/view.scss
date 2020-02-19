@@ -24,7 +24,21 @@
       transition: color $transitionDelay;
 
       &.active {
-        color: $red;
+        &.home {
+          color: $homeColor;
+        }
+
+        &.quotes {
+          color: $quotesColor;
+        }
+
+        &.collections {
+          color: $collectionsColor;
+        }
+
+        &.login {
+          color: $loginColor;
+        }
       }
     }
   }
@@ -46,11 +60,26 @@
   .menu {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    background: $red;
     transition: opacity $transitionDelay;
 
     &.closed {
       opacity: 0;
+    }
+
+    &.home {
+      background: $homeColor;
+    }
+
+    &.quotes {
+      background: $quotesColor;
+    }
+
+    &.collections {
+      background: $collectionsColor;
+    }
+
+    &.login {
+      background: $loginColor;
     }
 
     .card {
@@ -61,6 +90,7 @@
       min-height: 4rem;
       min-width: 4rem;
       margin: 20% 10%;
+      border-radius: 4px;
       @include box-shadow();
     }
   }

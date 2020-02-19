@@ -1,19 +1,27 @@
+import classNames from "classnames";
 import React, { useState } from "react";
 import { withRouter } from "react-router";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faBook, faHome, faQuoteLeft, faUser } from '@fortawesome/free-solid-svg-icons'
+
 import ROUTES from "../../constants/routes";
 
 import styles from "./styles/view.scss";
 
 
-const Menu = withRouter(({ history, isOpen, toggleMenu }) => {
+const Menu = ({ history, isOpen, routeClassName, toggleMenu }) => {
     const navigateTo = location => {
         history.push(location);
         toggleMenu();
     };
 
-    const menuClassName = `${styles.menu} ${!isOpen ? styles.closed : ''}`;
+    const menuClassName = classNames(
+        routeClassName,
+        {
+            [styles.menu]: true,
+            [styles.closed]: !isOpen,
+        },
+    );
 
     return (
         <section className={menuClassName}>
@@ -31,14 +39,28 @@ const Menu = withRouter(({ history, isOpen, toggleMenu }) => {
             </div>
         </section>
     );
-});
+};
 
-const View = ({ children }) => {
+const View = withRouter(({ children, history, location }) => {
     const [ isMenuOpen, setIsMenuOpen ] = useState(false);
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-    const headerIconClassName = `${styles.headerIcon} ${isMenuOpen ? styles.active : ''}`;
+
+    const { pathname } = location;
+    const routeClassName = classNames({
+        [styles.home]: pathname === '/',
+        [styles.quotes]: pathname === '/quotes',
+        [styles.collections]: pathname === '/collections',
+        [styles.login]: pathname === '/login',
+    });
+    const headerIconClassName = classNames(
+        routeClassName,
+        {
+            [styles.headerIcon]: true,
+            [styles.active]: isMenuOpen,
+        },
+    );
 
     return (
         <div>
@@ -53,9 +75,14 @@ const View = ({ children }) => {
             <section className={styles.section}>
                 {children}
             </section>
-            <Menu isOpen={isMenuOpen} toggleMenu={toggleMenu} />
+            <Menu
+                history={history}
+                isOpen={isMenuOpen}
+                routeClassName={routeClassName}
+                toggleMenu={toggleMenu}
+            />
         </div>
     );
-};
+});
 
 export default View;
