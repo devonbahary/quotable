@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import config from "./config";
 import UsersRepository from "./repositories/UsersRepository";
 
+const usersRepository = new UsersRepository();
 
 export const validateUser = (req, res, next) => {
     const authorization = req.headers['authorization'];
@@ -15,15 +16,13 @@ export const validateUser = (req, res, next) => {
             if (err) return res.sendStatus(403);
 
             const { sub: userId } = decoded;
-            const usersRepository = new UsersRepository();
             const user = await usersRepository.findById(userId);
-            if (!user) res.sendStatus(403);
+            if (!user) return res.sendStatus(403);
 
             req.user = user;
 
             next();
         });
-
     } else {
         res.sendStatus(403);
     }
