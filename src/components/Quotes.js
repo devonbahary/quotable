@@ -9,12 +9,17 @@ import View from "./View";
 import styles from "./styles/quotes.scss";
 
 
-const Content = observer(({ isEditing, quote }) => {
+const Content = observer(({ isEditing, quote, toggleIsEditing }) => {
     const onTextChange = e => quote.setText(e.target.value);
 
     if (isEditing) return (
         <div className={styles.content}>
-            <TextareaAutosize value={quote.text} onChange={onTextChange}/>
+            <TextareaAutosize
+                autoFocus
+                onBlur={toggleIsEditing}
+                onChange={onTextChange}
+                value={quote.text}
+            />
         </div>
     );
 
@@ -31,14 +36,16 @@ const Content = observer(({ isEditing, quote }) => {
     );
 });
 
-const Quote = ({ quote }) => {
-    const [ isEditing, setIsEditing ] = useState(false);
+const Quote = ({ quote, quoteIdEditing, setQuoteIdEditing }) => {
+    const isEditing = quoteIdEditing === quote.id;
 
-    const toggleIsEditing = () => setIsEditing(!isEditing);
+    const toggleIsEditing = () => {
+        setQuoteIdEditing(isEditing ? null : quote.id);
+    };
 
     return (
         <li className={styles.quote}>
-            <Content isEditing={isEditing} quote={quote} />
+            <Content isEditing={isEditing} quote={quote} toggleIsEditing={toggleIsEditing} />
             <div className={styles.toolBar}>
                 <div className={styles.icon} onClick={toggleIsEditing}>
                     <FontAwesomeIcon icon={faPen} />
@@ -51,11 +58,18 @@ const Quote = ({ quote }) => {
 const Quotes = observer(({ store }) => {
     const { quotes } = store;
 
+    const [ quoteIdEditing, setQuoteIdEditing ] = useState(null);
+
     return (
         <View>
             <ul>
                 {quotes.map(quote=> (
-                    <Quote key={quote.id} quote={quote} />
+                    <Quote
+                        key={quote.id}
+                        quote={quote}
+                        quoteIdEditing={quoteIdEditing}
+                        setQuoteIdEditing={setQuoteIdEditing}
+                    />
                 ))}
             </ul>
         </View>
