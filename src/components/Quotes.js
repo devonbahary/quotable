@@ -9,44 +9,45 @@ import View from "./View";
 import styles from "./styles/quotes.scss";
 
 
-const Content = observer(({ isEditing, quote, closeEditQuote }) => {
-    const onTextChange = e => quote.setText(e.target.value);
-    const onBlur = () => setTimeout(closeEditQuote, 0);
-
-    if (isEditing) return (
-        <div className={styles.content}>
-            <TextareaAutosize
-                autoFocus
-                onBlur={onBlur}
-                onChange={onTextChange}
-                value={quote.text}
-            />
-        </div>
-    );
-
-    return (
-        <div className={styles.content}>
-            <span className={styles.quoteLeft}>
-                <FontAwesomeIcon icon={faQuoteLeft} size='xs' />
-            </span>
-            <TextareaAutosize value={quote.text} readOnly />
-            <span className={styles.quoteRight}>
-                <FontAwesomeIcon icon={faQuoteRight} size='xs' />
-            </span>
-        </div>
-    );
-});
-
 const Quote = ({ quote, quoteIdEditing, setQuoteIdEditing }) => {
     const beginEditQuote = () => setQuoteIdEditing(quote.id);
     const closeEditQuote = () => setQuoteIdEditing(null);
 
+    const onBlur = () => setTimeout(closeEditQuote, 0);
+    const onTextChange = e => quote.setText(e.target.value);
+
     const isEditing = quoteIdEditing === quote.id;
     const editIcon = isEditing ? faCheck : faPen;
 
+    let content;
+    if (isEditing) {
+        content = (
+            <div className={styles.content}>
+                <TextareaAutosize
+                    autoFocus
+                    onBlur={onBlur}
+                    onChange={onTextChange}
+                    value={quote.text}
+                />
+            </div>
+        );
+    } else {
+        content = (
+            <div className={styles.content}>
+            <span className={styles.quoteLeft}>
+                <FontAwesomeIcon icon={faQuoteLeft} size='xs' />
+            </span>
+                <TextareaAutosize value={quote.text} readOnly />
+                <span className={styles.quoteRight}>
+                <FontAwesomeIcon icon={faQuoteRight} size='xs' />
+            </span>
+            </div>
+        );
+    }
+
     return (
         <li className={styles.quote}>
-            <Content closeEditQuote={closeEditQuote} isEditing={isEditing} quote={quote} />
+            {content}
             <div className={styles.toolBar}>
                 <div className={styles.icon} onClick={beginEditQuote}>
                     <FontAwesomeIcon icon={editIcon} />
