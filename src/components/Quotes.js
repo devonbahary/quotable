@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { inject, observer } from "mobx-react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faQuoteLeft, faQuoteRight, faPen } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faQuoteLeft, faQuoteRight, faPen } from '@fortawesome/free-solid-svg-icons'
 
 import TextareaAutosize from "react-textarea-autosize";
 import View from "./View";
@@ -9,14 +9,15 @@ import View from "./View";
 import styles from "./styles/quotes.scss";
 
 
-const Content = observer(({ isEditing, quote, toggleIsEditing }) => {
+const Content = observer(({ isEditing, quote, closeEditQuote }) => {
     const onTextChange = e => quote.setText(e.target.value);
+    const onBlur = () => setTimeout(closeEditQuote, 0);
 
     if (isEditing) return (
         <div className={styles.content}>
             <TextareaAutosize
                 autoFocus
-                onBlur={toggleIsEditing}
+                onBlur={onBlur}
                 onChange={onTextChange}
                 value={quote.text}
             />
@@ -37,18 +38,18 @@ const Content = observer(({ isEditing, quote, toggleIsEditing }) => {
 });
 
 const Quote = ({ quote, quoteIdEditing, setQuoteIdEditing }) => {
-    const isEditing = quoteIdEditing === quote.id;
+    const beginEditQuote = () => setQuoteIdEditing(quote.id);
+    const closeEditQuote = () => setQuoteIdEditing(null);
 
-    const toggleIsEditing = () => {
-        setQuoteIdEditing(isEditing ? null : quote.id);
-    };
+    const isEditing = quoteIdEditing === quote.id;
+    const editIcon = isEditing ? faCheck : faPen;
 
     return (
         <li className={styles.quote}>
-            <Content isEditing={isEditing} quote={quote} toggleIsEditing={toggleIsEditing} />
+            <Content closeEditQuote={closeEditQuote} isEditing={isEditing} quote={quote} />
             <div className={styles.toolBar}>
-                <div className={styles.icon} onClick={toggleIsEditing}>
-                    <FontAwesomeIcon icon={faPen} />
+                <div className={styles.icon} onClick={beginEditQuote}>
+                    <FontAwesomeIcon icon={editIcon} />
                 </div>
             </div>
         </li>
