@@ -34,13 +34,13 @@ const Quote = ({ quote, quoteIdEditing, setQuoteIdEditing }) => {
     } else {
         content = (
             <div className={styles.content}>
-            <span className={styles.quoteLeft}>
-                <FontAwesomeIcon icon={faQuoteLeft} size='xs' />
-            </span>
+                <span className={styles.quoteLeft}>
+                    <FontAwesomeIcon icon={faQuoteLeft} size='xs' />
+                </span>
                 <TextareaAutosize value={quote.text} readOnly />
                 <span className={styles.quoteRight}>
-                <FontAwesomeIcon icon={faQuoteRight} size='xs' />
-            </span>
+                    <FontAwesomeIcon icon={faQuoteRight} size='xs' />
+                </span>
             </div>
         );
     }
