@@ -69,9 +69,11 @@ const Quote = observer(({
                 <div className={styles.icon} onClick={beginEditQuote}>
                     <FontAwesomeIcon icon={editIcon} />
                 </div>
-                <div className={styles.icon} onClick={onDelete}>
-                    <FontAwesomeIcon icon={faTrash} />
-                </div>
+                {!isEditing && (
+                    <div className={styles.icon} onClick={onDelete}>
+                        <FontAwesomeIcon icon={faTrash} />
+                    </div>
+                )}
             </div>
         </li>
     );
