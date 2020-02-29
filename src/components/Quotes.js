@@ -26,7 +26,7 @@ const Quote = observer(({
 }) => {
     const beginEditQuote = () => setQuoteIdEditing(quote.id);
 
-    const onBlur = () => setTimeout(onLeave, 0);
+    const onBlur = () => setTimeout(() => onLeave(quote), 0);
     const onTextChange = e => quote.setText(e.target.value);
 
     const onDelete = async () => {
@@ -97,7 +97,10 @@ const Quotes = observer(({ store }) => {
         setPendingAddQuote(null);
     };
 
-    const onLeaveQuote = () => setQuoteIdEditing(null);
+    const onLeaveQuote = async quote => {
+        setQuoteIdEditing(null);
+        if (!quote.text) await store.removeQuote(quote);
+    };
 
     const headerButton = <HeaderButton addQuote={addQuote} />;
 
