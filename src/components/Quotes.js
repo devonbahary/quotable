@@ -9,14 +9,13 @@ import View from "./View";
 import styles from "./styles/quotes.scss";
 
 
-const Quote = ({ quote, quoteIdEditing, setQuoteIdEditing }) => {
+const Quote = ({ isEditing, quote, setQuoteIdEditing }) => {
     const beginEditQuote = () => setQuoteIdEditing(quote.id);
     const closeEditQuote = () => setQuoteIdEditing(null);
 
     const onBlur = () => setTimeout(closeEditQuote, 0);
     const onTextChange = e => quote.setText(e.target.value);
 
-    const isEditing = quoteIdEditing === quote.id;
     const editIcon = isEditing ? faCheck : faPen;
 
     let content;
@@ -68,8 +67,8 @@ const Quotes = observer(({ store }) => {
                 {quotes.map(quote=> (
                     <Quote
                         key={quote.id}
+                        isEditing={quoteIdEditing === quote.id}
                         quote={quote}
-                        quoteIdEditing={quoteIdEditing}
                         setQuoteIdEditing={setQuoteIdEditing}
                     />
                 ))}
