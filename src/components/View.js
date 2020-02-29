@@ -41,7 +41,7 @@ const Menu = ({ history, isOpen, routeClassName, toggleMenu }) => {
     );
 };
 
-const View = withRouter(({ children, history, location }) => {
+const View = withRouter(({ children, headerButton, history, location }) => {
     const [ isMenuOpen, setIsMenuOpen ] = useState(false);
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -71,6 +71,7 @@ const View = withRouter(({ children, history, location }) => {
                 <div>
                     Quotable
                 </div>
+                {headerButton}
             </header>
             <section className={styles.section}>
                 {children}

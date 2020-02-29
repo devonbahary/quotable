@@ -22,4 +22,13 @@ export default class QuotesRepository extends BaseMySQLRepository {
             [ text, id ],
         );
     };
+
+    async saveNew(userId, text) {
+        return this.query(
+            `INSERT INTO ${this.tableName}
+            (user_id, text)
+            VALUES
+            (?, ?)`
+        , [ userId, text ]);
+    };
 };

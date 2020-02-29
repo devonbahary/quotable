@@ -16,6 +16,18 @@ router.get('/', validateUser, async (req, res) => {
     }
 });
 
+router.post('/', validateUser, async (req, res) => {
+    const { text } = req.body;
+
+    try {
+        const { insertId } = await quotesRepository.saveNew(req.user.id, text);
+        res.send({ insertId });
+    } catch (err) {
+        console.error(err);
+        res.sendStatus(400);
+    }
+});
+
 router.put('/:id', validateUser, async (req, res) => {
     const { id: quoteId } = req.params;
     const { text } = req.body;

@@ -1,19 +1,26 @@
 import React, { useState } from "react";
 import { inject, observer } from "mobx-react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck, faQuoteLeft, faQuoteRight, faPen } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faPlusSquare, faQuoteLeft, faQuoteRight, faPen } from '@fortawesome/free-solid-svg-icons'
 
 import TextareaAutosize from "react-textarea-autosize";
 import View from "./View";
 
+import QuoteModel from "../models/Quote";
+
 import styles from "./styles/quotes.scss";
 
 
-const Quote = ({ isEditing, quote, setQuoteIdEditing }) => {
-    const beginEditQuote = () => setQuoteIdEditing(quote.id);
-    const closeEditQuote = () => setQuoteIdEditing(null);
+const HeaderButton = ({ addQuote }) => (
+    <div className={styles.headerButton} onClick={addQuote}>
+        <FontAwesomeIcon icon={faPlusSquare} size='lg' />
+    </div>
+);
 
-    const onBlur = () => setTimeout(closeEditQuote, 0);
+const Quote = observer(({ isEditing, onLeave, quote, setQuoteIdEditing = () => {} }) => {
+    const beginEditQuote = () => setQuoteIdEditing(quote.id);
+
+    const onBlur = () => setTimeout(onLeave, 0);
     const onTextChange = e => quote.setText(e.target.value);
 
     const editIcon = isEditing ? faCheck : faPen;
@@ -54,20 +61,46 @@ const Quote = ({ isEditing, quote, setQuoteIdEditing }) => {
             </div>
         </li>
     );
-};
+});
 
 const Quotes = observer(({ store }) => {
     const { quotes } = store;
 
+    const [ pendingAddQuote, setPendingAddQuote ] = useState(null);
     const [ quoteIdEditing, setQuoteIdEditing ] = useState(null);
 
+    const addQuote = () => {
+        setQuoteIdEditing(null);
+
+        const newQuote = new QuoteModel({ text: '' });
+        setPendingAddQuote(newQuote);
+    };
+
+    const onLeaveNewQuote = async () => {
+        await pendingAddQuote.saveNew();
+        store.addQuote(pendingAddQuote);
+        setPendingAddQuote(null);
+    };
+
+    const onLeaveQuote = () => setQuoteIdEditing(null);
+
+    const headerButton = <HeaderButton addQuote={addQuote} />;
+
     return (
-        <View>
+        <View headerButton={headerButton}>
             <ul>
+                {pendingAddQuote && (
+                    <Quote
+                        isEditing
+                        onLeave={onLeaveNewQuote}
+                        quote={pendingAddQuote}
+                    />
+                )}
                 {quotes.map(quote=> (
                     <Quote
                         key={quote.id}
                         isEditing={quoteIdEditing === quote.id}
+                        onLeave={onLeaveQuote}
                         quote={quote}
                         setQuoteIdEditing={setQuoteIdEditing}
                     />

@@ -29,6 +29,10 @@ class Store {
         });
     };
 
+    @action addQuote = quote => {
+        this.quotes.unshift(quote);
+    };
+
     onSignIn = async googleUser => {
         const authResponse = googleUser.getAuthResponse();
         const { id_token: token } = authResponse;
