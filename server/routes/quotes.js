@@ -34,10 +34,24 @@ router.put('/:id', validateUser, async (req, res) => {
 
     try {
         const quote = await quotesRepository.findById(quoteId);
-
         if (req.user.id !== quote.user_id) return res.sendStatus(403);
 
         await quotesRepository.updateText(quoteId, text);
+        res.sendStatus(200);
+    } catch (err) {
+        console.error(err);
+        res.sendStatus(400);
+    }
+});
+
+router.delete('/:id', validateUser, async (req, res) => {
+    const { id: quoteId } = req.params;
+
+    try {
+        const quote = await quotesRepository.findById(quoteId);
+        if (req.user.id !== quote.user_id) return res.sendStatus(403);
+
+        await quotesRepository.deleteById(quoteId);
         res.sendStatus(200);
     } catch (err) {
         console.error(err);

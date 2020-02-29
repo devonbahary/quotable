@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { inject, observer } from "mobx-react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck, faPlusSquare, faQuoteLeft, faQuoteRight, faPen } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faPen, faPlusSquare,faQuoteLeft, faQuoteRight, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 import TextareaAutosize from "react-textarea-autosize";
 import View from "./View";
@@ -17,11 +17,22 @@ const HeaderButton = ({ addQuote }) => (
     </div>
 );
 
-const Quote = observer(({ isEditing, onLeave, quote, setQuoteIdEditing = () => {} }) => {
+const Quote = observer(({
+    isEditing,
+    onLeave,
+    quote,
+    removeQuote,
+    setQuoteIdEditing = () => {}
+}) => {
     const beginEditQuote = () => setQuoteIdEditing(quote.id);
 
     const onBlur = () => setTimeout(onLeave, 0);
     const onTextChange = e => quote.setText(e.target.value);
+
+    const onDelete = async () => {
+        if (!confirm('Are you sure you want to delete this quote?')) return;
+        removeQuote(quote);
+    };
 
     const editIcon = isEditing ? faCheck : faPen;
 
@@ -58,6 +69,9 @@ const Quote = observer(({ isEditing, onLeave, quote, setQuoteIdEditing = () => {
                 <div className={styles.icon} onClick={beginEditQuote}>
                     <FontAwesomeIcon icon={editIcon} />
                 </div>
+                <div className={styles.icon} onClick={onDelete}>
+                    <FontAwesomeIcon icon={faTrash} />
+                </div>
             </div>
         </li>
     );
@@ -77,10 +91,7 @@ const Quotes = observer(({ store }) => {
     };
 
     const onLeaveNewQuote = async () => {
-        if (pendingAddQuote.text) {
-            await pendingAddQuote.saveNew();
-            store.addQuote(pendingAddQuote);
-        }
+        if (pendingAddQuote.text) await store.addQuote(pendingAddQuote);
         setPendingAddQuote(null);
     };
 
@@ -104,6 +115,7 @@ const Quotes = observer(({ store }) => {
                         isEditing={quoteIdEditing === quote.id}
                         onLeave={onLeaveQuote}
                         quote={quote}
+                        removeQuote={store.removeQuote}
                         setQuoteIdEditing={setQuoteIdEditing}
                     />
                 ))}

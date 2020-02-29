@@ -27,4 +27,13 @@ export default class BaseMySQLRepository {
             [ id ],
         );
     };
+
+    deleteById(id) {
+        return this.query(
+            `DELETE
+            FROM ${this.tableName}
+            WHERE id = ?`,
+            [ id ],
+        );
+    };
 };

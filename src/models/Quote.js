@@ -1,6 +1,6 @@
 import { debounce } from "lodash";
 import { observable } from "mobx";
-import {saveNewQuote, updateQuoteById} from "../api";
+import { updateQuoteById } from "../api";
 
 export default class Quote {
     @observable text;
@@ -17,11 +17,6 @@ export default class Quote {
 
     saveText = async () => {
         await updateQuoteById(this.id, this.text);
-    };
-
-    saveNew = async () => {
-        const { insertId } = await saveNewQuote(this);
-        this.id = insertId;
     };
 
     debouncedSaveText = debounce(this.saveText, 250);

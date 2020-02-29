@@ -1,5 +1,5 @@
 import { action, observable, reaction, runInAction } from "mobx";
-import { authenticateUser, getUserQuotes } from "./api";
+import { authenticateUser, deleteQuote, getUserQuotes, saveNewQuote } from "./api";
 import Quote from "./models/Quote";
 import User from "./models/User";
 
@@ -29,8 +29,15 @@ class Store {
         });
     };
 
-    @action addQuote = quote => {
+    @action addQuote = async quote => {
+        const { insertId } = await saveNewQuote(quote);
+        quote.id = insertId;
         this.quotes.unshift(quote);
+    };
+
+    @action removeQuote = async quote => {
+        await deleteQuote(quote);
+        this.quotes = this.quotes.filter(q => q.id !== quote.id);
     };
 
     onSignIn = async googleUser => {
