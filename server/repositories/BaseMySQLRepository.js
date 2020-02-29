@@ -24,7 +24,7 @@ export default class BaseMySQLRepository {
             `SELECT *
             FROM ${this.tableName}
             WHERE id = ?`,
-            [ id],
+            [ id ],
         );
     };
 };
