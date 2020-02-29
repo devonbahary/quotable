@@ -77,8 +77,10 @@ const Quotes = observer(({ store }) => {
     };
 
     const onLeaveNewQuote = async () => {
-        await pendingAddQuote.saveNew();
-        store.addQuote(pendingAddQuote);
+        if (pendingAddQuote.text) {
+            await pendingAddQuote.saveNew();
+            store.addQuote(pendingAddQuote);
+        }
         setPendingAddQuote(null);
     };
 
