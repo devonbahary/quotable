@@ -27,6 +27,11 @@ const Quote = observer(({
     const beginEditQuote = () => setQuoteIdEditing(quote.id);
 
     const onBlur = () => setTimeout(() => onLeave(quote), 0);
+    const onFocus = () => {
+        const text = quote.text;
+        quote.text = '';
+        setTimeout(() => quote.text = text, 0);
+    };
     const onTextChange = e => quote.setText(e.target.value);
 
     const onDelete = async () => {
@@ -43,6 +48,7 @@ const Quote = observer(({
                 <TextareaAutosize
                     autoFocus
                     onBlur={onBlur}
+                    onFocus={onFocus}
                     onChange={onTextChange}
                     value={quote.text}
                 />
