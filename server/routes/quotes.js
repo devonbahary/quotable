@@ -1,5 +1,5 @@
 import express from "express";
-import {validateUser} from "../auth";
+import { validateUser } from "../auth";
 import QuotesRepository from "../repositories/QuotesRepository";
 
 const router = express.Router();
