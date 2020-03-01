@@ -120,16 +120,18 @@ const Quotes = observer(({ store }) => {
                         quote={pendingAddQuote}
                     />
                 )}
-                {quotes.map(quote=> (
-                    <Quote
-                        key={quote.id}
-                        isEditing={quoteIdEditing === quote.id}
-                        onLeave={onLeaveQuote}
-                        quote={quote}
-                        removeQuote={store.removeQuote}
-                        setQuoteIdEditing={setQuoteIdEditing}
-                    />
-                ))}
+                {quotes
+                    .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+                    .map(quote=> (
+                        <Quote
+                            key={quote.id}
+                            isEditing={quoteIdEditing === quote.id}
+                            onLeave={onLeaveQuote}
+                            quote={quote}
+                            removeQuote={store.removeQuote}
+                            setQuoteIdEditing={setQuoteIdEditing}
+                        />
+                    ))}
             </ul>
         </View>
     );
