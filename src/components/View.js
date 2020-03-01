@@ -71,7 +71,7 @@ const View = withRouter(({ children, headerButton, history, location }) => {
                 <div>
                     Quotable
                 </div>
-                {headerButton}
+                {!isMenuOpen && headerButton}
             </header>
             <section className={styles.section}>
                 {children}
