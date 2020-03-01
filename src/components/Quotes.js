@@ -121,6 +121,7 @@ const Quotes = observer(({ store }) => {
                     />
                 )}
                 {quotes
+                    .slice() // observable array warning
                     .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
                     .map(quote=> (
                         <Quote
