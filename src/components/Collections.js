@@ -7,7 +7,7 @@ import styles from "./styles/collections.scss";
 
 const Collection = observer(({ collection }) => {
     const onBlur = collection.save;
-    const onTitleChange = e => collection.setTitle(e.target.value);
+    const onTitleChange = e => collection.title = e.target.value;
 
     const { title } = collection;
     return (
