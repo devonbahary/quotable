@@ -1,9 +1,10 @@
 import { debounce } from "lodash";
-import { observable } from "mobx";
+import { action, observable, runInAction } from "mobx";
 import { updateQuoteById } from "../api";
 
 export default class Quote {
     @observable text;
+    updatedAt;
 
     constructor(quote) {
         this.id = quote.id;
@@ -11,7 +12,7 @@ export default class Quote {
         this.updatedAt = quote.updated_at;
     };
 
-    setText = text => {
+    @action setText = text => {
         this.text = text;
         if (this.id) this.debouncedSaveText();
         this.updatedAt = new Date();
@@ -19,7 +20,9 @@ export default class Quote {
 
     saveText = async () => {
         await updateQuoteById(this.id, this.text);
-        this.updatedAt = new Date();
+        runInAction(() => {
+            this.updatedAt = new Date();
+        });
     };
 
     debouncedSaveText = debounce(this.saveText, 250);
