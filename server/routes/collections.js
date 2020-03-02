@@ -13,6 +13,15 @@ router.get('/', validateUser, (req, res) => {
     });
 });
 
+router.post('/', validateUser, async (req, res) => {
+    const { title } = req.body;
+
+    errorHandler(res, async () => {
+        const { insertId } = await collectionsRepository.saveNew(req.user.id, title);
+        res.send({ insertId });
+    });
+});
+
 router.put('/:id', validateUser, (req, res) => {
     const { id: collectionId } = req.params;
     const { title } = req.body;

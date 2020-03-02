@@ -30,6 +30,13 @@ export const updateCollectionById = async (id, title) => {
     });
 };
 
+export const saveNewCollection = async collection => {
+    return errorHandler(async () => {
+        const { data } = await axios.post(COLLECTIONS_PATH, collection);
+        return data;
+    });
+};
+
 export const getUserQuotes = async () => {
     return errorHandler(async () => {
         const { data: quotes } = await axios.get(QUOTES_PATH);

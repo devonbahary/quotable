@@ -1,5 +1,12 @@
 import { action, observable, reaction, runInAction } from "mobx";
-import { authenticateUser, deleteQuote, getUserCollections, getUserQuotes, saveNewQuote } from "./api";
+import {
+    authenticateUser,
+    deleteQuote,
+    getUserCollections,
+    getUserQuotes,
+    saveNewCollection, 
+    saveNewQuote,
+} from "./api";
 import Quote from "./models/Quote";
 import User from "./models/User";
 import Collection from "./models/Collection";
@@ -30,6 +37,12 @@ class Store {
         runInAction(() => {
             this.collections = collections.map(c => new Collection(c));
         });
+    };
+
+    @action addCollection = async collection => {
+        const { insertId } = await saveNewCollection(collection);
+        collection.id = insertId;
+        this.collections.unshift(collection);
     };
 
     @action getUserQuotes = async () => {

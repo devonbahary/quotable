@@ -22,4 +22,13 @@ export default class CollectionsRepository extends BaseMySQLRepository {
             [ title, id ],
         );
     };
+
+    async saveNew(userId, title) {
+        return this.query(
+            `INSERT INTO ${this.tableName}
+            (user_id, title)
+            VALUES
+            (?, ?)`
+            , [ userId, title ]);
+    };
 };
