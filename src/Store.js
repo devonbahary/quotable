@@ -62,7 +62,9 @@ class Store {
 
     @action removeQuote = async quote => {
         await deleteQuote(quote);
-        this.quotes = this.quotes.filter(q => q.id !== quote.id);
+        runInAction(() => {
+            this.quotes = this.quotes.filter(q => q.id !== quote.id);
+        });
     };
 
     onSignIn = async googleUser => {
