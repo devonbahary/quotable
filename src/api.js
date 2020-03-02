@@ -8,8 +8,12 @@ export const authenticateUser = async token => {
 };
 
 export const getUserQuotes = async () => {
-    const { data: quotes } = await axios.get(QUOTES_PATH);
-    return quotes;
+    try {
+        const { data: quotes } = await axios.get(QUOTES_PATH);
+        return quotes;
+    } catch (err) {
+        console.error(err);
+    }
 };
 
 export const updateQuoteById = async (id, text) => {
