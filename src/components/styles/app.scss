@@ -10,3 +10,13 @@ body {
   color: white;
   font-family: 'Open Sans', sans-serif;
 }
+
+input[type="text"],
+textarea {
+  background: inherit;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  border: none;
+  outline: none;
+}

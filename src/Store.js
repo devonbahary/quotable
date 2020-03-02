@@ -1,16 +1,19 @@
 import { action, observable, reaction, runInAction } from "mobx";
-import { authenticateUser, deleteQuote, getUserQuotes, saveNewQuote } from "./api";
+import { authenticateUser, deleteQuote, getUserCollections, getUserQuotes, saveNewQuote } from "./api";
 import Quote from "./models/Quote";
 import User from "./models/User";
+import Collection from "./models/Collection";
 
 class Store {
     @observable user;
+    @observable collections = [];
     @observable quotes = [];
 
     constructor() {
         reaction(
             () => this.user,
             async () => {
+                await this.getUserCollections();
                 await this.getUserQuotes();
             },
         );
@@ -18,6 +21,15 @@ class Store {
 
     @action setUser = googleUser => {
         this.user = new User(googleUser);
+    };
+
+    @action getUserCollections = async () => {
+        if (!this.user) return;
+
+        const collections = await getUserCollections();
+        runInAction(() => {
+            this.collections = collections.map(c => new Collection(c));
+        });
     };
 
     @action getUserQuotes = async () => {

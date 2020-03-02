@@ -1,10 +1,24 @@
 import axios from "axios";
 
+const COLLECTIONS_PATH = `/api/collections`;
 const QUOTES_PATH = `/api/quotes`;
 
 export const authenticateUser = async token => {
     const { data: jwt } = await axios.post('/api/authentication/token', { token });
     axios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
+};
+
+export const getUserCollections = async () => {
+    const { data: collections } = await axios.get(COLLECTIONS_PATH);
+    return collections;
+};
+
+export const updateCollectionById = async (id, title) => {
+    try {
+        await axios.put(`${COLLECTIONS_PATH}/${id}`, { title });
+    } catch (err) {
+        console.error(err);
+    }
 };
 
 export const getUserQuotes = async () => {

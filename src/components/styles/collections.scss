@@ -1,0 +1,17 @@
+@import "./variables";
+
+:local {
+  input[type="text"] {
+    background: inherit;
+    border: none;
+  }
+
+  .collection {
+    padding: 12px 24px;
+    min-height: 3rem;
+
+    &:nth-child(odd) {
+      background: $gray;
+    }
+  }
+}
