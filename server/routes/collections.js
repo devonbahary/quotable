@@ -1,6 +1,6 @@
 import express from "express";
 import { validateUser } from "../auth";
-import { errorHandler } from "./util";
+import { errorHandler, ownerHandler } from "./util";
 import CollectionsRepository from "../repositories/CollectionsRepository";
 
 const router = express.Router();
@@ -26,12 +26,11 @@ router.put('/:id', validateUser, (req, res) => {
     const { id: collectionId } = req.params;
     const { title } = req.body;
 
-    errorHandler(res, async () => {
-        const quote = await collectionsRepository.findById(collectionId);
-        if (req.user.id !== quote.user_id) return res.sendStatus(403);
-
-        await collectionsRepository.updateTitle(collectionId, title);
-        res.sendStatus(200);
+    errorHandler(res, () => {
+        ownerHandler(collectionsRepository, collectionId, req.user.id, res, async () => {
+            await collectionsRepository.updateTitle(collectionId, title);
+            res.sendStatus(200);
+        });
     });
 });
 

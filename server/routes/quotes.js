@@ -1,6 +1,6 @@
 import express from "express";
 import { validateUser } from "../auth";
-import { errorHandler } from "./util";
+import { errorHandler, ownerHandler } from "./util";
 import QuotesRepository from "../repositories/QuotesRepository";
 
 const router = express.Router();
@@ -27,24 +27,22 @@ router.put('/:id', validateUser, async (req, res) => {
     const { id: quoteId } = req.params;
     const { text } = req.body;
 
-    errorHandler(res, async () => {
-        const quote = await quotesRepository.findById(quoteId);
-        if (req.user.id !== quote.user_id) return res.sendStatus(403);
-
-        await quotesRepository.updateText(quoteId, text);
-        res.sendStatus(200);
+    errorHandler(res, () => {
+        ownerHandler(quotesRepository, quoteId, req.user.id, res, async () => {
+            await quotesRepository.updateText(quoteId, text);
+            res.sendStatus(200);
+        });
     });
 });
 
 router.delete('/:id', validateUser, async (req, res) => {
     const { id: quoteId } = req.params;
 
-    errorHandler(res, async () => {
-        const quote = await quotesRepository.findById(quoteId);
-        if (req.user.id !== quote.user_id) return res.sendStatus(403);
-
-        await quotesRepository.deleteById(quoteId);
-        res.sendStatus(200);
+    errorHandler(res, () => {
+        ownerHandler(quotesRepository, quoteId, req.user.id, res, async () => {
+            await quotesRepository.deleteById(quoteId);
+            res.sendStatus(200);
+        });
     });
 });
 
