@@ -45,6 +45,7 @@ const Collection = observer(({
                 type="text"
                 onBlur={onBlur}
                 onChange={onTitleChange}
+                placeholder={collection.id ? "unnamed collection" : "new collection"}
                 readOnly={!isEditing}
                 ref={ref => inputRef.current = ref}
                 value={title}
