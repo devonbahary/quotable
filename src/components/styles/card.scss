@@ -1,0 +1,28 @@
+@import "./variables";
+
+:local {
+  $toolBarDimension: 3rem;
+
+  .card {
+    position: relative;
+
+    &:nth-child(odd) {
+      background: $gray;
+    }
+
+    .toolBar {
+      background: rgba(25, 25, 25, 0.1);
+      height: $toolBarDimension;
+      line-height: $toolBarDimension;
+
+      .icon {
+        float: right;
+        display: inline-block;
+        height: inherit;
+        line-height: inherit;
+        text-align: center;
+        width: $toolBarDimension;
+      }
+    }
+  }
+}

@@ -1,8 +1,10 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
+
+import Card from "./Card";
 import View from "./View";
 
-import styles from "./styles/collections.scss";
+import "./styles/collections.scss";
 
 
 const Collection = observer(({ collection }) => {
@@ -10,11 +12,9 @@ const Collection = observer(({ collection }) => {
     const onTitleChange = e => collection.title = e.target.value;
 
     const { title } = collection;
-    return (
-        <div className={styles.collection}>
-            <input type="text" onBlur={onBlur} onChange={onTitleChange} value={title} />
-        </div>
-    );
+
+    const content = <input type="text" onBlur={onBlur} onChange={onTitleChange} value={title} />;
+    return <Card content={content} />
 });
 
 const Collections = observer(({ store }) => {

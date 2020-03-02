@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faPen, faPlusSquare,faQuoteLeft, faQuoteRight, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 import TextareaAutosize from "react-textarea-autosize";
+import Card from "./Card";
 import View from "./View";
 
 import QuoteModel from "../models/Quote";
@@ -68,21 +69,17 @@ const Quote = observer(({
         );
     }
 
-    return (
-        <li className={styles.quote}>
-            {content}
-            <div className={styles.toolBar}>
-                <div className={styles.icon} onClick={beginEditQuote}>
-                    <FontAwesomeIcon icon={editIcon} />
-                </div>
-                {!isEditing && (
-                    <div className={styles.icon} onClick={onDelete}>
-                        <FontAwesomeIcon icon={faTrash} />
-                    </div>
-                )}
-            </div>
-        </li>
-    );
+    const toolBarButtons = [{
+        icon: editIcon,
+        onClick: beginEditQuote,
+    }];
+
+    if (!isEditing) toolBarButtons.push({
+        icon: faTrash,
+        onClick: onDelete,
+    });
+
+    return <Card content={content} toolBarButtons={toolBarButtons} />;
 });
 
 const Quotes = observer(({ store }) => {
