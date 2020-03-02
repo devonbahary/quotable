@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { inject, observer } from "mobx-react";
-import { faCheck, faPen, faPlusSquare } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faPen, faPlusSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import Card from "./Card";
 import View from "./View";
@@ -10,7 +10,13 @@ import CollectionModel from "../models/Collection";
 import styles from "./styles/collections.scss";
 
 
-const Collection = observer(({ collection, isEditing, onLeave, setCollectionIdEditing }) => {
+const Collection = observer(({
+    collection,
+    isEditing,
+    onLeave,
+    removeCollection,
+    setCollectionIdEditing,
+}) => {
     const inputRef = useRef(null);
 
     const beginEditCollection = () => setCollectionIdEditing(collection.id);
@@ -19,6 +25,12 @@ const Collection = observer(({ collection, isEditing, onLeave, setCollectionIdEd
         if (!isEditing) return;
         await onLeave(collection);
     };
+
+    const onDelete = () => {
+        if (!confirm(`Are you sure you want to delete this collection?`)) return;
+        removeCollection(collection);
+    };
+
     const onTitleChange = e => collection.title = e.target.value;
 
     const { title } = collection;
@@ -46,6 +58,11 @@ const Collection = observer(({ collection, isEditing, onLeave, setCollectionIdEd
         icon: editIcon,
         onClick: beginEditCollection,
     }];
+
+    if (!isEditing) toolBarButtons.push({
+        icon: faTrash,
+        onClick: onDelete,
+    });
 
     return <Card content={content} toolBarButtons={toolBarButtons} />
 });
@@ -93,6 +110,7 @@ const Collections = observer(({ store }) => {
                             collection={collection}
                             isEditing={collectionIdEditing === collection.id}
                             onLeave={onLeaveCollection}
+                            removeCollection={store.removeCollection}
                             setCollectionIdEditing={setCollectionIdEditing}
                         />
                     ))}

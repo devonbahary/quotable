@@ -37,6 +37,12 @@ export const saveNewCollection = async collection => {
     });
 };
 
+export const deleteCollection = async collection => {
+    return errorHandler(async () => {
+        await axios.delete(`${COLLECTIONS_PATH}/${collection.id}`);
+    });
+};
+
 export const getUserQuotes = async () => {
     return errorHandler(async () => {
         const { data: quotes } = await axios.get(QUOTES_PATH);

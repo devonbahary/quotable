@@ -34,4 +34,15 @@ router.put('/:id', validateUser, (req, res) => {
     });
 });
 
+router.delete('/:id', validateUser, async (req, res) => {
+    const { id: collectionId } = req.params;
+
+    errorHandler(res, () => {
+        ownerHandler(collectionsRepository, collectionId, req.user.id, res, async () => {
+            await collectionsRepository.deleteById(collectionId);
+            res.sendStatus(200);
+        });
+    });
+});
+
 export default router;
