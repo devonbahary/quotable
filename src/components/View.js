@@ -41,7 +41,13 @@ const Menu = ({ history, isOpen, routeClassName, toggleMenu }) => {
     );
 };
 
-const View = withRouter(({ children, headerButton, history, location }) => {
+const View = withRouter(({
+    children,
+    headerButtonIcon,
+    onHeaderButtonClick,
+    history,
+    location,
+}) => {
     const [ isMenuOpen, setIsMenuOpen ] = useState(false);
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -71,7 +77,11 @@ const View = withRouter(({ children, headerButton, history, location }) => {
                 <div>
                     Quotable
                 </div>
-                {!isMenuOpen && headerButton}
+                {!isMenuOpen && onHeaderButtonClick && (
+                    <div className={styles.headerButton} onClick={onHeaderButtonClick}>
+                        <FontAwesomeIcon icon={headerButtonIcon} size='lg' />
+                    </div>
+                )}
             </header>
             <section className={styles.section}>
                 {children}

@@ -12,12 +12,6 @@ import QuoteModel from "../models/Quote";
 import styles from "./styles/quotes.scss";
 
 
-const HeaderButton = ({ addQuote }) => (
-    <div className={styles.headerButton} onClick={addQuote}>
-        <FontAwesomeIcon icon={faPlusSquare} size='lg' />
-    </div>
-);
-
 const Quote = observer(({
     isEditing,
     onLeave,
@@ -105,10 +99,8 @@ const Quotes = observer(({ store }) => {
         if (!quote.text) await store.removeQuote(quote);
     };
 
-    const headerButton = <HeaderButton addQuote={addQuote} />;
-
     return (
-        <View headerButton={headerButton}>
+        <View headerButtonIcon={faPlusSquare} onHeaderButtonClick={addQuote}>
             <ul>
                 {pendingAddQuote && (
                     <Quote
