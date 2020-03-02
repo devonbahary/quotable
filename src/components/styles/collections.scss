@@ -1,8 +1,7 @@
 @import "./variables";
 
 :local {
-  input[type="text"] {
-    background: inherit;
-    border: none;
+  .content {
+    min-height: 3rem;
   }
 }

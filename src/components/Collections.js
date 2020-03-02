@@ -4,7 +4,7 @@ import { inject, observer } from "mobx-react";
 import Card from "./Card";
 import View from "./View";
 
-import "./styles/collections.scss";
+import styles from "./styles/collections.scss";
 
 
 const Collection = observer(({ collection }) => {
@@ -13,7 +13,11 @@ const Collection = observer(({ collection }) => {
 
     const { title } = collection;
 
-    const content = <input type="text" onBlur={onBlur} onChange={onTitleChange} value={title} />;
+    const content = (
+        <div className={styles.content}>
+            <input type="text" onBlur={onBlur} onChange={onTitleChange} value={title} />
+        </div>
+    );
     return <Card content={content} />
 });
 
