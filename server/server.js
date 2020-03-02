@@ -2,6 +2,7 @@ import bodyParser from "body-parser";
 import express from "express";
 import path from "path";
 import authentication from "./routes/authentication";
+import collections from "./routes/collections";
 import quotes from "./routes/quotes";
 
 const app = express();
@@ -9,6 +10,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use('/api/authentication', authentication);
+app.use('/api/collections', collections);
 app.use('/api/quotes', quotes);
 
 if (process.env.NODE_ENV === 'production') {
