@@ -3,11 +3,20 @@
 :local {
   $toolBarDimension: 3rem;
 
+  $oddColor: $gray;
+  $evenColor: $backgroundColor;
+
   .card {
     position: relative;
 
     &:nth-child(odd) {
-      background: $gray;
+      background: $oddColor;
+      border-bottom: 1px solid $evenColor;
+    }
+
+    &:nth-child(even) {
+      background: $evenColor;
+      border-bottom: 1px solid $oddColor;
     }
 
     .toolBar {
