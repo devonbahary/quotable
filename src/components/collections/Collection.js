@@ -12,7 +12,7 @@ const Collection = observer(({
     isEditing,
     onClickCollection = () => {},
     onLeave,
-    renderToolBars,
+    shouldRenderToolBar,
     setCollectionIdEditing,
     store,
  }) => {
@@ -61,7 +61,7 @@ const Collection = observer(({
     const editIcon = isEditing ? CONFIRM_ICON : EDIT_ICON;
 
     const toolBarButtons = [];
-    if (renderToolBars) {
+    if (shouldRenderToolBar) {
         toolBarButtons.push({
             icon: editIcon,
             onClick: beginEditCollection,

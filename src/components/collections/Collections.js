@@ -57,7 +57,7 @@ const Collections = withRouter(observer(({ history, store }) => {
                             isEditing={collectionIdEditing === collection.id}
                             onClickCollection={() => onClickCollection(collection.id)}
                             onLeave={onLeaveCollection}
-                            renderToolBars
+                            shouldRenderToolBar
                             setCollectionIdEditing={setCollectionIdEditing}
                         />
                     ))}
