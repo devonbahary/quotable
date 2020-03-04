@@ -10,8 +10,10 @@ import styles from "../styles/quotes.scss";
 
 const Quote = observer(({
     isEditing,
+    onClickQuote = () => {},
     onLeave,
     quote,
+    shouldRenderToolBar,
     setQuoteIdEditing = () => {},
     setCollectionSelectionModalQuote,
     store,
@@ -51,7 +53,7 @@ const Quote = observer(({
     } else {
         content = (
             <>
-                <div className={styles.content}>
+                <div className={styles.content} onClick={onClickQuote}>
                     <span className={styles.quoteLeft}>
                         <FontAwesomeIcon icon={QUOTE_L_ICON} size='xs' />
                     </span>
@@ -69,20 +71,23 @@ const Quote = observer(({
         );
     }
 
-    const toolBarButtons = [{
-        icon: editIcon,
-        onClick: beginEditQuote,
-    }];
+    const toolBarButtons = [];
+    if (shouldRenderToolBar) {
+        toolBarButtons.push({
+            icon: editIcon,
+            onClick: beginEditQuote,
+        });
 
-    if (quote.id) toolBarButtons.push({
-        icon: COLLECTION_ICON,
-        onClick: onCollectionSelection,
-    });
+        if (quote.id) toolBarButtons.push({
+            icon: COLLECTION_ICON,
+            onClick: onCollectionSelection,
+        });
 
-    if (!isEditing) toolBarButtons.push({
-        icon: TRASH_ICON,
-        onClick: onDelete,
-    });
+        if (!isEditing) toolBarButtons.push({
+            icon: TRASH_ICON,
+            onClick: onDelete,
+        });
+    }
 
     return <Card content={content} toolBarButtons={toolBarButtons} />;
 });

@@ -106,6 +106,7 @@ const QuoteList = withRouter(({
                                 quote={quote}
                                 setQuoteIdEditing={setQuoteIdEditing}
                                 setCollectionSelectionModalQuote={setCollectionSelectionModalQuote}
+                                shouldRenderToolBar
                                 store={store}
                             />
                         ))}
