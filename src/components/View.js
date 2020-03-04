@@ -52,7 +52,6 @@ const View = withRouter(({
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-
     const { pathname } = location;
     const routeClassName = classNames({
         [styles.home]: pathname === '/',
