@@ -37,9 +37,14 @@ export const saveNewCollection = async collection => {
     });
 };
 
-export const deleteCollection = async collection => {
+export const deleteCollection = async (collection, removeQuotesInCollection) => {
     return errorHandler(async () => {
-        await axios.delete(`${COLLECTIONS_PATH}/${collection.id}`);
+        const config = {
+            data: {
+                removeQuotesInCollection,
+            },
+        };
+        await axios.delete(`${COLLECTIONS_PATH}/${collection.id}`, config);
     });
 };
 

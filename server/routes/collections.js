@@ -2,9 +2,11 @@ import express from "express";
 import { validateUser } from "../auth";
 import { errorHandler, ownerHandler } from "./util";
 import CollectionsRepository from "../repositories/CollectionsRepository";
+import CollectionsService from "../services/CollectionsService";
 
 const router = express.Router();
 const collectionsRepository = new CollectionsRepository();
+const collectionsService = new CollectionsService();
 
 router.get('/', validateUser, (req, res) => {
     errorHandler(res, async () => {
@@ -36,10 +38,11 @@ router.put('/:id', validateUser, (req, res) => {
 
 router.delete('/:id', validateUser, async (req, res) => {
     const { id: collectionId } = req.params;
+    const { removeQuotesInCollection } = req.body;
 
     errorHandler(res, () => {
         ownerHandler(collectionsRepository, collectionId, req.user.id, res, async () => {
-            await collectionsRepository.deleteById(collectionId);
+            await collectionsService.deleteCollection(collectionId, removeQuotesInCollection);
             res.sendStatus(200);
         });
     });

@@ -8,6 +8,7 @@ export default class Quote {
 
     constructor(quote) {
         this.id = quote.id;
+        this.collectionId = quote.collection_id;
         this.text = quote.text;
         this.updatedAt = quote.updated_at;
     };

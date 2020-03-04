@@ -46,10 +46,18 @@ class Store {
         this.collections.unshift(collection);
     };
 
-    @action removeCollection = async collection => {
-        await deleteCollection(collection);
+    @action removeCollection = async (collection, removeQuotesInCollection) => {
+        await deleteCollection(collection, removeQuotesInCollection);
         runInAction(() => {
             this.collections = this.collections.filter(c => c.id !== collection.id);
+            if (removeQuotesInCollection) {
+                this.quotes = this.quotes.filter(q => q.collectionId !== collection.id);
+            } else {
+                this.quotes = this.quotes.map(q => q.collectionId === collection.id ? ({
+                    ...q,
+                    collectionId: null,
+                }) : q);
+            }
         });
     };
 
@@ -73,6 +81,10 @@ class Store {
         runInAction(() => {
             this.quotes = this.quotes.filter(q => q.id !== quote.id);
         });
+    };
+
+    getQuoteCountByCollectionId = collectionId => {
+        return this.quotes.filter(q => q.collectionId === collectionId).length;
     };
 
     onSignIn = async googleUser => {

@@ -14,8 +14,8 @@ const Collection = observer(({
     collection,
     isEditing,
     onLeave,
-    removeCollection,
     setCollectionIdEditing,
+    store,
 }) => {
     const inputRef = useRef(null);
 
@@ -26,9 +26,12 @@ const Collection = observer(({
         await onLeave(collection);
     };
 
-    const onDelete = () => {
-        if (!confirm(`Are you sure you want to delete this collection?`)) return;
-        removeCollection(collection);
+    const onDelete = async () => {
+        if (!confirm(`Are you sure you want to delete collection "${collection.title}"?`)) return;
+
+        const quoteCountInCollection = store.getQuoteCountByCollectionId(collection.id);
+        const removeQuotesInCollection = confirm(`Do you want to delete ${quoteCountInCollection} quotes in "${collection.title}" as well?`);
+        await store.removeCollection(collection, removeQuotesInCollection);
     };
 
     const onTitleChange = e => collection.title = e.target.value;
@@ -109,9 +112,9 @@ const Collections = observer(({ store }) => {
                         <Collection
                             key={collection.id}
                             collection={collection}
+                            store={store}
                             isEditing={collectionIdEditing === collection.id}
                             onLeave={onLeaveCollection}
-                            removeCollection={store.removeCollection}
                             setCollectionIdEditing={setCollectionIdEditing}
                         />
                     ))}

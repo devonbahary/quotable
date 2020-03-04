@@ -31,4 +31,13 @@ export default class QuotesRepository extends BaseMySQLRepository {
             (?, ?)`
         , [ userId, text ]);
     };
+
+    deleteByCollectionId(collectionId) {
+        return this.query(
+            `DELETE
+            FROM ${this.tableName}
+            WHERE collection_id = ?`,
+            [ collectionId ],
+        );
+    }
 };
