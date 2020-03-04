@@ -1,8 +1,6 @@
 @import "./variables";
 
 :local {
-  $toolBarDimension: 3rem;
-
   $oddColor: $gray;
   $evenColor: $backgroundColor;
 
@@ -21,8 +19,8 @@
 
     .toolBar {
       background: rgba(25, 25, 25, 0.1);
-      height: $toolBarDimension;
-      line-height: $toolBarDimension;
+      height: $standardDimension;
+      line-height: $standardDimension;
 
       .icon {
         float: right;
@@ -30,7 +28,7 @@
         height: inherit;
         line-height: inherit;
         text-align: center;
-        width: $toolBarDimension;
+        width: $standardDimension;
       }
     }
   }
