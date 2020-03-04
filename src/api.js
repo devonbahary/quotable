@@ -15,6 +15,7 @@ const errorHandler = cb => {
 export const authenticateUser = async token => {
     const { data: jwt } = await axios.post('/api/authentication/token', { token });
     axios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
+    alert(`jwt ${JSON.stringify(jwt)}`);
 };
 
 export const getUserCollections = async () => {
