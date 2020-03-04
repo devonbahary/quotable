@@ -50,7 +50,7 @@ const Quote = observer(({
         );
     } else {
         content = (
-            <div>
+            <>
                 <div className={styles.content}>
                     <span className={styles.quoteLeft}>
                         <FontAwesomeIcon icon={QUOTE_L_ICON} size='xs' />
@@ -65,7 +65,7 @@ const Quote = observer(({
                         - {store.getCollectionTitleById(quote.collectionId)}
                     </div>
                 )}
-            </div>
+            </>
         );
     }
 
