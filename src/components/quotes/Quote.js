@@ -52,13 +52,13 @@ const Quote = observer(({
         content = (
             <div>
                 <div className={styles.content}>
-                <span className={styles.quoteLeft}>
-                    <FontAwesomeIcon icon={QUOTE_L_ICON} size='xs' />
-                </span>
+                    <span className={styles.quoteLeft}>
+                        <FontAwesomeIcon icon={QUOTE_L_ICON} size='xs' />
+                    </span>
                     <TextareaAutosize value={quote.text} readOnly />
                     <span className={styles.quoteRight}>
-                    <FontAwesomeIcon icon={QUOTE_R_ICON} size='xs' />
-                </span>
+                        <FontAwesomeIcon icon={QUOTE_R_ICON} size='xs' />
+                    </span>
                 </div>
                 {quote.collectionId && (
                     <div className={styles.collectionTitle}>
