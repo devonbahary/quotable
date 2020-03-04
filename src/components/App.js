@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Store from "../Store";
 
-import Collections from "./Collections";
+import Collections from "./collections/Collections";
 import Home from "./Home";
 import Quotes from "./Quotes";
 import User from "./User";

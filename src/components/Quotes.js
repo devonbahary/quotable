@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import TextareaAutosize from "react-textarea-autosize";
 import Card from "./Card";
-import Collection from "./Collection";
+import Collection from "./collections/Collection";
 import Modal from "./Modal";
 import View from "./View";
 import {

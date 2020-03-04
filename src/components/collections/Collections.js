@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { inject, observer } from "mobx-react";
 
 import Collection from "./Collection";
-import View from "./View";
-import { ADD_ICON } from "../constants";
+import View from "../View";
+import { ADD_ICON } from "../../constants";
 
-import CollectionModel from "../models/Collection";
+import CollectionModel from "../../models/Collection";
 
 
 const Collections = observer(({ store }) => {

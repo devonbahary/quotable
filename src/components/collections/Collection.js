@@ -1,10 +1,10 @@
 import React, { useRef } from "react";
 import { observer } from "mobx-react";
 
-import Card from "./Card";
-import { CONFIRM_ICON, EDIT_ICON, TRASH_ICON } from "../constants";
+import Card from "../Card";
+import { CONFIRM_ICON, EDIT_ICON, TRASH_ICON } from "../../constants";
 
-import styles from "./styles/collection.scss";
+import styles from "../styles/collection.scss";
 
 const Collection = observer(({
     collection,
