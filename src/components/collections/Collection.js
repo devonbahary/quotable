@@ -41,7 +41,7 @@ const Collection = observer(({
         if (inputRef.current) inputRef.current.focus();
     }, 0);
 
-    const inputClassName = classNames({ [styles.grayed]: collection.id === null });
+    const inputClassName = classNames({ [styles.muted]: collection.id === null });
 
     const content = (
         <div className={styles.content} onClick={() => onClickCollection(collection)}>
