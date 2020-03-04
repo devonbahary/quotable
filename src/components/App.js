@@ -6,7 +6,7 @@ import Store from "../Store";
 
 import Collections from "./collections/Collections";
 import Home from "./Home";
-import Quotes from "./Quotes";
+import Quotes from "./quotes/Quotes";
 import User from "./User";
 
 import ROUTES from "../../constants/routes";
