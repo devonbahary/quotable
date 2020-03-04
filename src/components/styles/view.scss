@@ -5,7 +5,7 @@
 
   .header {
     display: grid;
-    grid-template-columns: $headerHeight 1fr $headerHeight;
+    grid-template-columns: $standardDimension 1fr $standardDimension;
     position: sticky;
     height: $headerHeight;
     width: 100%;

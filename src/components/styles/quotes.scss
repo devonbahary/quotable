@@ -47,14 +47,14 @@
 
   .collectionFilter {
     display: grid;
-    grid-template-columns: 1fr $headerHeight;
+    grid-template-columns: 1fr $standardDimension;
     position: sticky;
     background: $backgroundColor;
     top: 0;
-    height: $headerHeight;
-    @include box-shadow();
+    height: $standardDimension;
+    line-height: $standardDimension;
     z-index: 1;
-    line-height: $headerHeight;
+    @include box-shadow();
 
     .collectionFilterText {
       color: $mutedColor;
@@ -63,8 +63,8 @@
     }
 
     .collectionFilterClear {
-      width: $headerHeight;
-      height: $headerHeight;
+      width: $standardDimension;
+      height: $standardDimension;
       text-align: center;
     }
   }

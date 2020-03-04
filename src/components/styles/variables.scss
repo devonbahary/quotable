@@ -19,7 +19,8 @@ $loginColor: $darkPurple;
 $mutedColor: $lightGray;
 
 $cardHorzPadding: 24px;
-$headerHeight: 3rem;
+$standardDimension: 3rem;
+$headerHeight: $standardDimension;
 
 @mixin box-shadow() {
   box-shadow: 0 0 10px black;
