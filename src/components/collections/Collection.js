@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import classNames from "classnames";
 
 import Card from "../Card";
-import { CONFIRM_ICON, EDIT_ICON, TRASH_ICON } from "../../constants";
+import { CONFIRM_ICON, EDIT_ICON, TRASH_ICON, UNTITLED_COLLECTION } from "../../constants";
 
 import styles from "../styles/collection.scss";
 
@@ -50,7 +50,7 @@ const Collection = observer(({
                 type="text"
                 onBlur={onBlur}
                 onChange={onTitleChange}
-                placeholder={collection.id ? "unnamed collection" : "new collection"}
+                placeholder={collection.id ? UNTITLED_COLLECTION : "new collection"}
                 readOnly={!isEditing}
                 ref={ref => inputRef.current = ref}
                 value={title}

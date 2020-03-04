@@ -45,6 +45,39 @@
     }
   }
 
+  .collectionFilter {
+    display: grid;
+    grid-template-columns: 1fr $headerHeight;
+    position: sticky;
+    background: $backgroundColor;
+    top: 0;
+    height: $headerHeight;
+    @include box-shadow();
+    z-index: 1;
+    line-height: $headerHeight;
+
+    .collectionFilterText {
+      color: $mutedColor;
+      font-size: 90%;
+      padding: 0 $cardHorzPadding;
+    }
+
+    .collectionFilterClear {
+      width: $headerHeight;
+      height: $headerHeight;
+      text-align: center;
+    }
+  }
+
+  .noResults {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $mutedColor;
+  }
+
   .collectionTitle {
     @include padding();
     text-align: right;

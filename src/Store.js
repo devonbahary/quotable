@@ -1,3 +1,4 @@
+import { get } from "lodash";
 import { action, observable, reaction, runInAction } from "mobx";
 import {
     authenticateUser,
@@ -11,6 +12,7 @@ import {
 import Quote from "./models/Quote";
 import User from "./models/User";
 import Collection from "./models/Collection";
+import { UNTITLED_COLLECTION } from "./constants";
 
 class Store {
     @observable user;
@@ -90,7 +92,7 @@ class Store {
     };
 
     getCollectionTitleById = collectionId => {
-        return this.collections.find(c => c.id === collectionId).title;
+        return get(this.collections.find(c => c.id === collectionId), 'title', UNTITLED_COLLECTION);
     };
 
     onSignIn = async googleUser => {

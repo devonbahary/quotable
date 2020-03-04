@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLocation, withRouter } from "react-router-dom";
 import { inject, observer } from "mobx-react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -17,6 +18,7 @@ import {
     QUOTE_R_ICON,
     TRASH_ICON
 } from "../constants";
+import ROUTES from "../../constants/routes";
 
 import CollectionModel from "../models/Collection";
 import QuoteModel from "../models/Quote";
@@ -130,7 +132,8 @@ const Quote = observer(({
     return <Card content={content} toolBarButtons={toolBarButtons} />;
 });
 
-const QuoteList = ({
+const QuoteList = withRouter(({
+    history,
     pendingAddQuote,
     quoteIdEditing,
     quotes,
@@ -139,6 +142,12 @@ const QuoteList = ({
     setQuoteIdEditing,
     store,
 }) => {
+    const query = new URLSearchParams(useLocation().search);
+    const collectionIdFilter = parseInt(query.get('collectionId'));
+    const collectionFilterTitle = store.getCollectionTitleById(collectionIdFilter);
+
+    const onClearCollectionFilter = () => history.push(ROUTES.QUOTES);
+
     const onLeaveNewQuote = async () => {
         if (pendingAddQuote.text) await store.addQuote(pendingAddQuote);
         setPendingAddQuote(null);
@@ -149,32 +158,55 @@ const QuoteList = ({
         if (!quote.text) await store.removeQuote(quote);
     };
 
+    const filteredAndSortedQuotes = quotes
+        .slice() // observable array warning
+        .filter(q => collectionIdFilter ? q.collectionId === collectionIdFilter : q)
+        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+
+    const displayNoResults = !filteredAndSortedQuotes.length && !pendingAddQuote;
+
     return (
-        <ul>
-            {pendingAddQuote && (
-                <Quote
-                    isEditing
-                    onLeave={onLeaveNewQuote}
-                    quote={pendingAddQuote}
-                />
+        <>
+            {Boolean(collectionIdFilter) && (
+                <div className={styles.collectionFilter}>
+                    <div className={styles.collectionFilterText}>
+                        Filtered by {collectionFilterTitle}
+                    </div>
+                    <div className={styles.collectionFilterClear} onClick={onClearCollectionFilter}>
+                        <FontAwesomeIcon icon={CLOSE_ICON} size="sm" />
+                    </div>
+                </div>
             )}
-            {quotes
-                .slice() // observable array warning
-                .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
-                .map(quote=> (
-                    <Quote
-                        key={quote.id}
-                        isEditing={quoteIdEditing === quote.id}
-                        onLeave={onLeaveQuote}
-                        quote={quote}
-                        setQuoteIdEditing={setQuoteIdEditing}
-                        setCollectionSelectionModalQuote={setCollectionSelectionModalQuote}
-                        store={store}
-                    />
-                ))}
-        </ul>
+            {!displayNoResults ? (
+                <ul>
+                    {pendingAddQuote && (
+                        <Quote
+                            isEditing
+                            onLeave={onLeaveNewQuote}
+                            quote={pendingAddQuote}
+                        />
+                    )}
+                    {filteredAndSortedQuotes
+                        .map(quote=> (
+                            <Quote
+                                key={quote.id}
+                                isEditing={quoteIdEditing === quote.id}
+                                onLeave={onLeaveQuote}
+                                quote={quote}
+                                setQuoteIdEditing={setQuoteIdEditing}
+                                setCollectionSelectionModalQuote={setCollectionSelectionModalQuote}
+                                store={store}
+                            />
+                        ))}
+                </ul>
+            ) : (
+                <div className={styles.noResults}>
+                    No quotes found
+                </div>
+            )}
+        </>
     );
-};
+});
 
 const Quotes = observer(({ store }) => {
     const { collections, quotes } = store;
