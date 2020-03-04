@@ -12,7 +12,7 @@
     position: sticky;
     top: 0;
     background: $backgroundColor;
-    color: $lightGray;
+    color: $mutedColor;
     z-index: 1;
     @include box-shadow();
     @include padding();
@@ -48,6 +48,6 @@
   .collectionTitle {
     @include padding();
     text-align: right;
-    color: $lightGray;
+    color: $mutedColor;
   }
 }

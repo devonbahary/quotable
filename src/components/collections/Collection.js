@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { observer } from "mobx-react";
+import classNames from "classnames";
 
 import Card from "../Card";
 import { CONFIRM_ICON, EDIT_ICON, TRASH_ICON } from "../../constants";
@@ -40,9 +41,12 @@ const Collection = observer(({
         if (inputRef.current) inputRef.current.focus();
     }, 0);
 
+    const inputClassName = classNames({ [styles.grayed]: collection.id === null });
+
     const content = (
         <div className={styles.content} onClick={() => onClickCollection(collection)}>
             <input
+                className={inputClassName}
                 type="text"
                 onBlur={onBlur}
                 onChange={onTitleChange}

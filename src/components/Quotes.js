@@ -18,6 +18,7 @@ import {
     TRASH_ICON
 } from "../constants";
 
+import CollectionModel from "../models/Collection";
 import QuoteModel from "../models/Quote";
 
 import styles from "./styles/quotes.scss";
@@ -30,12 +31,18 @@ const CollectionSelectionModal = ({
 }) => {
     if (!collectionSelectionModalQuote) return null;
 
+    const noCollectionDummy = new CollectionModel({
+        id: null, // important
+        title: 'no collection',
+    });
+
     return (
         <Modal>
             <div className={styles.instruction}>
                 Select a collection for the quote.
             </div>
             <ul>
+                <Collection collection={noCollectionDummy} onClickCollection={onClickCollection} />
                 {collections.map(c => (
                     <Collection key={c.id} collection={c} onClickCollection={onClickCollection} />
                 ))}
@@ -198,8 +205,6 @@ const Quotes = observer(({ store }) => {
         headerButtonIcon = ADD_ICON;
         onHeaderButtonClick = addQuote;
     }
-
-    // TODO: add "no collection" as a selectable option
 
     return (
         <View headerButtonIcon={headerButtonIcon} onHeaderButtonClick={onHeaderButtonClick}>
