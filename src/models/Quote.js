@@ -4,6 +4,7 @@ import { updateQuoteById } from "../api";
 
 export default class Quote {
     @observable text;
+    @observable collectionId; // TODO: necessary?
     updatedAt;
 
     constructor(quote) {
@@ -20,7 +21,15 @@ export default class Quote {
     };
 
     saveText = async () => {
-        await updateQuoteById(this.id, this.text);
+        await updateQuoteById(this);
+        runInAction(() => {
+            this.updatedAt = new Date();
+        });
+    };
+
+    @action updateCollectionId = async collectionId => {
+        this.collectionId = collectionId;
+        await updateQuoteById(this);
         runInAction(() => {
             this.updatedAt = new Date();
         });

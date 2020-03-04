@@ -8,13 +8,15 @@ import styles from "./styles/card.scss";
 const Card = ({ content, toolBarButtons = [] }) => (
     <li className={styles.card}>
         {content}
-        <div className={styles.toolBar}>
-            {toolBarButtons.map(({ icon, onClick }) => (
-                <div key={uuid()} className={styles.icon} onClick={onClick}>
-                    <FontAwesomeIcon icon={icon} />
-                </div>
-            ))}
-        </div>
+        {Boolean(toolBarButtons.length) && (
+            <div className={styles.toolBar}>
+                {toolBarButtons.map(({ icon, onClick }) => (
+                    <div key={uuid()} className={styles.icon} onClick={onClick}>
+                        <FontAwesomeIcon icon={icon} />
+                    </div>
+                ))}
+            </div>
+        )}
     </li>
 );
 

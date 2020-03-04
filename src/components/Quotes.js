@@ -4,8 +4,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import TextareaAutosize from "react-textarea-autosize";
 import Card from "./Card";
+import Modal from "./Modal";
 import View from "./View";
-import { ADD_ICON, CONFIRM_ICON, EDIT_ICON, QUOTE_L_ICON, QUOTE_R_ICON, TRASH_ICON } from "../constants";
+import {
+    ADD_ICON,
+    CLOSE_ICON,
+    COLLECTION_ICON,
+    CONFIRM_ICON,
+    EDIT_ICON,
+    QUOTE_L_ICON,
+    QUOTE_R_ICON,
+    TRASH_ICON
+} from "../constants";
 
 import QuoteModel from "../models/Quote";
 
@@ -17,7 +27,8 @@ const Quote = observer(({
     onLeave,
     quote,
     removeQuote,
-    setQuoteIdEditing = () => {}
+    setQuoteIdEditing = () => {},
+    setCollectionSelectionModalQuote,
 }) => {
     const beginEditQuote = () => setQuoteIdEditing(quote.id);
 
@@ -28,6 +39,8 @@ const Quote = observer(({
         setTimeout(() => quote.text = text, 0);
     };
     const onTextChange = e => quote.setText(e.target.value);
+
+    const onCollectionSelection = () => setCollectionSelectionModalQuote(quote);
 
     const onDelete = async () => {
         if (!confirm('Are you sure you want to delete this quote?')) return;
@@ -66,6 +79,9 @@ const Quote = observer(({
     const toolBarButtons = [{
         icon: editIcon,
         onClick: beginEditQuote,
+    }, {
+        icon: COLLECTION_ICON,
+        onClick: onCollectionSelection,
     }];
 
     if (!isEditing) toolBarButtons.push({
@@ -77,16 +93,22 @@ const Quote = observer(({
 });
 
 const Quotes = observer(({ store }) => {
-    const { quotes } = store;
+    const { collections, quotes } = store;
 
     const [ pendingAddQuote, setPendingAddQuote ] = useState(null);
     const [ quoteIdEditing, setQuoteIdEditing ] = useState(null);
+    const [ collectionSelectionModalQuote, setCollectionSelectionModalQuote ] = useState(null);
 
     const addQuote = () => {
         setQuoteIdEditing(null);
 
         const newQuote = new QuoteModel({ text: '' });
         setPendingAddQuote(newQuote);
+    };
+
+    const onChangeCollection = async collectionId => {
+        await collectionSelectionModalQuote.updateCollectionId(collectionId);
+        setCollectionSelectionModalQuote(null);
     };
 
     const onLeaveNewQuote = async () => {
@@ -99,8 +121,38 @@ const Quotes = observer(({ store }) => {
         if (!quote.text) await store.removeQuote(quote);
     };
 
+    const closeCollectionSelectionModal = () => setCollectionSelectionModalQuote(null);
+
+    let headerButtonIcon, onHeaderButtonClick;
+    if (collectionSelectionModalQuote) {
+        headerButtonIcon = CLOSE_ICON;
+        onHeaderButtonClick = closeCollectionSelectionModal;
+    } else {
+        headerButtonIcon = ADD_ICON;
+        onHeaderButtonClick = addQuote;
+    }
+
+    // TODO: add "no collection" as a selectable option
+
     return (
-        <View headerButtonIcon={ADD_ICON} onHeaderButtonClick={addQuote}>
+        <View headerButtonIcon={headerButtonIcon} onHeaderButtonClick={onHeaderButtonClick}>
+            {collectionSelectionModalQuote && (
+                <Modal>
+                    <div className={styles.instruction}>
+                        Select a collection for the quote.
+                    </div>
+                    <ul>
+                        {collections.map(c => {
+                            const content = (
+                                <div className={styles.collection} onClick={() => onChangeCollection(c.id)}>
+                                    {c.title}
+                                </div>
+                            );
+                            return <Card key={c.id} content={content} />
+                        })}
+                    </ul>
+                </Modal>
+            )}
             <ul>
                 {pendingAddQuote && (
                     <Quote
@@ -120,6 +172,7 @@ const Quotes = observer(({ store }) => {
                             quote={quote}
                             removeQuote={store.removeQuote}
                             setQuoteIdEditing={setQuoteIdEditing}
+                            setCollectionSelectionModalQuote={setCollectionSelectionModalQuote}
                         />
                     ))}
             </ul>

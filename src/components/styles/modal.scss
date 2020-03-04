@@ -1,0 +1,14 @@
+@import "./variables";
+
+:local {
+  .modal {
+    position: fixed;
+    top: $headerHeight;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: $backgroundColor;
+    z-index: 1;
+    overflow-y: scroll;
+  }
+}

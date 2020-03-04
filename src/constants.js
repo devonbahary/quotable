@@ -7,11 +7,13 @@ import {
     faPlusSquare,
     faQuoteLeft,
     faQuoteRight,
+    faTimes,
     faTrash,
     faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const ADD_ICON = faPlusSquare;
+export const CLOSE_ICON = faTimes;
 export const COLLECTION_ICON = faBook;
 export const CONFIRM_ICON = faCheck;
 export const EDIT_ICON = faPen;

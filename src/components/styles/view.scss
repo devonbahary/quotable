@@ -1,7 +1,6 @@
 @import 'src/components/styles/variables';
 
 :local {
-  $headerHeight: 3rem;
   $transitionDelay: 0.2s;
 
   .header {
@@ -12,7 +11,7 @@
     width: 100%;
     background: $black;
     line-height: $headerHeight;
-    z-index: 1;
+    z-index: 2;
     @include box-shadow();
 
     .headerIcon {
@@ -51,6 +50,7 @@
     bottom: 0;
     left: 0;
     height: calc(100vh - #{$headerHeight});
+    z-index: 1;
   }
 
   .section {

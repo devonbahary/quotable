@@ -55,9 +55,9 @@ export const getUserQuotes = async () => {
     });
 };
 
-export const updateQuoteById = async (id, text) => {
+export const updateQuoteById = async quote => {
     return errorHandler(async () => {
-        await axios.put(`${QUOTES_PATH}/${id}`, { text });
+        await axios.put(`${QUOTES_PATH}/${quote.id}`, { ...quote });
     });
 };
 

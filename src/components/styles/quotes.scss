@@ -2,11 +2,32 @@
 
 :local {
   $quoteBuffer: 6px;
+  $collectionHeight: 6rem;
+
+  @mixin padding {
+    padding: 12px $cardHorzPadding;
+  }
+
+  .instruction {
+    position: sticky;
+    top: 0;
+    background: $backgroundColor;
+    color: $lightGray;
+    z-index: 1;
+    @include box-shadow();
+    @include padding();
+  }
+
+  .collection {
+    line-height: $collectionHeight; // TODO: this won't hold up with multi-line
+    padding: 0 $cardHorzPadding;
+    min-height: $collectionHeight;
+  }
 
   .content {
     position: relative;
-    padding: 12px $cardHorzPadding;
     min-height: 3rem;
+    @include padding();
 
     .quoteLeft,
     .quoteRight {

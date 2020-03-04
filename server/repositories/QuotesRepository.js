@@ -14,12 +14,13 @@ export default class QuotesRepository extends BaseMySQLRepository {
         );
     };
 
-    updateText(id, text) {
+    updateById(id, collectionId, text) {
         return this.query(
             `UPDATE ${this.tableName}
-            SET text = ?
+            SET collection_id = ?,
+            text = ?
             WHERE id = ?`,
-            [ text, id ],
+            [ collectionId, text, id ],
         );
     };
 

@@ -25,11 +25,11 @@ router.post('/', validateUser, async (req, res) => {
 
 router.put('/:id', validateUser, async (req, res) => {
     const { id: quoteId } = req.params;
-    const { text } = req.body;
+    const { collectionId, text } = req.body;
 
     errorHandler(res, () => {
         ownerHandler(quotesRepository, quoteId, req.user.id, res, async () => {
-            await quotesRepository.updateText(quoteId, text);
+            await quotesRepository.updateById(quoteId, collectionId, text);
             res.sendStatus(200);
         });
     });
