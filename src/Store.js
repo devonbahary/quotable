@@ -98,7 +98,6 @@ class Store {
     onSignIn = async googleUser => {
         const authResponse = googleUser.getAuthResponse();
         const { id_token: token } = authResponse;
-        alert(`token ${JSON.stringify(token)}`);
         await authenticateUser(token);
         await this.setUser(googleUser);
     };
