@@ -8,15 +8,20 @@
     padding: 12px $cardHorzPadding;
   }
 
+  .collectionFilter,
   .instruction {
     position: sticky;
     background: $backgroundColor;
     top: 0;
     height: $standardDimension;
-    color: $mutedColor;
+    line-height: $standardDimension;
     z-index: 1;
-    padding: 0 $cardHorzPadding;
     @include box-shadow();
+  }
+
+  .instruction {
+    color: $mutedColor;
+    padding: 0 $cardHorzPadding;
   }
 
   .content {
@@ -49,11 +54,6 @@
   .collectionFilter {
     display: grid;
     grid-template-columns: 1fr $standardDimension;
-    position: sticky;
-    background: $backgroundColor;
-    top: 0;
-    height: $standardDimension;
-    line-height: $standardDimension;
     z-index: 1;
     @include box-shadow();
 
