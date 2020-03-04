@@ -20,6 +20,7 @@ import {
 import QuoteModel from "../models/Quote";
 
 import styles from "./styles/quotes.scss";
+import Collection from "./Collection";
 
 
 const Quote = observer(({
@@ -106,8 +107,8 @@ const Quotes = observer(({ store }) => {
         setPendingAddQuote(newQuote);
     };
 
-    const onChangeCollection = async collectionId => {
-        await collectionSelectionModalQuote.updateCollectionId(collectionId);
+    const onChangeCollection = async collection => {
+        await collectionSelectionModalQuote.updateCollectionId(collection.id);
         setCollectionSelectionModalQuote(null);
     };
 
@@ -142,14 +143,9 @@ const Quotes = observer(({ store }) => {
                         Select a collection for the quote.
                     </div>
                     <ul>
-                        {collections.map(c => {
-                            const content = (
-                                <div className={styles.collection} onClick={() => onChangeCollection(c.id)}>
-                                    {c.title}
-                                </div>
-                            );
-                            return <Card key={c.id} content={content} />
-                        })}
+                        {collections.map(c => (
+                            <Collection key={c.id} collection={c} onClickCollection={onChangeCollection} />
+                        ))}
                     </ul>
                 </Modal>
             )}

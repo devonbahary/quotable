@@ -1,75 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { inject, observer } from "mobx-react";
 
-import Card from "./Card";
+import Collection from "./Collection";
 import View from "./View";
-import { ADD_ICON, CONFIRM_ICON, EDIT_ICON, TRASH_ICON } from "../constants";
+import { ADD_ICON } from "../constants";
 
 import CollectionModel from "../models/Collection";
 
-import styles from "./styles/collections.scss";
-
-
-const Collection = observer(({
-    collection,
-    isEditing,
-    onLeave,
-    setCollectionIdEditing,
-    store,
-}) => {
-    const inputRef = useRef(null);
-
-    const beginEditCollection = () => setCollectionIdEditing(collection.id);
-
-    const onBlur = async () =>  {
-        if (!isEditing) return;
-        await onLeave(collection);
-    };
-
-    const onDelete = async () => {
-        if (!confirm(`Are you sure you want to delete collection "${collection.title}"?`)) return;
-
-        const quoteCountInCollection = store.getQuoteCountByCollectionId(collection.id);
-        const removeQuotesInCollection = confirm(`Do you want to delete ${quoteCountInCollection} quotes in "${collection.title}" as well?`);
-        await store.removeCollection(collection, removeQuotesInCollection);
-    };
-
-    const onTitleChange = e => collection.title = e.target.value;
-
-    const { title } = collection;
-
-    if (isEditing) setTimeout(() => {
-        if (inputRef.current) inputRef.current.focus();
-    }, 0);
-
-    const content = (
-        <div className={styles.content}>
-            <input
-                type="text"
-                onBlur={onBlur}
-                onChange={onTitleChange}
-                placeholder={collection.id ? "unnamed collection" : "new collection"}
-                readOnly={!isEditing}
-                ref={ref => inputRef.current = ref}
-                value={title}
-            />
-        </div>
-    );
-
-    const editIcon = isEditing ? CONFIRM_ICON : EDIT_ICON;
-
-    const toolBarButtons = [{
-        icon: editIcon,
-        onClick: beginEditCollection,
-    }];
-
-    if (!isEditing) toolBarButtons.push({
-        icon: TRASH_ICON,
-        onClick: onDelete,
-    });
-
-    return <Card content={content} toolBarButtons={toolBarButtons} />
-});
 
 const Collections = observer(({ store }) => {
     const { collections } = store;
@@ -115,6 +52,7 @@ const Collections = observer(({ store }) => {
                             store={store}
                             isEditing={collectionIdEditing === collection.id}
                             onLeave={onLeaveCollection}
+                            renderToolBars
                             setCollectionIdEditing={setCollectionIdEditing}
                         />
                     ))}
