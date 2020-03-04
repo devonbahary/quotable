@@ -72,8 +72,10 @@ class Store {
 
     @action addQuote = async quote => {
         const { insertId } = await saveNewQuote(quote);
-        quote.id = insertId;
-        this.quotes.unshift(quote);
+        runInAction(() => {
+            quote.id = insertId;
+            this.quotes.unshift(quote);
+        });
     };
 
     @action removeQuote = async quote => {
