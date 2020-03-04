@@ -10,12 +10,13 @@
 
   .instruction {
     position: sticky;
-    top: 0;
     background: $backgroundColor;
+    top: 0;
+    height: $standardDimension;
     color: $mutedColor;
     z-index: 1;
     @include box-shadow();
-    @include padding();
+    padding: 0 $cardHorzPadding;
   }
 
   .content {
