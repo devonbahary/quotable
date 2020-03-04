@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import TextareaAutosize from "react-textarea-autosize";
 import Card from "./Card";
+import Collection from "./Collection";
 import Modal from "./Modal";
 import View from "./View";
 import {
@@ -20,7 +21,6 @@ import {
 import QuoteModel from "../models/Quote";
 
 import styles from "./styles/quotes.scss";
-import Collection from "./Collection";
 
 
 const Quote = observer(({

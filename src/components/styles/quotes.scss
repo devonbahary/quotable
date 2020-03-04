@@ -18,12 +18,6 @@
     @include padding();
   }
 
-  .collection {
-    line-height: $collectionHeight; // TODO: this won't hold up with multi-line
-    padding: 0 $cardHorzPadding;
-    min-height: $collectionHeight;
-  }
-
   .content {
     position: relative;
     min-height: 3rem;
