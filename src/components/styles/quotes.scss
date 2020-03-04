@@ -15,8 +15,8 @@
     height: $standardDimension;
     color: $mutedColor;
     z-index: 1;
-    @include box-shadow();
     padding: 0 $cardHorzPadding;
+    @include box-shadow();
   }
 
   .content {
