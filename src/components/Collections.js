@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
 import { inject, observer } from "mobx-react";
-import { faCheck, faPen, faPlusSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import Card from "./Card";
 import View from "./View";
+import { ADD_ICON, CONFIRM_ICON, EDIT_ICON, TRASH_ICON } from "../constants";
 
 import CollectionModel from "../models/Collection";
 
@@ -56,7 +56,7 @@ const Collection = observer(({
         </div>
     );
 
-    const editIcon = isEditing ? faCheck : faPen;
+    const editIcon = isEditing ? CONFIRM_ICON : EDIT_ICON;
 
     const toolBarButtons = [{
         icon: editIcon,
@@ -64,7 +64,7 @@ const Collection = observer(({
     }];
 
     if (!isEditing) toolBarButtons.push({
-        icon: faTrash,
+        icon: TRASH_ICON,
         onClick: onDelete,
     });
 
@@ -95,7 +95,7 @@ const Collections = observer(({ store }) => {
     };
 
     return (
-        <View headerButtonIcon={faPlusSquare} onHeaderButtonClick={addCollection}>
+        <View headerButtonIcon={ADD_ICON} onHeaderButtonClick={addCollection}>
             <ul>
                 {pendingAddCollection && (
                     <Collection

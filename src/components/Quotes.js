@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { inject, observer } from "mobx-react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck, faPen, faPlusSquare,faQuoteLeft, faQuoteRight, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 import TextareaAutosize from "react-textarea-autosize";
 import Card from "./Card";
 import View from "./View";
+import { ADD_ICON, CONFIRM_ICON, EDIT_ICON, QUOTE_L_ICON, QUOTE_R_ICON, TRASH_ICON } from "../constants";
 
 import QuoteModel from "../models/Quote";
 
@@ -34,7 +34,7 @@ const Quote = observer(({
         removeQuote(quote);
     };
 
-    const editIcon = isEditing ? faCheck : faPen;
+    const editIcon = isEditing ? CONFIRM_ICON : EDIT_ICON;
 
     let content;
     if (isEditing) {
@@ -53,11 +53,11 @@ const Quote = observer(({
         content = (
             <div className={styles.content}>
                 <span className={styles.quoteLeft}>
-                    <FontAwesomeIcon icon={faQuoteLeft} size='xs' />
+                    <FontAwesomeIcon icon={QUOTE_L_ICON} size='xs' />
                 </span>
                 <TextareaAutosize value={quote.text} readOnly />
                 <span className={styles.quoteRight}>
-                    <FontAwesomeIcon icon={faQuoteRight} size='xs' />
+                    <FontAwesomeIcon icon={QUOTE_R_ICON} size='xs' />
                 </span>
             </div>
         );
@@ -69,7 +69,7 @@ const Quote = observer(({
     }];
 
     if (!isEditing) toolBarButtons.push({
-        icon: faTrash,
+        icon: TRASH_ICON,
         onClick: onDelete,
     });
 
@@ -100,7 +100,7 @@ const Quotes = observer(({ store }) => {
     };
 
     return (
-        <View headerButtonIcon={faPlusSquare} onHeaderButtonClick={addQuote}>
+        <View headerButtonIcon={ADD_ICON} onHeaderButtonClick={addQuote}>
             <ul>
                 {pendingAddQuote && (
                     <Quote

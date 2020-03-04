@@ -2,9 +2,9 @@ import classNames from "classnames";
 import React, { useState } from "react";
 import { withRouter } from "react-router";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faBook, faHome, faQuoteLeft, faUser } from '@fortawesome/free-solid-svg-icons'
 
 import ROUTES from "../../constants/routes";
+import { COLLECTION_ICON, HOME_ICON, MENU_ICON, QUOTE_L_ICON, USER_ICON } from "../constants";
 
 import styles from "./styles/view.scss";
 
@@ -26,16 +26,16 @@ const Menu = ({ history, isOpen, routeClassName, toggleMenu }) => {
     return (
         <section className={menuClassName}>
             <div className={styles.card} onClick={() => navigateTo(ROUTES.HOME)}>
-                <FontAwesomeIcon icon={faHome} size="lg" />
+                <FontAwesomeIcon icon={HOME_ICON} size="lg" />
             </div>
             <div className={styles.card} onClick={() => navigateTo(ROUTES.QUOTES)}>
-                <FontAwesomeIcon icon={faQuoteLeft} size="lg" />
+                <FontAwesomeIcon icon={QUOTE_L_ICON} size="lg" />
             </div>
             <div className={styles.card} onClick={() => navigateTo(ROUTES.COLLECTIONS)}>
-                <FontAwesomeIcon icon={faBook} size="lg" />
+                <FontAwesomeIcon icon={COLLECTION_ICON} size="lg" />
             </div>
             <div className={styles.card} onClick={() => navigateTo(ROUTES.LOGIN)}>
-                <FontAwesomeIcon icon={faUser} size="lg" />
+                <FontAwesomeIcon icon={USER_ICON} size="lg" />
             </div>
         </section>
     );
@@ -72,7 +72,7 @@ const View = withRouter(({
         <div>
             <header className={styles.header}>
                 <div className={headerIconClassName} onClick={toggleMenu}>
-                    <FontAwesomeIcon icon={faBars} size="lg" />
+                    <FontAwesomeIcon icon={MENU_ICON} size="lg" />
                 </div>
                 <div>
                     Quotable
