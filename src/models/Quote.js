@@ -4,8 +4,6 @@ import { updateQuoteById } from "../api";
 
 export default class Quote {
     @observable text;
-    @observable collectionId; // TODO: necessary?
-    updatedAt;
 
     constructor(quote) {
         this.id = quote.id;

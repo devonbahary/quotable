@@ -44,4 +44,10 @@
       height: 100%;
     }
   }
+
+  .collectionTitle {
+    @include padding();
+    text-align: right;
+    color: $lightGray;
+  }
 }

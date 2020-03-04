@@ -27,9 +27,9 @@ const Quote = observer(({
     isEditing,
     onLeave,
     quote,
-    removeQuote,
     setQuoteIdEditing = () => {},
     setCollectionSelectionModalQuote,
+    store,
 }) => {
     const beginEditQuote = () => setQuoteIdEditing(quote.id);
 
@@ -45,7 +45,7 @@ const Quote = observer(({
 
     const onDelete = async () => {
         if (!confirm('Are you sure you want to delete this quote?')) return;
-        removeQuote(quote);
+        await store.removeQuote(quote);
     };
 
     const editIcon = isEditing ? CONFIRM_ICON : EDIT_ICON;
@@ -65,14 +65,21 @@ const Quote = observer(({
         );
     } else {
         content = (
-            <div className={styles.content}>
+            <div>
+                <div className={styles.content}>
                 <span className={styles.quoteLeft}>
                     <FontAwesomeIcon icon={QUOTE_L_ICON} size='xs' />
                 </span>
-                <TextareaAutosize value={quote.text} readOnly />
-                <span className={styles.quoteRight}>
+                    <TextareaAutosize value={quote.text} readOnly />
+                    <span className={styles.quoteRight}>
                     <FontAwesomeIcon icon={QUOTE_R_ICON} size='xs' />
                 </span>
+                </div>
+                {quote.collectionId && (
+                    <div className={styles.collectionTitle}>
+                        - {store.getCollectionTitleById(quote.collectionId)}
+                    </div>
+                )}
             </div>
         );
     }
@@ -166,9 +173,9 @@ const Quotes = observer(({ store }) => {
                             isEditing={quoteIdEditing === quote.id}
                             onLeave={onLeaveQuote}
                             quote={quote}
-                            removeQuote={store.removeQuote}
                             setQuoteIdEditing={setQuoteIdEditing}
                             setCollectionSelectionModalQuote={setCollectionSelectionModalQuote}
+                            store={store}
                         />
                     ))}
             </ul>

@@ -89,6 +89,10 @@ class Store {
         return this.quotes.filter(q => q.collectionId === collectionId).length;
     };
 
+    getCollectionTitleById = collectionId => {
+        return this.collections.find(c => c.id === collectionId).title;
+    };
+
     onSignIn = async googleUser => {
         const authResponse = googleUser.getAuthResponse();
         const { id_token: token } = authResponse;
