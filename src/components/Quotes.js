@@ -87,10 +87,12 @@ const Quote = observer(({
     const toolBarButtons = [{
         icon: editIcon,
         onClick: beginEditQuote,
-    }, {
+    }];
+
+    if (quote.id) toolBarButtons.push({
         icon: COLLECTION_ICON,
         onClick: onCollectionSelection,
-    }];
+    });
 
     if (!isEditing) toolBarButtons.push({
         icon: TRASH_ICON,
