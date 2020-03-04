@@ -68,6 +68,8 @@ const View = withRouter(({
         },
     );
 
+    const displayHeaderButton = !isMenuOpen && onHeaderButtonClick;
+
     return (
         <div>
             <header className={styles.header}>
@@ -77,7 +79,7 @@ const View = withRouter(({
                 <div>
                     Quotable
                 </div>
-                {!isMenuOpen && onHeaderButtonClick && (
+                {displayHeaderButton && (
                     <div className={styles.headerButton} onClick={onHeaderButtonClick}>
                         <FontAwesomeIcon icon={headerButtonIcon} size='lg' />
                     </div>
