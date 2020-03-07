@@ -2,17 +2,26 @@
 
 :local {
   .content {
-    display: flex;
-    align-content: center;
-    padding: 0 $cardHorzPadding;
-    min-height: 6rem;
+    .title {
+      display: flex;
+      align-content: center;
+      padding: 0 $cardHorzPadding;
+      min-height: 6rem;
 
-    input {
-      width: 100%;
+      input {
+        width: 100%;
 
-      &.muted {
-        color: $mutedColor;
+        &.muted {
+          color: $mutedColor;
+        }
       }
+    }
+
+    .details {
+      text-align: right;
+      padding: 0 $cardHorzPadding;
+      line-height: $standardDimension;
+      min-height: $standardDimension;
     }
   }
 }

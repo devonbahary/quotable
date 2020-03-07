@@ -1,9 +1,10 @@
 import React, { useRef } from "react";
 import { observer } from "mobx-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 
 import Card from "../Card";
-import { CONFIRM_ICON, EDIT_ICON, TRASH_ICON, UNTITLED_COLLECTION } from "../../constants";
+import { CONFIRM_ICON, EDIT_ICON, QUOTE_L_ICON, TRASH_ICON, UNTITLED_COLLECTION } from "../../constants";
 
 import styles from "../styles/collection.scss";
 
@@ -43,18 +44,27 @@ const Collection = observer(({
 
     const inputClassName = classNames({ [styles.muted]: collection.id === null });
 
+    const quoteCount = store.getQuoteCountByCollectionId(collection.id);
+
     const content = (
         <div className={styles.content} onClick={() => onClickCollection(collection)}>
-            <input
-                className={inputClassName}
-                type="text"
-                onBlur={onBlur}
-                onChange={onTitleChange}
-                placeholder={collection.id ? UNTITLED_COLLECTION : "new collection"}
-                readOnly={!isEditing}
-                ref={ref => inputRef.current = ref}
-                value={title}
-            />
+            <div className={styles.title}>
+                <input
+                    className={inputClassName}
+                    type="text"
+                    onBlur={onBlur}
+                    onChange={onTitleChange}
+                    placeholder={collection.id ? UNTITLED_COLLECTION : "new collection"}
+                    readOnly={!isEditing}
+                    ref={ref => inputRef.current = ref}
+                    value={title}
+                />
+            </div>
+            {Boolean(quoteCount) && (
+                <div className={styles.details}>
+                    <FontAwesomeIcon icon={QUOTE_L_ICON} size="sm" /> {quoteCount}
+                </div>
+            )}
         </div>
     );
 
