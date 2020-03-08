@@ -70,7 +70,6 @@ const Collections = withRouter(observer(({ history, store }) => {
             ) : (
                 <SingleMessageView message="No collections found" />
             )}
-
         </View>
     );
 }));
