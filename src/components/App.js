@@ -27,7 +27,7 @@ const App = () => {
                 await store.onSignIn(googleUser);
             });
         }, 500);
-    });
+    }, []);
 
     return (
         <>
