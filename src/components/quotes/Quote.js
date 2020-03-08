@@ -78,15 +78,17 @@ const Quote = observer(({
             onClick: beginEditQuote,
         });
 
-        if (quote.id) toolBarButtons.push({
-            icon: COLLECTION_ICON,
-            onClick: onCollectionSelection,
-        });
+        if (!isEditing) {
+            if (quote.id) toolBarButtons.push({
+                icon: COLLECTION_ICON,
+                onClick: onCollectionSelection,
+            });
 
-        if (!isEditing) toolBarButtons.push({
-            icon: TRASH_ICON,
-            onClick: onDelete,
-        });
+            toolBarButtons.push({
+                icon: TRASH_ICON,
+                onClick: onDelete,
+            });
+        }
     }
 
     return <Card content={content} toolBarButtons={toolBarButtons} />;
