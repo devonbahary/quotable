@@ -21,12 +21,6 @@ const Quote = observer(({
     const beginEditQuote = () => setQuoteIdEditing(quote.id);
 
     const onBlur = () => setTimeout(() => onLeave(quote), 0);
-    const onFocus = () => {
-        const text = quote.text;
-        quote.text = '';
-        setTimeout(() => quote.text = text, 0);
-    };
-    const onTextChange = e => quote.setText(e.target.value);
 
     const onCollectionSelection = () => setCollectionSelectionModalQuote(quote);
 
@@ -34,6 +28,13 @@ const Quote = observer(({
         if (!confirm('Are you sure you want to delete this quote?')) return;
         await store.removeQuote(quote);
     };
+
+    const onFocus = () => {
+        const text = quote.text;
+        quote.text = '';
+        setTimeout(() => quote.text = text, 0);
+    };
+    const onTextChange = e => quote.setText(e.target.value);
 
     const editIcon = isEditing ? CONFIRM_ICON : EDIT_ICON;
 
@@ -44,8 +45,8 @@ const Quote = observer(({
                 <TextareaAutosize
                     autoFocus
                     onBlur={onBlur}
-                    onFocus={onFocus}
                     onChange={onTextChange}
+                    onFocus={onFocus}
                     value={quote.text}
                 />
             </div>
