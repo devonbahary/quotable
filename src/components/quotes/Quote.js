@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TextareaAutosize from "react-textarea-autosize";
 import Card from "../Card";
 import { COLLECTION_ICON, CONFIRM_ICON, EDIT_ICON, QUOTE_L_ICON, QUOTE_R_ICON, TRASH_ICON } from "../../constants/icons";
+import KEY_CODES from "../../constants/keyCodes";
 
 import styles from "../styles/quotes.scss";
 
@@ -34,6 +35,11 @@ const Quote = observer(({
         quote.text = '';
         setTimeout(() => quote.text = text, 0);
     };
+
+    const onKeyDown = e => {
+        if (e.metaKey && e.keyCode === KEY_CODES.ENTER) onBlur();
+    };
+
     const onTextChange = e => quote.setText(e.target.value);
 
     const editIcon = isEditing ? CONFIRM_ICON : EDIT_ICON;
@@ -47,6 +53,7 @@ const Quote = observer(({
                     onBlur={onBlur}
                     onChange={onTextChange}
                     onFocus={onFocus}
+                    onKeyDown={onKeyDown}
                     value={quote.text}
                 />
             </div>
