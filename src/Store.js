@@ -12,7 +12,7 @@ import {
 import Quote from "./models/Quote";
 import User from "./models/User";
 import Collection from "./models/Collection";
-import { UNTITLED_COLLECTION } from "./constants";
+import { UNTITLED_COLLECTION } from "./components/collections/Collection";
 
 class Store {
     @observable user;

@@ -8,7 +8,7 @@ import Modal from "../Modal";
 import Quote from "./Quote";
 import SingleMessageView from "../SingleMessageView";
 import View from "../View";
-import { ADD_ICON, CLOSE_ICON } from "../../constants";
+import { ADD_ICON, CLOSE_ICON } from "../../constants/icons";
 import ROUTES from "../../../constants/routes";
 
 import CollectionModel from "../../models/Collection";

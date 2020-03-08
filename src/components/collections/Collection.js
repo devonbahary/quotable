@@ -4,9 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 
 import Card from "../Card";
-import { CONFIRM_ICON, EDIT_ICON, QUOTE_L_ICON, TRASH_ICON, UNTITLED_COLLECTION } from "../../constants";
+import { CONFIRM_ICON, EDIT_ICON, QUOTE_L_ICON, TRASH_ICON } from "../../constants/icons";
 
 import styles from "../styles/collection.scss";
+
+export const UNTITLED_COLLECTION = "unnamed collection";
 
 const Collection = observer(({
     collection,

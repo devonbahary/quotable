@@ -23,5 +23,3 @@ export const QUOTE_L_ICON = faQuoteLeft;
 export const QUOTE_R_ICON = faQuoteRight;
 export const TRASH_ICON = faTrash;
 export const USER_ICON = faUser;
-
-export const UNTITLED_COLLECTION = "unnamed collection";
