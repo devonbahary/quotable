@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, withRouter } from "react-router-dom";
 import { inject, observer } from "mobx-react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -59,6 +59,10 @@ const QuoteList = withRouter(({
     const collectionFilterTitle = store.getCollectionTitleById(collectionIdFilter);
 
     const onClearCollectionFilter = () => history.push(ROUTES.QUOTES);
+
+    useEffect(() => {
+        if (!store.collections.some(c => c.id === collectionIdFilter)) onClearCollectionFilter();
+    }, [ collectionIdFilter ]);
 
     const onLeaveNewQuote = async () => {
         if (pendingAddQuote.text) await store.addQuote(pendingAddQuote, collectionIdFilter);
