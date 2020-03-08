@@ -88,6 +88,7 @@ class Store {
     };
 
     getQuoteCountByCollectionId = collectionId => {
+        if (!collectionId) return 0;
         return this.quotes.filter(q => q.collectionId === collectionId).length;
     };
 
