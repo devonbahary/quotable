@@ -3,6 +3,7 @@ import { withRouter } from "react-router";
 import { inject, observer } from "mobx-react";
 
 import Collection from "./Collection";
+import SingleMessageView from "../SingleMessageView";
 import View from "../View";
 import { ADD_ICON } from "../../constants";
 import ROUTES from "../../../constants/routes";
@@ -35,33 +36,40 @@ const Collections = withRouter(observer(({ history, store }) => {
         await collection.save();
     };
 
+    const displayNoResults = !collections.length && !pendingAddCollection;
+
     return (
         <View headerButtonIcon={ADD_ICON} onHeaderButtonClick={addCollection}>
-            <ul>
-                {pendingAddCollection && (
-                    <Collection
-                        collection={pendingAddCollection}
-                        isEditing
-                        onLeave={onLeaveNewCollection}
-                        setCollectionIdEditing={setCollectionIdEditing}
-                    />
-                )}
-                {collections
-                    .slice() // observable array warning
-                    .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
-                    .map(collection=> (
+            {!displayNoResults ? (
+                <ul>
+                    {pendingAddCollection && (
                         <Collection
-                            key={collection.id}
-                            collection={collection}
-                            store={store}
-                            isEditing={collectionIdEditing === collection.id}
-                            onClickCollection={() => onClickCollection(collection.id)}
-                            onLeave={onLeaveCollection}
-                            shouldRenderToolBar
+                            collection={pendingAddCollection}
+                            isEditing
+                            onLeave={onLeaveNewCollection}
                             setCollectionIdEditing={setCollectionIdEditing}
                         />
-                    ))}
-            </ul>
+                    )}
+                    {collections
+                        .slice() // observable array warning
+                        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+                        .map(collection=> (
+                            <Collection
+                                key={collection.id}
+                                collection={collection}
+                                store={store}
+                                isEditing={collectionIdEditing === collection.id}
+                                onClickCollection={() => onClickCollection(collection.id)}
+                                onLeave={onLeaveCollection}
+                                shouldRenderToolBar
+                                setCollectionIdEditing={setCollectionIdEditing}
+                            />
+                        ))}
+                </ul>
+            ) : (
+                <SingleMessageView message="No collections found" />
+            )}
+
         </View>
     );
 }));

@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Collection from "../collections/Collection";
 import Modal from "../Modal";
 import Quote from "./Quote";
+import SingleMessageView from "../SingleMessageView";
 import View from "../View";
 import { ADD_ICON, CLOSE_ICON } from "../../constants";
 import ROUTES from "../../../constants/routes";
@@ -112,9 +113,7 @@ const QuoteList = withRouter(({
                         ))}
                 </ul>
             ) : (
-                <div className={styles.noResults}>
-                    No quotes found
-                </div>
+                <SingleMessageView message="No quotes found" />
             )}
         </>
     );
