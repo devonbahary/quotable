@@ -5,6 +5,7 @@ import classNames from "classnames";
 
 import Card from "../Card";
 import { CONFIRM_ICON, EDIT_ICON, QUOTE_L_ICON, TRASH_ICON } from "../../constants/icons";
+import KEY_CODES from "../../constants/keyCodes";
 
 import styles from "../styles/collection.scss";
 
@@ -36,6 +37,10 @@ const Collection = observer(({
         await store.removeCollection(collection, removeQuotesInCollection);
     };
 
+    const onKeyDown = async e => {
+        if (e.keyCode === KEY_CODES.ENTER) await onBlur();
+    };
+
     const onTitleChange = e => collection.title = e.target.value;
 
     const { title } = collection;
@@ -56,6 +61,7 @@ const Collection = observer(({
                     type="text"
                     onBlur={onBlur}
                     onChange={onTitleChange}
+                    onKeyDown={onKeyDown}
                     placeholder={collection.id ? UNTITLED_COLLECTION : "new collection"}
                     readOnly={!isEditing}
                     ref={ref => inputRef.current = ref}
