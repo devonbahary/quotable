@@ -6,6 +6,7 @@
 
   .card {
     position: relative;
+    @include box-shadow();
 
     &:nth-child(odd) {
       background: $oddColor;
