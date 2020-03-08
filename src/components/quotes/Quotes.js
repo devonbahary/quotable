@@ -96,6 +96,7 @@ const QuoteList = withRouter(({
                             isEditing
                             onLeave={onLeaveNewQuote}
                             quote={pendingAddQuote}
+                            shouldRenderToolBar
                         />
                     )}
                     {filteredAndSortedQuotes
