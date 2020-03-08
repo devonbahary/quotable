@@ -49,7 +49,6 @@ const Collections = withRouter(observer(({ history, store }) => {
                             onLeave={onLeaveNewCollection}
                             setCollectionIdEditing={setCollectionIdEditing}
                             shouldRenderToolBar
-                            store={store}
                         />
                     )}
                     {collections

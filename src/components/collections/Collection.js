@@ -51,7 +51,7 @@ const Collection = observer(({
 
     const inputClassName = classNames({ [styles.muted]: collection.id === null });
 
-    const quoteCount = store.getQuoteCountByCollectionId(collection.id);
+    const quoteCount = store ? store.getQuoteCountByCollectionId(collection.id) : 0;
 
     const content = (
         <div className={styles.content} onClick={() => onClickCollection(collection)}>
