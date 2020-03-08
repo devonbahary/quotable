@@ -61,7 +61,7 @@ const QuoteList = withRouter(({
     const onClearCollectionFilter = () => history.push(ROUTES.QUOTES);
 
     const onLeaveNewQuote = async () => {
-        if (pendingAddQuote.text) await store.addQuote(pendingAddQuote);
+        if (pendingAddQuote.text) await store.addQuote(pendingAddQuote, collectionIdFilter);
         setPendingAddQuote(null);
     };
 

@@ -15,10 +15,10 @@ router.get('/', validateUser, async (req, res) => {
 });
 
 router.post('/', validateUser, async (req, res) => {
-    const { text } = req.body;
+    const { collectionId, text } = req.body;
 
     errorHandler(res, async () => {
-        const { insertId } = await quotesRepository.saveNew(req.user.id, text);
+        const { insertId } = await quotesRepository.saveNew(req.user.id, collectionId, text);
         res.send({ insertId });
     });
 });
