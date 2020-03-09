@@ -17,6 +17,7 @@ export const validateUser = (req, res, next) => {
 
             const { sub: userId } = decoded;
             const user = await usersRepository.findById(userId);
+
             if (!user) return res.sendStatus(403);
 
             req.user = user;
