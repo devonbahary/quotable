@@ -20,7 +20,6 @@ const store = new Store();
 const App = () => {
     useGoogleAuth(store);
 
-
     return (
         <>
             <Provider store={store}>
