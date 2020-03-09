@@ -9,25 +9,17 @@ import Home from "./Home";
 import Quotes from "./quotes/Quotes";
 import User from "./User";
 
+import useGoogleAuth from "./hooks/useGoogleAuth";
+
 import ROUTES from "../../constants/routes";
 
 import "./styles/app.scss";
 
 const store = new Store();
 
-
 const App = () => {
-    useEffect(() => {
-        setTimeout(() => {
-            gapi.load('auth2', async () => {
-                const googleAuth = await gapi.auth2.init();
+    useGoogleAuth(store);
 
-                const googleUser = googleAuth.currentUser.get();
-                if (!googleUser.isSignedIn()) return;
-                await store.onSignIn(googleUser);
-            });
-        }, 500);
-    }, []);
 
     return (
         <>
