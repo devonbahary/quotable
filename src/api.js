@@ -2,6 +2,7 @@ import axios from "axios";
 
 const COLLECTIONS_PATH = `/api/collections`;
 const QUOTES_PATH = `/api/quotes`;
+const USERS_PATH = `/api/users`;
 
 
 const errorHandler = cb => {
@@ -71,5 +72,26 @@ export const saveNewQuote = async quote => {
 export const deleteQuote = async quote => {
     return errorHandler(async () => {
         await axios.delete(`${QUOTES_PATH}/${quote.id}`);
+    });
+};
+
+export const getUserSettings = async () => {
+    return errorHandler(async () => {
+         const { data } = await axios.get(`${USERS_PATH}/me`);
+         return data;
+    });
+};
+
+// TODO: consolidate updateUserSettings + updatePushNotificationSubscription
+// or maybe they belong in separate tables?
+export const updateUserSettings = async isNotificationsOn => {
+    return errorHandler(async () => {
+        await axios.put(`${USERS_PATH}/me`, { isNotificationsOn });
+    });
+};
+
+export const updatePushNotificationSubscription = subscription => {
+    return errorHandler(async () => {
+        await axios.post(`${USERS_PATH}/subscribe`, { subscription });
     });
 };

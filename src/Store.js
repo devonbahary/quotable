@@ -6,6 +6,7 @@ import {
     deleteQuote,
     getUserCollections,
     getUserQuotes,
+    getUserSettings,
     saveNewCollection,
     saveNewQuote,
 } from "./api";
@@ -13,6 +14,8 @@ import Quote from "./models/Quote";
 import User from "./models/User";
 import Collection from "./models/Collection";
 import { UNTITLED_COLLECTION } from "./components/collections/Collection";
+import { subscribeToPushNotifications } from "./push-notifications";
+
 
 class Store {
     @observable user;
@@ -25,12 +28,16 @@ class Store {
             async () => {
                 await this.getUserCollections();
                 await this.getUserQuotes();
+                await this.subscribeToPushNotifications();
             },
         );
     };
 
-    @action setUser = googleUser => {
-        this.user = new User(googleUser);
+    @action setUser = async googleUser => {
+        this.user = new User();
+        this.user.setGoogleProfile(googleUser);
+        const userSettings = await getUserSettings();
+        this.user.setUserSettings(userSettings);
     };
 
     @action getUserCollections = async () => {
@@ -105,6 +112,11 @@ class Store {
         const { id_token: token } = authResponse;
         await authenticateUser(token);
         await this.setUser(googleUser);
+    };
+
+    subscribeToPushNotifications = async () => {
+        if (!this.user || !this.user.isNotificationsOn) return;
+        await subscribeToPushNotifications();
     };
 }
 

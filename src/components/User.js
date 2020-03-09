@@ -1,10 +1,68 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { inject, observer } from "mobx-react";
+import classNames from "classnames";
 
 import View from "./View";
 
+import { requestNotificationsPermission } from "../push-notifications";
+
 import styles from "./styles/user.scss";
 
+
+const Notifications = observer(({ store }) => {
+    const { subscribeToPushNotifications, user } = store;
+
+    const [ isNotificationsDenied, setIsNotificationsDenied ] = useState(false);
+
+    useEffect(() => subscribeToPushNotifications, [ user.isNotificationsOn ]);
+
+    const toggleIsNotificationsOn = async () => {
+        if (isNotificationsDenied) return;
+
+        const isNotificationsOn = !user.isNotificationsOn;
+        if (isNotificationsOn) {
+            const permission = await requestNotificationsPermission();
+            if (permission === 'denied') return setIsNotificationsDenied(true);
+        }
+
+        await user.toggleNotificationsOn();
+    };
+
+    const toggleBtnClassName = classNames(styles.toggleBtn, {
+        [styles.active]: user && user.isNotificationsOn,
+    });
+
+    let msg1, msg2;
+    if (isNotificationsDenied) {
+        msg1 = 'It looks like you\'ve blocked notifications from this website.';
+        msg2 = 'Please try to enable them in your browser\'s settings.'
+    } else if (user.isNotificationsOn) {
+        msg1 = 'You\'re receiving a daily reminder of a random quote from your library.';
+        msg2 = 'Turn off notifications at any time.';
+    } else {
+        msg1 = 'Get a daily reminder of a random quote from your library.';
+        msg2 = 'Turn off notifications at any time.';
+    }
+
+    return (
+        <div className={styles.notifications}>
+            <div className={styles.toggleNotifications}>
+                <div className={styles.toggleBtnContainer} onClick={toggleIsNotificationsOn}>
+                    <div className={styles.toggleBtnBackground}>
+                        <div className={toggleBtnClassName} />
+                    </div>
+                </div>
+                <div>
+                    Turn Notifications {user.isNotificationsOn ? 'Off' : 'On'}
+                </div>
+            </div>
+            <div className={styles.notificationsInfo}>
+                {msg1}<br/><br/>
+                {msg2}
+            </div>
+        </div>
+    );
+});
 
 const User = observer(({ store }) => {
     useEffect(() => {
@@ -28,7 +86,8 @@ const User = observer(({ store }) => {
                     {store.user && (
                         <>
                             <img className={styles.image} src={store.user.imageUrl} />
-                            <p>{store.user.name}</p>
+                            <p className={styles.userName}>{store.user.name}</p>
+                            <Notifications store={store} />
                         </>
                     )}
                 </div>

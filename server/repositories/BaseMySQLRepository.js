@@ -21,7 +21,10 @@ export default class BaseMySQLRepository {
 
     findById(id) {
         return this.querySingle(
-            `SELECT *
+            `SELECT
+            id,
+            push_notification_subscription as subscription,
+            is_notifications_on as isNotificationsOn
             FROM ${this.tableName}
             WHERE id = ?`,
             [ id ],

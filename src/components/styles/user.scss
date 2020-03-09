@@ -1,6 +1,16 @@
 @import "./variables";
 
 :local {
+  $transitionDelay: 0.2s;
+
+  @mixin border-radius() {
+    border-radius: 4px;
+  }
+
+  @mixin padding() {
+    padding: 12px;
+  }
+
   .container {
     display: grid;
     grid-template-rows: 2fr 1fr;
@@ -9,6 +19,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+    width: 80%;
 
     .userInfo {
       margin-bottom: 2rem;
@@ -17,10 +28,61 @@
         border-radius: 50%;
         @include box-shadow();
       }
+
+      .userName {
+        text-shadow: 1px 1px $black;
+      }
+
+      .notifications {
+        margin: 24px 0 0 0;
+        font-size: 80%;
+
+        .toggleNotifications {
+          display: grid;
+          grid-template-columns: calc(2 * #{$standardDimension}) 1fr;
+          height: $standardDimension;
+          line-height: $standardDimension;
+          background: $black;
+          @include box-shadow();
+
+          .toggleBtnContainer {
+            @include padding();
+
+            .toggleBtnBackground {
+              position: relative;
+              background: $darkBlack;
+              width: 100%;
+              height: 100%;
+              @include border-radius();
+            }
+
+            .toggleBtn {
+              position: relative;
+              background: $gray;
+              top: 0;
+              left: 0;
+              width: 50%;
+              height: 100%;
+              transition: background-color $transitionDelay, left $transitionDelay;
+              @include border-radius();
+
+              &.active {
+                background: $orange;
+                left: 50%;
+              }
+            }
+          }
+        }
+
+        .notificationsInfo {
+          @include padding();
+          color: $mutedColor;
+        }
+      }
     }
 
     .gSignIn2 {
-
+      justify-self: center;
     }
   }
 }
