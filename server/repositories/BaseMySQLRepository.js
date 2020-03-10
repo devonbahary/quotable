@@ -5,7 +5,7 @@ export default class BaseMySQLRepository {
       this.tableName = tableName;
     };
 
-    query(sql, values) {
+    query(sql, values = []) {
         return new Promise((resolve, reject) => {
             pool.query(sql, values, (err, results) => {
                 if (err) return reject(err);

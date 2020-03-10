@@ -41,4 +41,15 @@ export default class QuotesRepository extends BaseMySQLRepository {
             [ collectionId ],
         );
     }
+
+    getRandomUserQuote(userId) {
+        return this.querySingle(
+            `SELECT *
+            FROM ${this.tableName}
+            WHERE user_id = ?
+            ORDER BY RAND()
+            LIMIT 1`,
+            [ userId ],
+        );
+    };
 };
