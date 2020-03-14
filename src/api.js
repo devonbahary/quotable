@@ -63,9 +63,11 @@ export const updateQuoteById = async quote => {
     });
 };
 
-export const saveNewQuote = async quote => {
+export const saveNewQuote = async (quote, collectionId) => {
+    const quoteWithCollectionId = Object.assign(quote, { collectionId });
+
     return errorHandler(async () => {
-        const { data } = await axios.post(QUOTES_PATH, quote);
+        const { data } = await axios.post(QUOTES_PATH, quoteWithCollectionId);
         return data;
     });
 };

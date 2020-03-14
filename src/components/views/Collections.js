@@ -24,7 +24,7 @@ const Collections = withRouter(observer(({ history, store }) => {
         setPendingAddCollection(newCollection);
     };
 
-    const onClickCollection = collectionId => history.push(`${ROUTES.QUOTES}?collectionId=${collectionId}`);
+    const onClickCollection = collectionId => history.push(`${ROUTES.COLLECTIONS}/${collectionId}`);
 
     const onLeaveNewCollection = async () => {
         if (pendingAddCollection.title) await store.addCollection(pendingAddCollection);

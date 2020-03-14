@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import { inject, observer } from "mobx-react";
 
 import Collection from "../Collection";
@@ -42,6 +43,7 @@ const CollectionSelectionModal = ({
 };
 
 const QuoteList = ({
+    collectionId,
     pendingAddQuote,
     quoteIdEditing,
     quotes,
@@ -51,7 +53,7 @@ const QuoteList = ({
     store,
 }) => {
     const onLeaveNewQuote = async () => {
-        if (pendingAddQuote.text) await store.addQuote(pendingAddQuote);
+        if (pendingAddQuote.text) await store.addQuote(pendingAddQuote, collectionId);
         setPendingAddQuote(null);
     };
 
@@ -62,9 +64,12 @@ const QuoteList = ({
 
     const filteredAndSortedQuotes = quotes
         .slice() // observable array warning
+        .filter(q => collectionId ? q.collectionId === collectionId : q)
         .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
 
     const displayNoResults = !filteredAndSortedQuotes.length && !pendingAddQuote;
+
+    const collectionTitle = store.getCollectionTitleById(collectionId);
 
     return (
         <>
@@ -93,7 +98,7 @@ const QuoteList = ({
                         ))}
                 </ul>
             ) : (
-                <SingleMessageView message="No quotes found" />
+                <SingleMessageView message={collectionId ? `No quotes found for collection "${collectionTitle}"` : `No quotes found`} />
             )}
         </>
     );
@@ -101,6 +106,11 @@ const QuoteList = ({
 
 const Quotes = observer(({ store }) => {
     const { collections, quotes } = store;
+
+    const { id } = useParams();
+
+    let collection;
+    if (id) collection = store.collections.find(c => c.id === parseInt(id));
 
     const [ pendingAddQuote, setPendingAddQuote ] = useState(null);
     const [ quoteIdEditing, setQuoteIdEditing ] = useState(null);
@@ -129,6 +139,14 @@ const Quotes = observer(({ store }) => {
         onHeaderButtonClick = addQuote;
     }
 
+    if (!collection && id) {
+        return (
+            <View>
+                <SingleMessageView message={`Couldn't find a collection with id ${id}`} />
+            </View>
+        );
+    }
+
     return (
         <View headerButtonIcon={headerButtonIcon} onHeaderButtonClick={onHeaderButtonClick}>
             <CollectionSelectionModal
@@ -137,6 +155,7 @@ const Quotes = observer(({ store }) => {
                 onClickCollection={onChangeCollection}
             />
             <QuoteList
+                collectionId={collection ? collection.id : null}
                 pendingAddQuote={pendingAddQuote}
                 quoteIdEditing={quoteIdEditing}
                 quotes={quotes}

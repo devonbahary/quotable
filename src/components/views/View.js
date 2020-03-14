@@ -56,7 +56,7 @@ const View = withRouter(({
     const routeClassName = classNames({
         [styles.home]: pathname === '/',
         [styles.quotes]: pathname === '/quotes',
-        [styles.collections]: pathname === '/collections',
+        [styles.collections]: pathname.includes('/collections'),
         [styles.login]: pathname === '/login',
     });
     const headerIconClassName = classNames(

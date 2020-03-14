@@ -26,6 +26,7 @@ const App = () => {
                 <BrowserRouter>
                     <Switch>
                         <Route path={ROUTES.HOME} exact component={Home} />
+                        <Route path={`${ROUTES.COLLECTIONS}/:id`} component={Quotes} />
                         <Route path={ROUTES.COLLECTIONS} component={Collections} />
                         <Route path={ROUTES.QUOTES} component={Quotes} />
                         <Route path={ROUTES.LOGIN} component={User} />

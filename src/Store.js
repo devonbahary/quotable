@@ -77,10 +77,14 @@ class Store {
         });
     };
 
-    @action addQuote = async (quote) => {
-        const { insertId } = await saveNewQuote(quote);
+    @action addQuote = async (quote, collectionId = null) => {
+        if (this.collections.some(c => c.id === collectionId)) collectionId = null;
+
+        const { insertId } = await saveNewQuote(quote, collectionId);
+
         runInAction(() => {
             quote.id = insertId;
+            quote.collectionid = collectionId;
             this.quotes.unshift(quote);
         });
     };
