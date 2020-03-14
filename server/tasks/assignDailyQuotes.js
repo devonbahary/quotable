@@ -5,7 +5,7 @@ const usersService = new UsersService();
 
 (async () => {
     try {
-        await usersService.assignRandomDailyQuotes();
+        await usersService.assignAndNotifyTodaysRandomQuote();
     } catch (err) {
         console.error('assignDailyQuotes.js error:', err);
     }

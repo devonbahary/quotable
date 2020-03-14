@@ -13,7 +13,7 @@ export default class UsersService {
         this.usersRepository = new UsersRepository();
     };
 
-    async assignRandomDailyQuotes() {
+    async assignAndNotifyTodaysRandomQuote() {
         const users = await this.usersRepository.findAll();
         return Promise.all(users.map(async user => {
             const { id: userId, is_notifications_on, push_notification_subscription, todays_quote_id } = user;
