@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { withRouter } from "react-router";
+import { useHistory } from "react-router-dom";
 import { inject, observer } from "mobx-react";
 
 import Collection from "../Collection";
@@ -11,11 +11,13 @@ import ROUTES from "../../../constants/routes";
 import CollectionModel from "../../models/Collection";
 
 
-const Collections = withRouter(observer(({ history, store }) => {
+const Collections = observer(({ store }) => {
     const { collections } = store;
 
     const [ collectionIdEditing, setCollectionIdEditing ] = useState(null);
     const [ pendingAddCollection, setPendingAddCollection ] = useState(null);
+
+    const history = useHistory();
 
     const addCollection = () => {
         setCollectionIdEditing(null);
@@ -72,6 +74,6 @@ const Collections = withRouter(observer(({ history, store }) => {
             )}
         </View>
     );
-}));
+});
 
 export default inject('store')(Collections);

@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import React, { useState } from "react";
-import { withRouter } from "react-router";
+import { useHistory, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import ROUTES from "../../../constants/routes";
@@ -41,14 +41,15 @@ const Menu = ({ history, isOpen, routeClassName, toggleMenu }) => {
     );
 };
 
-const View = withRouter(({
+const View = ({
     children,
     headerButtonIcon,
     onHeaderButtonClick,
-    history,
-    location,
 }) => {
     const [ isMenuOpen, setIsMenuOpen ] = useState(false);
+
+    const history = useHistory();
+    const location = useLocation();
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -95,6 +96,6 @@ const View = withRouter(({
             />
         </div>
     );
-});
+};
 
 export default View;

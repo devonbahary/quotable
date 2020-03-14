@@ -1,6 +1,6 @@
 import React from "react";
-import { withRouter } from "react-router";
 import { inject, observer } from "mobx-react";
+import { useHistory } from "react-router-dom";
 import Quote from "../Quote";
 import View from "./View";
 
@@ -8,7 +8,9 @@ import ROUTES from "../../../constants/routes";
 
 import styles from "../styles/home.scss";
 
-const Home = withRouter(observer(({ history, store }) => {
+const Home = observer(({ store }) => {
+    const history = useHistory();
+
     const quoteLen = store.quotes.length;
     const randIndex = Math.floor(Math.random() * quoteLen);
     const randomQuote = quoteLen ? store.quotes[randIndex] : null;
@@ -24,6 +26,6 @@ const Home = withRouter(observer(({ history, store }) => {
             )}
         </View>
     );
-}));
+});
 
 export default inject('store')(Home);
