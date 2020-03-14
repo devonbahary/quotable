@@ -1,6 +1,7 @@
 import { throttle } from "lodash";
 import { observable, runInAction } from "mobx";
 import { updateUserSettings } from "../api";
+import { subscribeToPushNotifications } from "../push-notifications";
 
 export default class User {
     @observable isNotificationsOn;
@@ -12,12 +13,14 @@ export default class User {
         this.imageUrl = basicProfile.getImageUrl();
     };
 
-    setUserSettings({ isNotificationsOn }) {
+    async setUserSettings({ isNotificationsOn }) {
         this.isNotificationsOn = isNotificationsOn;
+        if (this.isNotificationsOn) await subscribeToPushNotifications()
     };
 
     _toggleNotificationsOn = async isNotificationsOn => {
         await updateUserSettings(isNotificationsOn);
+        if (isNotificationsOn) await subscribeToPushNotifications();
         runInAction(() => {
             this.isNotificationsOn = isNotificationsOn;
         });

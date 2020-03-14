@@ -10,11 +10,9 @@ import styles from "./styles/user.scss";
 
 
 const Notifications = observer(({ store }) => {
-    const { subscribeToPushNotifications, user } = store;
+    const { user } = store;
 
     const [ isNotificationsDenied, setIsNotificationsDenied ] = useState(false);
-
-    useEffect(() => subscribeToPushNotifications, [ user.isNotificationsOn ]);
 
     const toggleIsNotificationsOn = async () => {
         if (isNotificationsDenied) return;

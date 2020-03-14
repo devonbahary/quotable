@@ -1,4 +1,4 @@
-import { get } from "lodash";
+import { debounce, get } from "lodash";
 import { action, observable, reaction, runInAction } from "mobx";
 import Quote from "./models/Quote";
 import User from "./models/User";
@@ -14,7 +14,6 @@ import {
     saveNewCollection,
     saveNewQuote,
 } from "./api";
-import { subscribeToPushNotifications } from "./push-notifications";
 
 
 class Store {
@@ -28,7 +27,6 @@ class Store {
             async () => {
                 await this.getUserCollections();
                 await this.getUserQuotes();
-                await this.subscribeToPushNotifications();
             },
         );
     };
@@ -37,7 +35,7 @@ class Store {
         this.user = new User();
         this.user.setGoogleProfile(googleUser);
         const userSettings = await getUserSettings();
-        this.user.setUserSettings(userSettings);
+        await this.user.setUserSettings(userSettings);
     };
 
     @action getUserCollections = async () => {
@@ -107,17 +105,14 @@ class Store {
         return get(this.collections.find(c => c.id === collectionId), 'title', UNTITLED_COLLECTION);
     };
 
-    onSignIn = async googleUser => {
+    // TODO: can probably get rid of debounce if we leverage gapi.load('auth2', ...) instead of using gapi.signin2.render(...) in <User />
+    onSignIn = debounce(async googleUser => { // debounce to prevent multiple signIn calls on page load
+        if (this.user) return;
         const authResponse = googleUser.getAuthResponse();
         const { id_token: token } = authResponse;
         await authenticateUser(token);
         await this.setUser(googleUser);
-    };
-
-    subscribeToPushNotifications = async () => {
-        if (!this.user || !this.user.isNotificationsOn) return;
-        await subscribeToPushNotifications();
-    };
+    }, 250);
 }
 
 export default Store;
