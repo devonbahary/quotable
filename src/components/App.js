@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Provider } from "mobx-react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
