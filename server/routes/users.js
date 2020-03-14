@@ -1,11 +1,13 @@
 import { entries } from "lodash";
 import { camelCase } from "change-case";
 import express from "express";
+import SubscriptionsRepository from "../repositories/SubscriptionsRepository";
 import UsersRepository from "../repositories/UsersRepository";
 import { validateUser } from "../auth";
 import { errorHandler } from "./util";
 
 const router = express.Router();
+const subscriptionsRepository = new SubscriptionsRepository();
 const usersRepository = new UsersRepository();
 
 
@@ -28,9 +30,8 @@ router.put('/me', validateUser, async (req, res) => {
 
 router.post('/subscribe', validateUser, async (req, res) => {
     const { subscription } = req.body;
-
     errorHandler(res, async () => {
-        await usersRepository.updatePushNotificationSubscription(req.user.id, JSON.stringify(subscription));
+        await subscriptionsRepository.upsert(req.user.id, subscription);
         res.sendStatus(201);
     });
 });

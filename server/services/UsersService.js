@@ -1,5 +1,6 @@
 import webpush from "web-push";
 import QuotesRepository from "../repositories/QuotesRepository";
+import SubscriptionsRepository from "../repositories/SubscriptionsRepository";
 import UsersRepository from "../repositories/UsersRepository";
 import config from "../config";
 
@@ -10,13 +11,14 @@ webpush.setVapidDetails(`mailto:${config.vapid.emailAddress}`, config.vapid.publ
 export default class UsersService {
     constructor() {
         this.quotesRepository = new QuotesRepository();
+        this.subscriptionsRepository = new SubscriptionsRepository();
         this.usersRepository = new UsersRepository();
     };
 
     async assignAndNotifyTodaysRandomQuote() {
         const users = await this.usersRepository.findAll();
         return Promise.all(users.map(async user => {
-            const { id: userId, is_notifications_on, push_notification_subscription, todays_quote_id } = user;
+            const { id: userId, is_notifications_on, todays_quote_id } = user;
 
             let randomQuote = await this.quotesRepository.getRandomUserQuote(userId, todays_quote_id);
 
@@ -26,8 +28,12 @@ export default class UsersService {
             await this.usersRepository.updateDailyQuote(userId, randomQuote.id);
 
             if (is_notifications_on) {
+                const response = await this.subscriptionsRepository.findByUserId(userId);
+
+                if (!response) return;
+
                 const payload = JSON.stringify({ title: 'Daily Quote', body: randomQuote.text });
-                await webpush.sendNotification(JSON.parse(push_notification_subscription), payload);
+                await webpush.sendNotification(JSON.parse(response.subscription), payload);
             }
         }));
     };

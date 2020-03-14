@@ -20,15 +20,6 @@ export default class UsersRepository extends BaseMySQLRepository {
         return this.findById(insertId);
     };
 
-    updatePushNotificationSubscription(userId, subscription) {
-        return this.query(
-            `UPDATE ${this.tableName}
-            SET push_notification_subscription = ?
-            WHERE id = ?`,
-            [ subscription, userId ],
-        );
-    };
-
     updateNotifications(userId, isOn = 0) {
         isOn = isOn ? 1 : 0; // type conformation
 
