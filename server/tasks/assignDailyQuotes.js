@@ -7,7 +7,7 @@ const usersService = new UsersService();
     try {
         await usersService.assignRandomDailyQuotes();
     } catch (err) {
-        console.error(`assignDailyQuotes.js error: ${JSON.stringify(err)}`);
+        console.error('assignDailyQuotes.js error:', err);
     }
     process.exit(1);
 })();
