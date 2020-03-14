@@ -42,14 +42,28 @@ export default class QuotesRepository extends BaseMySQLRepository {
         );
     }
 
-    getRandomUserQuote(userId) {
-        return this.querySingle(
-            `SELECT *
+    getRandomUserQuote(userId, filterQuoteId = null) {
+        let sql = `
+            SELECT *
             FROM ${this.tableName}
             WHERE user_id = ?
+        `;
+
+        const values = [ userId ];
+
+        if (filterQuoteId) {
+            sql += ` and id != ?`;
+            values.push(filterQuoteId);
+        }
+
+        sql += `
             ORDER BY RAND()
-            LIMIT 1`,
-            [ userId ],
+            LIMIT 1
+        `;
+
+        return this.querySingle(
+            sql,
+            values,
         );
     };
 };
