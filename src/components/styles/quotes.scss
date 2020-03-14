@@ -8,7 +8,6 @@
     padding: 12px $cardHorzPadding;
   }
 
-  .collectionFilter,
   .instruction {
     position: sticky;
     background: $backgroundColor;
@@ -48,28 +47,6 @@
     textarea {
       width: 100%;
       height: 100%;
-    }
-  }
-
-  .collectionFilter {
-    display: grid;
-    grid-template-columns: 1fr $standardDimension;
-    z-index: 1;
-    @include box-shadow();
-
-    .collectionFilterText {
-      color: $mutedColor;
-      font-size: 90%;
-      padding: 0 $cardHorzPadding;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-
-    .collectionFilterClear {
-      width: $standardDimension;
-      height: $standardDimension;
-      text-align: center;
     }
   }
 

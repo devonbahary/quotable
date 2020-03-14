@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, withRouter } from "react-router-dom";
+import React, { useState } from "react";
 import { inject, observer } from "mobx-react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import Collection from "../Collection";
 import Modal from "../Modal";
@@ -9,7 +7,6 @@ import Quote from "../Quote";
 import SingleMessageView from "../SingleMessageView";
 import View from "./View";
 import { ADD_ICON, CLOSE_ICON } from "../../constants/icons";
-import ROUTES from "../../../constants/routes";
 
 import CollectionModel from "../../models/Collection";
 import QuoteModel from "../../models/Quote";
@@ -44,8 +41,7 @@ const CollectionSelectionModal = ({
     );
 };
 
-const QuoteList = withRouter(({
-    history,
+const QuoteList = ({
     pendingAddQuote,
     quoteIdEditing,
     quotes,
@@ -54,18 +50,8 @@ const QuoteList = withRouter(({
     setQuoteIdEditing,
     store,
 }) => {
-    const query = new URLSearchParams(useLocation().search);
-    const collectionIdFilter = parseInt(query.get('collectionId'));
-    const collectionFilterTitle = store.getCollectionTitleById(collectionIdFilter);
-
-    const onClearCollectionFilter = () => history.push(ROUTES.QUOTES);
-
-    useEffect(() => {
-        if (!store.collections.some(c => c.id === collectionIdFilter)) onClearCollectionFilter();
-    }, [ collectionIdFilter ]);
-
     const onLeaveNewQuote = async () => {
-        if (pendingAddQuote.text) await store.addQuote(pendingAddQuote, collectionIdFilter);
+        if (pendingAddQuote.text) await store.addQuote(pendingAddQuote);
         setPendingAddQuote(null);
     };
 
@@ -76,23 +62,12 @@ const QuoteList = withRouter(({
 
     const filteredAndSortedQuotes = quotes
         .slice() // observable array warning
-        .filter(q => collectionIdFilter ? q.collectionId === collectionIdFilter : q)
         .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
 
     const displayNoResults = !filteredAndSortedQuotes.length && !pendingAddQuote;
 
     return (
         <>
-            {Boolean(collectionIdFilter) && (
-                <div className={styles.collectionFilter}>
-                    <div className={styles.collectionFilterText}>
-                        Filtered by {collectionFilterTitle}
-                    </div>
-                    <div className={styles.collectionFilterClear} onClick={onClearCollectionFilter}>
-                        <FontAwesomeIcon icon={CLOSE_ICON} size="sm" />
-                    </div>
-                </div>
-            )}
             {!displayNoResults ? (
                 <ul>
                     {pendingAddQuote && (
@@ -122,7 +97,7 @@ const QuoteList = withRouter(({
             )}
         </>
     );
-});
+};
 
 const Quotes = observer(({ store }) => {
     const { collections, quotes } = store;

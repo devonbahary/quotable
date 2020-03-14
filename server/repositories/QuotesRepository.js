@@ -2,7 +2,7 @@ import BaseMySQLRepository from "./BaseMySQLRepository";
 
 export default class QuotesRepository extends BaseMySQLRepository {
     constructor() {
-        super('quotes', [ 'collection_id', 'user_id', 'text' ]);
+        super('quotes', [ 'user_id', 'text' ]);
     };
 
     findByUserId(userId) {
@@ -24,8 +24,8 @@ export default class QuotesRepository extends BaseMySQLRepository {
         );
     };
 
-    async saveNew(collectionId, userId, text) {
-        return super.saveNew(collectionId, userId, text);
+    async saveNew(userId, text) {
+        return super.saveNew(userId, text);
     };
 
     deleteByCollectionId(collectionId) {

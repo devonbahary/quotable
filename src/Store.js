@@ -77,11 +77,7 @@ class Store {
         });
     };
 
-    @action addQuote = async (quote, collectionId) => {
-        if (!this.collections.some(c => c.id === collectionId)) collectionId = null;
-
-        quote.collectionId = collectionId;
-
+    @action addQuote = async (quote) => {
         const { insertId } = await saveNewQuote(quote);
         runInAction(() => {
             quote.id = insertId;
