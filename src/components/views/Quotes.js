@@ -3,11 +3,11 @@ import { useLocation, withRouter } from "react-router-dom";
 import { inject, observer } from "mobx-react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import Collection from "../collections/Collection";
+import Collection from "../Collection";
 import Modal from "../Modal";
-import Quote from "./Quote";
+import Quote from "../Quote";
 import SingleMessageView from "../SingleMessageView";
-import View from "../View";
+import View from "./View";
 import { ADD_ICON, CLOSE_ICON } from "../../constants/icons";
 import ROUTES from "../../../constants/routes";
 

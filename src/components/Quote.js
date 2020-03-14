@@ -3,11 +3,11 @@ import { observer } from "mobx-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import TextareaAutosize from "react-textarea-autosize";
-import Card from "../Card";
-import { COLLECTION_ICON, CONFIRM_ICON, EDIT_ICON, QUOTE_L_ICON, QUOTE_R_ICON, TRASH_ICON } from "../../constants/icons";
-import KEY_CODES from "../../constants/keyCodes";
+import Card from "./Card";
+import { COLLECTION_ICON, CONFIRM_ICON, EDIT_ICON, QUOTE_L_ICON, QUOTE_R_ICON, TRASH_ICON } from "../constants/icons";
+import KEY_CODES from "../constants/keyCodes";
 
-import styles from "../styles/quotes.scss";
+import styles from "./styles/quotes.scss";
 
 const Quote = observer(({
     isEditing,

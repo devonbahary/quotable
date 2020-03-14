@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { withRouter } from "react-router";
 import { inject, observer } from "mobx-react";
 
-import Collection from "./Collection";
+import Collection from "../Collection";
 import SingleMessageView from "../SingleMessageView";
-import View from "../View";
+import View from "./View";
 import { ADD_ICON } from "../../constants/icons";
 import ROUTES from "../../../constants/routes";
 

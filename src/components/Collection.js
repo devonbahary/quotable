@@ -3,11 +3,11 @@ import { observer } from "mobx-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 
-import Card from "../Card";
-import { CONFIRM_ICON, EDIT_ICON, QUOTE_L_ICON, TRASH_ICON } from "../../constants/icons";
-import KEY_CODES from "../../constants/keyCodes";
+import Card from "./Card";
+import { CONFIRM_ICON, EDIT_ICON, QUOTE_L_ICON, TRASH_ICON } from "../constants/icons";
+import KEY_CODES from "../constants/keyCodes";
 
-import styles from "../styles/collection.scss";
+import styles from "./styles/collection.scss";
 
 export const UNTITLED_COLLECTION = "unnamed collection";
 

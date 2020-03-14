@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import { withRouter } from "react-router";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import ROUTES from "../../constants/routes";
-import { COLLECTION_ICON, HOME_ICON, MENU_ICON, QUOTE_L_ICON, USER_ICON } from "../constants/icons";
+import ROUTES from "../../../constants/routes";
+import { COLLECTION_ICON, HOME_ICON, MENU_ICON, QUOTE_L_ICON, USER_ICON } from "../../constants/icons";
 
-import styles from "./styles/view.scss";
+import styles from "../styles/view.scss";
 
 
 const Menu = ({ history, isOpen, routeClassName, toggleMenu }) => {

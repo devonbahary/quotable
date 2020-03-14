@@ -1,12 +1,12 @@
 import React from "react";
 import { withRouter } from "react-router";
 import { inject, observer } from "mobx-react";
-import Quote from "./quotes/Quote";
+import Quote from "../Quote";
 import View from "./View";
 
-import ROUTES from "../../constants/routes";
+import ROUTES from "../../../constants/routes";
 
-import styles from "./styles/home.scss";
+import styles from "../styles/home.scss";
 
 const Home = withRouter(observer(({ history, store }) => {
     const quoteLen = store.quotes.length;

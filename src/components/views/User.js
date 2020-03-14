@@ -4,9 +4,9 @@ import classNames from "classnames";
 
 import View from "./View";
 
-import { requestNotificationsPermission } from "../push-notifications";
+import { requestNotificationsPermission } from "../../push-notifications";
 
-import styles from "./styles/user.scss";
+import styles from "../styles/user.scss";
 
 
 const Notifications = observer(({ store }) => {

@@ -3,7 +3,7 @@ import { action, observable, reaction, runInAction } from "mobx";
 import Quote from "./models/Quote";
 import User from "./models/User";
 import Collection from "./models/Collection";
-import { UNTITLED_COLLECTION } from "./components/collections/Collection";
+import { UNTITLED_COLLECTION } from "./components/Collection";
 import {
     authenticateUser,
     deleteCollection,
