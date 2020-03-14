@@ -28,6 +28,14 @@ export default class BaseMySQLRepository {
         );
     };
 
+    findAll() {
+        return this.query(
+            `SELECT *
+            FROM ${this.tableName}`,
+            [],
+        );
+    };
+
     deleteById(id) {
         return this.query(
             `DELETE

@@ -1,3 +1,5 @@
+import { entries } from "lodash";
+import { camelCase } from "change-case";
 import express from "express";
 import UsersRepository from "../repositories/UsersRepository";
 import { validateUser } from "../auth";
@@ -8,7 +10,12 @@ const usersRepository = new UsersRepository();
 
 
 router.get('/me', validateUser, (req, res) => {
-    res.send(req.user);
+    const formattedUser = entries(req.user).reduce((acc, [ key, val ]) => ({
+        ...acc,
+        [camelCase(key)]: val
+    }), {});
+
+    res.send(formattedUser);
 });
 
 router.put('/me', validateUser, async (req, res) => {

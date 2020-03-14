@@ -14,18 +14,18 @@ export default class UsersService {
     };
 
     async assignRandomDailyQuotes() {
-        const users = await this.usersRepository.findAllForDailyQuoteUpdate();
+        const users = await this.usersRepository.findAll();
         return Promise.all(users.map(async user => {
-            const { id: userId, isNotificationsOn, subscription } = user;
+            const { id: userId, is_notifications_on, push_notification_subscription } = user;
             const randomQuote = await this.quotesRepository.getRandomUserQuote(userId);
 
             if (!randomQuote) return;
 
             await this.usersRepository.updateDailyQuote(user.id, randomQuote.id);
 
-            if (isNotificationsOn) {
+            if (is_notifications_on) {
                 const payload = JSON.stringify({ title: 'Daily Quote', body: randomQuote.text });
-                await webpush.sendNotification(JSON.parse(subscription), payload).catch(err => console.error(err));
+                await webpush.sendNotification(JSON.parse(push_notification_subscription), payload);
             }
         }));
     };

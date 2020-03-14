@@ -45,16 +45,6 @@ export default class UsersRepository extends BaseMySQLRepository {
         );
     }
 
-    findAllForDailyQuoteUpdate() {
-        return this.query(
-            `SELECT 
-            id, 
-            push_notification_subscription as subscription, 
-            is_notifications_on as isNotificationsOn 
-            FROM ${this.tableName}`,
-        );
-    };
-
     updateDailyQuote(userId, quoteId) {
         return this.query(
             `UPDATE ${this.tableName}
