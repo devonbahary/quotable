@@ -1,5 +1,9 @@
 import { get } from "lodash";
 import { action, observable, reaction, runInAction } from "mobx";
+import Quote from "./models/Quote";
+import User from "./models/User";
+import Collection from "./models/Collection";
+import { UNTITLED_COLLECTION } from "./components/collections/Collection";
 import {
     authenticateUser,
     deleteCollection,
@@ -10,10 +14,6 @@ import {
     saveNewCollection,
     saveNewQuote,
 } from "./api";
-import Quote from "./models/Quote";
-import User from "./models/User";
-import Collection from "./models/Collection";
-import { UNTITLED_COLLECTION } from "./components/collections/Collection";
 import { subscribeToPushNotifications } from "./push-notifications";
 
 
