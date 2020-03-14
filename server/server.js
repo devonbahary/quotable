@@ -4,6 +4,7 @@ import path from "path";
 import authentication from "./routes/authentication";
 import collections from "./routes/collections";
 import quotes from "./routes/quotes";
+import subscriptions from "./routes/subscriptions";
 import users from "./routes/users";
 
 const app = express();
@@ -13,6 +14,7 @@ app.use(bodyParser.json());
 app.use('/api/authentication', authentication);
 app.use('/api/collections', collections);
 app.use('/api/quotes', quotes);
+app.use('/api/subscriptions', subscriptions);
 app.use('/api/users', users);
 
 if (process.env.NODE_ENV === 'production') {

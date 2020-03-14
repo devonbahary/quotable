@@ -2,6 +2,7 @@ import axios from "axios";
 
 const COLLECTIONS_PATH = `/api/collections`;
 const QUOTES_PATH = `/api/quotes`;
+const SUBSCRIPTIONS_PATH = `/api/subscriptions`;
 const USERS_PATH = `/api/users`;
 
 
@@ -92,6 +93,6 @@ export const updateUserSettings = async isNotificationsOn => {
 
 export const updatePushNotificationSubscription = subscription => {
     return errorHandler(async () => {
-        await axios.post(`${USERS_PATH}/subscribe`, { subscription });
+        await axios.post(SUBSCRIPTIONS_PATH, { subscription });
     });
 };
