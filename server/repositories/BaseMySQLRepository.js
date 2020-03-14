@@ -1,8 +1,9 @@
 import pool from "../databases/mysql-connect";
 
 export default class BaseMySQLRepository {
-    constructor(tableName) {
+    constructor(tableName, insertColumns = []) {
       this.tableName = tableName;
+      this.insertColumns = insertColumns;
     };
 
     query(sql, values = []) {
@@ -33,6 +34,16 @@ export default class BaseMySQLRepository {
             `SELECT *
             FROM ${this.tableName}`,
             [],
+        );
+    };
+
+    saveNew(...values) {
+        return this.query(
+            `INSERT INTO ${this.tableName}
+            (${this.insertColumns.join(', ')})
+            VALUES
+            (${this.insertColumns.map(v => '?').join(', ')})`,
+            values,
         );
     };
 

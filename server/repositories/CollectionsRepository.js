@@ -2,7 +2,7 @@ import BaseMySQLRepository from "./BaseMySQLRepository";
 
 export default class CollectionsRepository extends BaseMySQLRepository {
     constructor() {
-        super('collections');
+        super('collections', [ 'user_id', 'title' ]);
     };
 
     findByUserId(userId) {
@@ -24,11 +24,6 @@ export default class CollectionsRepository extends BaseMySQLRepository {
     };
 
     async saveNew(userId, title) {
-        return this.query(
-            `INSERT INTO ${this.tableName}
-            (user_id, title)
-            VALUES
-            (?, ?)`
-            , [ userId, title ]);
+        return super.saveNew(userId, title);
     };
 };

@@ -2,7 +2,7 @@ import BaseMySQLRepository from "./BaseMySQLRepository";
 
 export default class UsersRepository extends BaseMySQLRepository {
     constructor() {
-        super('users');
+        super('users', [ 'provider_id' ]);
     };
 
     async findOrCreateByExternalId(providerId) {
@@ -15,12 +15,7 @@ export default class UsersRepository extends BaseMySQLRepository {
 
         if (user) return user;
 
-        const { insertId } = await this.query(
-            `INSERT INTO
-            ${this.tableName} (provider_id)
-            VALUES (?)`,
-            [ providerId ],
-        );
+        const { insertId } = await this.saveNew(providerId);
 
         return this.findById(insertId);
     };
