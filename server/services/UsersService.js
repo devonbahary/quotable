@@ -28,12 +28,12 @@ export default class UsersService {
             await this.usersRepository.updateDailyQuote(userId, randomQuote.id);
 
             if (is_notifications_on) {
-                const response = await this.subscriptionsRepository.findByUserId(userId);
+                const subscriptions = await this.subscriptionsRepository.findByUserId(userId);
 
-                if (!response) return;
-
-                const payload = JSON.stringify({ title: 'Daily Quote', body: randomQuote.text });
-                await webpush.sendNotification(JSON.parse(response.subscription), payload);
+                await Promise.all(subscriptions.map(({ subscription }) => {
+                    const payload = JSON.stringify({ title: 'Daily Quote', body: randomQuote.text });
+                    return webpush.sendNotification(JSON.parse(subscription), payload);
+                }));
             }
         }));
     };
