@@ -35,11 +35,8 @@ export default class UsersService {
                         const payload = JSON.stringify({ title: 'Daily Quote', body: randomQuote.text });
                         await webpush.sendNotification(JSON.parse(subscription), payload);
                     } catch (err) {
-                        if (err.statusCode === 410) { // 410 Gone
-                            console.log('found outdated service worker subscription');
-                            await this.subscriptionsRepository.deleteById(id);
-                            console.log('deleted subscription with id', id);
-                        }
+                        // 410 Gone - anticipate ended subscriptions
+                        if (err.statusCode === 410) await this.subscriptionsRepository.deleteById(id);
                     }
                 }));
             }
