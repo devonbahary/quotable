@@ -29,7 +29,7 @@ export default class SubscriptionsRepository extends BaseMySQLRepository {
 
     findByUserId(userId) {
         return this.query(
-            `SELECT subscription
+            `SELECT id, subscription
             FROM ${this.tableName}
             WHERE user_id = ?`,
             [ userId ],
