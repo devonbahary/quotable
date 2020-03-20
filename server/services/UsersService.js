@@ -30,9 +30,15 @@ export default class UsersService {
             if (is_notifications_on) {
                 const subscriptions = await this.subscriptionsRepository.findByUserId(userId);
 
-                await Promise.all(subscriptions.map(({ subscription }) => {
+                await Promise.all(subscriptions.map(async ({ id, subscription }) => {
                     const payload = JSON.stringify({ title: 'Daily Quote', body: randomQuote.text });
-                    return webpush.sendNotification(JSON.parse(subscription), payload);
+                    const response = await webpush.sendNotification(JSON.parse(subscription), payload);
+
+                    if (response.statusCode === 410) { // 410 Gone
+                        console.log('found outdated service worker subscription');
+                        await this.subscriptionsRepository.deleteById(id);
+                        console.log('deleted subscription with id', id);
+                    }
                 }));
             }
         }));
