@@ -11,9 +11,7 @@ const router = express.Router();
 router.post('/', (req, res) => {
     errorHandler(res, async () => {
         const { image } = req.body;
-        const imageBase64 = image.split(',')[1];
-
-        console.log('\nimageBase64', imageBase64, '\n');
+        const imageBase64 = image.includes(',') ? image.split(',')[1] : image;
 
         const request = {
             image: {
