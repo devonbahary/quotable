@@ -1,8 +1,10 @@
 import bodyParser from "body-parser";
+import fileUpload from "express-fileupload";
 import express from "express";
 import path from "path";
 import authentication from "./routes/authentication";
 import collections from "./routes/collections";
+import googleCloudVision from "./routes/google-cloud-vision";
 import quotes from "./routes/quotes";
 import subscriptions from "./routes/subscriptions";
 import users from "./routes/users";
@@ -10,9 +12,11 @@ import users from "./routes/users";
 const app = express();
 
 app.use(bodyParser.json());
+app.use(fileUpload({}));
 
 app.use('/api/authentication', authentication);
 app.use('/api/collections', collections);
+app.use('/api/google-cloud-vision', googleCloudVision);
 app.use('/api/quotes', quotes);
 app.use('/api/subscriptions', subscriptions);
 app.use('/api/users', users);

@@ -6,7 +6,7 @@ import Store from "../Store";
 
 import Collections from "./views/Collections";
 import Home from "./views/Home";
-import Quotes from "./views/Quotes";
+import Quotes from "./views/quotes/Quotes";
 import User from "./views/User";
 
 import useGoogleAuth from "./hooks/useGoogleAuth";

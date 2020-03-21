@@ -40,8 +40,13 @@ const Collections = observer(({ store }) => {
 
     const displayNoResults = !collections.length && !pendingAddCollection;
 
+    const headerButtons = [{
+        icon: ADD_ICON,
+        onClick: addCollection,
+    }];
+
     return (
-        <View headerButtonIcon={ADD_ICON} onHeaderButtonClick={addCollection}>
+        <View headerButtons={headerButtons}>
             {!displayNoResults ? (
                 <ul>
                     {pendingAddCollection && (

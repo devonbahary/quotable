@@ -5,7 +5,7 @@
 
   .header {
     display: grid;
-    grid-template-columns: $standardDimension 1fr $standardDimension;
+    grid-template-columns: $standardDimension 1fr;
     position: sticky;
     height: $headerHeight;
     width: 100%;
@@ -37,8 +37,15 @@
       }
     }
 
-    .headerButton {
-      text-align: center;
+    .headerButtonContainer {
+      position: absolute;
+      right: 0;
+
+      .headerButton {
+        float: right;
+        text-align: center;
+        width: $standardDimension;
+      }
     }
   }
 

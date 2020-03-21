@@ -43,8 +43,7 @@ const Menu = ({ history, isOpen, routeClassName, toggleMenu }) => {
 
 const View = ({
     children,
-    headerButtonIcon,
-    onHeaderButtonClick,
+    headerButtons = [],
 }) => {
     const [ isMenuOpen, setIsMenuOpen ] = useState(false);
 
@@ -68,7 +67,7 @@ const View = ({
         },
     );
 
-    const displayHeaderButton = !isMenuOpen && onHeaderButtonClick;
+    const displayHeaderButtons = Boolean(!isMenuOpen && headerButtons.length);
 
     return (
         <div>
@@ -79,9 +78,13 @@ const View = ({
                 <div>
                     Quotable
                 </div>
-                {displayHeaderButton && (
-                    <div className={styles.headerButton} onClick={onHeaderButtonClick}>
-                        <FontAwesomeIcon icon={headerButtonIcon} size='lg' />
+                {displayHeaderButtons && (
+                    <div className={styles.headerButtonContainer}>
+                        {headerButtons.reverse().map(({ icon, onClick }, index) => (
+                            <div key={index} className={styles.headerButton} onClick={onClick}>
+                                <FontAwesomeIcon icon={icon} size='lg' />
+                            </div>
+                        ))}
                     </div>
                 )}
             </header>

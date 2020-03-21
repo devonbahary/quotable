@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const COLLECTIONS_PATH = `/api/collections`;
+const GOOGLE_CLOUD_VISION_PATH = `/api/google-cloud-vision`;
 const QUOTES_PATH = `/api/quotes`;
 const SUBSCRIPTIONS_PATH = `/api/subscriptions`;
 const USERS_PATH = `/api/users`;
@@ -96,5 +97,12 @@ export const updateUserSettings = async isNotificationsOn => {
 export const updatePushNotificationSubscription = subscription => {
     return errorHandler(async () => {
         await axios.post(SUBSCRIPTIONS_PATH, { subscription });
+    });
+};
+
+export const uploadImageForTextDetection = formData => {
+    return errorHandler(async () => {
+        const { data } = await axios.post(GOOGLE_CLOUD_VISION_PATH, formData);
+        return data;
     });
 };
