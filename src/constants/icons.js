@@ -15,7 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 export const ADD_ICON = faPlusSquare;
-export const ARROW_CIRCLE_UP = faArrowCircleUp;
+export const ARROW_CIRCLE_UP_ICON = faArrowCircleUp;
 export const CAMERA_ICON = faCamera;
 export const CLOSE_ICON = faTimes;
 export const COLLECTION_ICON = faBook;

@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Modal from "../../Modal";
-import { ARROW_CIRCLE_UP } from "../../../constants/icons";
+import { ARROW_CIRCLE_UP_ICON } from "../../../constants/icons";
 
 import styles from "../../styles/camera-modal.scss";
 import {uploadImageForTextDetection} from "../../../api";
@@ -39,7 +39,7 @@ const CameraModal = ({ isOpen }) => {
                             <img src={URL.createObjectURL(uploadedImage)} />
                         </div>
                         <div className={styles.uploadBtn} onClick={onFileUploadSubmit}>
-                            <FontAwesomeIcon icon={ARROW_CIRCLE_UP} size="lg" />
+                            <FontAwesomeIcon icon={ARROW_CIRCLE_UP_ICON} size="lg" />
                         </div>
                     </div>
                 ) : (
