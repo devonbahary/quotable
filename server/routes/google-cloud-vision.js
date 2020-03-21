@@ -13,6 +13,8 @@ router.post('/', (req, res) => {
         const { image } = req.body;
         const imageBase64 = image.split(',')[1];
 
+        console.log('\nimageBase64', imageBase64, '\n');
+
         const request = {
             image: {
                 content: imageBase64,
