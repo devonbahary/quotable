@@ -56,7 +56,7 @@ const CameraModal = ({ addQuote, isOpen, setIsCameraModalOpen }) => {
 
         setIsUploading(true);
         const text = await uploadImageForTextDetection(formData);
-        addQuote(text);
+        addQuote(text.replace(/\n/g, ' '));
         setIsUploading(false);
         setIsCameraModalOpen(false);
     };
