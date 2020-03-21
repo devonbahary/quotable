@@ -23,17 +23,8 @@ const CameraModal = ({ isOpen }) => {
     };
     
     const onFileUploadSubmit = async () => {
-        const toBase64 = file => new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = error => reject(error);
-        });
-
-        const imageBase64 = await toBase64(uploadedImage);
-
         const formData = new FormData();
-        formData.append('image', imageBase64);
+        formData.append('image', uploadedImage);
 
         const text = await uploadImageForTextDetection(formData);
         alert(text);

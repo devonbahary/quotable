@@ -10,19 +10,19 @@ const router = express.Router();
 
 router.post('/', (req, res) => {
     errorHandler(res, async () => {
-        const { image } = req.body;
-        const imageBase64 = image.includes(',') ? image.split(',')[1] : image;
+        const image = get(req, 'files.image.data');
 
         const request = {
             image: {
-                content: imageBase64,
+                content: Buffer.from(image).toString('base64'),
             },
             features: [{
                 type: 'TEXT_DETECTION',
             }],
         };
 
-        const [ response ] = await client.annotateImage(request);
+        const responseYeah = await client.annotateImage(request);
+        const [ response ] = responseYeah;
         const imageToText = get(response, 'fullTextAnnotation.text');
 
         res.send(imageToText);
