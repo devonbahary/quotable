@@ -40,15 +40,20 @@
           max-width: 90%;
           max-height: 90%;
           @include box-shadow();
-          @include center()
+          @include center();
+
+          &.uploading {
+            opacity: 0.6;
+          }
         }
       }
 
       .uploadBtn {
+        position: relative;
         background: $gray;
-        @include box-shadow();
-        line-height: $standardDimension;
         text-align: center;
+        line-height: $standardDimension;
+        @include box-shadow();
       }
     }
   }

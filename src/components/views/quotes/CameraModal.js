@@ -1,54 +1,76 @@
 import React, {useState} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames";
 
+import LoadingIcon from "../../LoadingIcon";
 import Modal from "../../Modal";
 import { ARROW_CIRCLE_UP_ICON } from "../../../constants/icons";
+import { uploadImageForTextDetection } from "../../../api";
 
 import styles from "../../styles/camera-modal.scss";
-import {uploadImageForTextDetection} from "../../../api";
 
+
+const SelectedImage = ({ isUploading, selectedImage, onFileUploadSubmit }) => {
+    const imgClassName = classNames({ [styles.uploading]: isUploading });
+    return (
+        <div className={styles.imgUpload}>
+            <div className={styles.imgContainer}>
+                <img className={imgClassName} src={URL.createObjectURL(selectedImage)} />
+            </div>
+            <div className={styles.uploadBtn} onClick={onFileUploadSubmit}>
+                {isUploading ? <LoadingIcon /> : <FontAwesomeIcon icon={ARROW_CIRCLE_UP_ICON} size="lg" />}
+            </div>
+        </div>
+    );
+};
+
+const PromptImage = ({ onFileUpload }) => (
+    <div className={styles.imgPrompt}>
+        <div className={styles.instruction}>
+            Upload a quote from a picture.
+        </div>
+        <input type="file" accept="image/*" onChange={onFileUpload} />
+    </div>
+);
 
 const CameraModal = ({ isOpen }) => {
     if (!isOpen) return null;
 
-    const [ uploadedImage, setUploadedImage ] = useState('');
+    const [ selectedImage, setSelectedImage ] = useState('');
+    const [ isUploading, setIsUploading ] = useState(false);
 
     const onFileUpload = event => {
         const fileList = event.target.files;
         for (let i = 0; i < fileList.length; i++) {
             if (fileList[i].type.match(/^image\//)) {
-                setUploadedImage(fileList[i]);
+                setSelectedImage(fileList[i]);
             }
         }
     };
     
     const onFileUploadSubmit = async () => {
-        const formData = new FormData();
-        formData.append('image', uploadedImage);
+        if (isUploading) return;
 
+        const formData = new FormData();
+        formData.append('image', selectedImage);
+
+        setIsUploading(true);
         const text = await uploadImageForTextDetection(formData);
+        setIsUploading(false);
         alert(text);
     };
 
     return (
         <Modal>
             <div className={styles.cameraModal}>
-                {uploadedImage ? (
-                    <div className={styles.imgUpload}>
-                        <div className={styles.imgContainer}>
-                            <img src={URL.createObjectURL(uploadedImage)} />
-                        </div>
-                        <div className={styles.uploadBtn} onClick={onFileUploadSubmit}>
-                            <FontAwesomeIcon icon={ARROW_CIRCLE_UP_ICON} size="lg" />
-                        </div>
-                    </div>
+                {selectedImage ? (
+                    <SelectedImage
+                        isUploading={isUploading}
+                        onFileUploadSubmit={onFileUploadSubmit}
+                        selectedImage={selectedImage}
+                    />
                 ) : (
-                    <div className={styles.imgPrompt}>
-                        <div className={styles.instruction}>
-                            Upload a quote from a picture.
-                        </div>
-                        <input type="file" accept="image/*" onChange={onFileUpload} />
-                    </div>
+                    <PromptImage onFileUpload={onFileUpload} />
                 )}
             </div>
         </Modal>
