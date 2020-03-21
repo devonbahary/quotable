@@ -33,7 +33,7 @@ const PromptImage = ({ onFileUpload }) => (
     </div>
 );
 
-const CameraModal = ({ isOpen }) => {
+const CameraModal = ({ addQuote, isOpen, setIsCameraModalOpen }) => {
     if (!isOpen) return null;
 
     const [ selectedImage, setSelectedImage ] = useState('');
@@ -56,8 +56,9 @@ const CameraModal = ({ isOpen }) => {
 
         setIsUploading(true);
         const text = await uploadImageForTextDetection(formData);
+        addQuote(text);
         setIsUploading(false);
-        alert(text);
+        setIsCameraModalOpen(false);
     };
 
     return (

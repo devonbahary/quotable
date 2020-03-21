@@ -118,10 +118,10 @@ const Quotes = observer(({ store }) => {
     const [ collectionSelectionModalQuote, setCollectionSelectionModalQuote ] = useState(null);
     const [ isCameraModalOpen, setIsCameraModalOpen ] = useState(false);
 
-    const addQuote = () => {
+    const addQuote = (text = '') => {
         setQuoteIdEditing(null);
 
-        const newQuote = new QuoteModel({ text: '' });
+        const newQuote = new QuoteModel({ text });
         setPendingAddQuote(newQuote);
     };
 
@@ -164,7 +164,11 @@ const Quotes = observer(({ store }) => {
 
     return (
         <View headerButtons={headerButtons}>
-            <CameraModal isOpen={isCameraModalOpen} />
+            <CameraModal
+                addQuote={addQuote}
+                isOpen={isCameraModalOpen}
+                setIsCameraModalOpen={setIsCameraModalOpen}
+            />
             <CollectionSelectionModal
                 collections={collections}
                 collectionSelectionModalQuote={collectionSelectionModalQuote}
