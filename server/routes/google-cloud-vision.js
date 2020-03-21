@@ -1,3 +1,4 @@
+import { get } from "lodash";
 import express from "express";
 import vision from "@google-cloud/vision";
 import { errorHandler } from "./util";
