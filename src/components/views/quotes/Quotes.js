@@ -157,7 +157,7 @@ const Quotes = observer(({ store }) => {
             onClick: openCameraModal,
         }, {
             icon: ADD_ICON,
-            onClick: addQuote,
+            onClick: () => addQuote(),
         }];
         headerButtons.push(...addQuoteButtons);
     }
