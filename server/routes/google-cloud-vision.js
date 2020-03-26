@@ -26,7 +26,7 @@ router.post('/', (req, res) => {
         let imageToText = get(response, 'fullTextAnnotation.text');
 
         imageToText = imageToText.replace(/-\n/g, ''); // concatenate strings broken up by "-\n"
-        imageToText = imageToText.replace(/[^\n]\n[^\n]/g, ' '); // replace remaining newlines (respect consecutive newlines)
+        imageToText = imageToText.replace(/(?<!\n)\n(?!\n)/g, ' '); // replace remaining newlines (respect consecutive newlines)
 
         res.send(imageToText);
     });
