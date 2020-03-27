@@ -17,24 +17,6 @@
     .headerIcon {
       text-align: center;
       transition: color $transitionDelay;
-
-      &.active {
-        &.home {
-          color: $homeColor;
-        }
-
-        &.quotes {
-          color: $quotesColor;
-        }
-
-        &.collections {
-          color: $collectionsColor;
-        }
-
-        &.login {
-          color: $loginColor;
-        }
-      }
     }
 
     .headerButtonContainer {
@@ -51,7 +33,7 @@
 
   .section,
   .menu {
-    position: absolute;
+    position: fixed;
     top: $headerHeight;
     right: 0;
     bottom: 0;
@@ -95,10 +77,7 @@
       justify-content: center;
       align-items: center;
       background: $darkGray;
-      min-height: 4rem;
-      min-width: 4rem;
-      margin: 20% 10%;
-      border-radius: 4px;
+      shadow: 5px 5px white;
       @include box-shadow();
     }
   }
