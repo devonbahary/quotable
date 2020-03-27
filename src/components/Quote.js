@@ -71,6 +71,9 @@ const Quote = observer(({
                     onKeyDown={onKeyDown}
                     value={quote.text}
                 />
+                <div className={styles.secondaryProperties}>
+                    {quote.text.length} / 4000
+                </div>
             </div>
         );
     } else {
@@ -86,7 +89,7 @@ const Quote = observer(({
                     </span>
                 </div>
                 {quote.collectionId && (
-                    <div className={styles.collectionTitle}>
+                    <div className={styles.secondaryProperties}>
                         <FontAwesomeIcon icon={COLLECTION_ICON} size="xs"/> {store.getCollectionTitleById(quote.collectionId)}
                     </div>
                 )}
