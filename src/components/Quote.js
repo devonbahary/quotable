@@ -27,6 +27,8 @@ const Quote = observer(({
     setCollectionSelectionModalQuote,
     store,
 }) => {
+    const { isSavingText, isUpdatingCollection } = quote;
+
     const beginEditQuote = () => setQuoteIdEditing(quote.id);
 
     const onBlur = () => setTimeout(() => onLeave(quote), 0);
@@ -51,9 +53,11 @@ const Quote = observer(({
     const onTextChange = e => quote.setText(e.target.value);
 
     let editIcon;
-    if (quote.isSaving) editIcon = SPINNER_ICON;
+    if (isSavingText) editIcon = SPINNER_ICON;
     else if (isEditing) editIcon = CONFIRM_ICON;
     else editIcon = EDIT_ICON;
+
+    const collectionIcon = isUpdatingCollection ? SPINNER_ICON : COLLECTION_ICON;
 
     let content;
     if (isEditing) {
@@ -95,13 +99,14 @@ const Quote = observer(({
         toolBarButtons.push({
             icon: editIcon,
             onClick: beginEditQuote,
-            shouldRotate: quote.isSaving,
+            shouldRotate: isSavingText,
         });
 
         if (!isEditing) {
             if (quote.id) toolBarButtons.push({
-                icon: COLLECTION_ICON,
+                icon: collectionIcon,
                 onClick: onCollectionSelection,
+                shouldRotate: isUpdatingCollection,
             });
 
             toolBarButtons.push({

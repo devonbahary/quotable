@@ -128,8 +128,8 @@ const Quotes = observer(({ store }) => {
     const openCameraModal = () => setIsCameraModalOpen(true);
 
     const onChangeCollection = async collection => {
-        await collectionSelectionModalQuote.updateCollectionId(collection.id);
         setCollectionSelectionModalQuote(null);
+        await collectionSelectionModalQuote.updateCollectionId(collection.id);
     };
 
     const closeModal = () => {

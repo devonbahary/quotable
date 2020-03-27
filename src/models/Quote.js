@@ -4,14 +4,16 @@ import { updateQuoteById } from "../api";
 
 export default class Quote {
     @observable text;
-    @observable isSaving;
+    @observable isSavingText;
+    @observable isUpdatingCollection;
 
     constructor(quote) {
         this.id = quote.id;
         this.collectionId = quote.collection_id;
         this.text = quote.text;
         this.updatedAt = quote.updated_at;
-        this.isSaving = false;
+        this.isSavingText = false;
+        this.isUpdatingCollection = false;
     };
 
     @action setText = text => {
@@ -21,19 +23,21 @@ export default class Quote {
     };
 
     saveText = async () => {
-        this.isSaving = true;
+        this.isSavingText = true;
         await updateQuoteById(this);
         runInAction(() => {
             this.updatedAt = new Date();
-            this.isSaving = false;
+            this.isSavingText = false;
         });
     };
 
     @action updateCollectionId = async collectionId => {
-        this.collectionId = collectionId;
+        this.isUpdatingCollection = true;
         await updateQuoteById(this);
         runInAction(() => {
+            this.collectionId = collectionId;
             this.updatedAt = new Date();
+            this.isUpdatingCollection = false;
         });
     };
 
