@@ -6,7 +6,7 @@
   .header {
     display: grid;
     grid-template-columns: $standardDimension 1fr;
-    position: sticky;
+    position: fixed;
     height: $headerHeight;
     width: 100%;
     background: $black;
