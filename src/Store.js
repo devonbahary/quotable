@@ -80,12 +80,14 @@ class Store {
     @action addQuote = async (quote, collectionId = null) => {
         if (!this.collections.some(c => c.id === collectionId)) collectionId = null;
 
+        quote.isSaving = true;
         const { insertId } = await saveNewQuote(quote, collectionId);
 
         runInAction(() => {
             quote.id = insertId;
             quote.collectionId = collectionId;
             this.quotes.unshift(quote);
+            quote.isSaving = false;
         });
     };
 

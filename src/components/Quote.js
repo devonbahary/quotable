@@ -19,7 +19,6 @@ import styles from "./styles/quotes.scss";
 
 const Quote = observer(({
     isEditing,
-    isSavingQuote,
     onClickQuote = () => {},
     onLeave,
     quote,
@@ -52,7 +51,7 @@ const Quote = observer(({
     const onTextChange = e => quote.setText(e.target.value);
 
     let editIcon;
-    if (isEditing && isSavingQuote) editIcon = SPINNER_ICON;
+    if (quote.isSaving) editIcon = SPINNER_ICON;
     else if (isEditing) editIcon = CONFIRM_ICON;
     else editIcon = EDIT_ICON;
 
@@ -96,7 +95,7 @@ const Quote = observer(({
         toolBarButtons.push({
             icon: editIcon,
             onClick: beginEditQuote,
-            shouldRotate: isSavingQuote,
+            shouldRotate: quote.isSaving,
         });
 
         if (!isEditing) {

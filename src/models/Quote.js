@@ -4,12 +4,14 @@ import { updateQuoteById } from "../api";
 
 export default class Quote {
     @observable text;
+    @observable isSaving;
 
     constructor(quote) {
         this.id = quote.id;
         this.collectionId = quote.collection_id;
         this.text = quote.text;
         this.updatedAt = quote.updated_at;
+        this.isSaving = false;
     };
 
     @action setText = text => {
@@ -19,9 +21,11 @@ export default class Quote {
     };
 
     saveText = async () => {
+        this.isSaving = true;
         await updateQuoteById(this);
         runInAction(() => {
             this.updatedAt = new Date();
+            this.isSaving = false;
         });
     };
 

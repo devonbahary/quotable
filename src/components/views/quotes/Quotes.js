@@ -53,12 +53,8 @@ const QuoteList = ({
     setQuoteIdEditing,
     store,
 }) => {
-    const [ isSavingQuote, setIsSavingQuote ] = useState(false);
-
     const onLeaveNewQuote = async () => {
-        setIsSavingQuote(true);
         if (pendingAddQuote.text) await store.addQuote(pendingAddQuote, collectionId);
-        setIsSavingQuote(false);
         setPendingAddQuote(null);
     };
 
@@ -83,7 +79,6 @@ const QuoteList = ({
                     {pendingAddQuote && (
                         <Quote
                             isEditing
-                            isSavingQuote={isSavingQuote}
                             onLeave={onLeaveNewQuote}
                             quote={pendingAddQuote}
                             shouldRenderToolBar
