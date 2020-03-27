@@ -48,9 +48,11 @@ class Store {
     };
 
     @action addCollection = async collection => {
+        collection.isSaving = true;
         const { insertId } = await saveNewCollection(collection);
         collection.id = insertId;
         this.collections.unshift(collection);
+        collection.isSaving = false;
     };
 
     @action removeCollection = async (collection, removeQuotesInCollection) => {
