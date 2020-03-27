@@ -17,6 +17,7 @@ export default class Quote {
     };
 
     @action setText = text => {
+        if (text.length > 4000) text = text.slice(0, 4000);
         this.text = text;
         if (this.id) this.debouncedSaveText();
         this.updatedAt = new Date();
