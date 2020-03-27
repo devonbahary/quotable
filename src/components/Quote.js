@@ -4,13 +4,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import TextareaAutosize from "react-textarea-autosize";
 import Card from "./Card";
-import { COLLECTION_ICON, CONFIRM_ICON, EDIT_ICON, QUOTE_L_ICON, QUOTE_R_ICON, TRASH_ICON } from "../constants/icons";
+import {
+    COLLECTION_ICON,
+    CONFIRM_ICON,
+    EDIT_ICON,
+    QUOTE_L_ICON,
+    QUOTE_R_ICON,
+    SPINNER_ICON,
+    TRASH_ICON,
+} from "../constants/icons";
 import KEY_CODES from "../constants/keyCodes";
 
 import styles from "./styles/quotes.scss";
 
 const Quote = observer(({
     isEditing,
+    isSavingQuote,
     onClickQuote = () => {},
     onLeave,
     quote,
@@ -42,7 +51,10 @@ const Quote = observer(({
 
     const onTextChange = e => quote.setText(e.target.value);
 
-    const editIcon = isEditing ? CONFIRM_ICON : EDIT_ICON;
+    let editIcon;
+    if (isEditing && isSavingQuote) editIcon = SPINNER_ICON;
+    else if (isEditing) editIcon = CONFIRM_ICON;
+    else editIcon = EDIT_ICON;
 
     let content;
     if (isEditing) {
@@ -84,6 +96,7 @@ const Quote = observer(({
         toolBarButtons.push({
             icon: editIcon,
             onClick: beginEditQuote,
+            shouldRotate: isSavingQuote,
         });
 
         if (!isEditing) {

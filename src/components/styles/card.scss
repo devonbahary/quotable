@@ -30,6 +30,12 @@
         line-height: inherit;
         text-align: center;
         width: $standardDimension;
+
+        &.rotate {
+          svg {
+            animation: rotate 2s infinite;
+          }
+        }
       }
     }
   }
