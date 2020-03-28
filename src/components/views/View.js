@@ -23,16 +23,16 @@ const Menu = ({ history, isOpen, toggleMenu }) => {
     return (
         <section className={menuClassName}>
             <div className={styles.card} onClick={() => navigateTo(ROUTES.HOME)}>
-                <FontAwesomeIcon icon={HOME_ICON} size="lg" />
+                <FontAwesomeIcon icon={HOME_ICON} size="2x" />
             </div>
             <div className={styles.card} onClick={() => navigateTo(ROUTES.QUOTES)}>
-                <FontAwesomeIcon icon={QUOTE_L_ICON} size="lg" />
+                <FontAwesomeIcon icon={QUOTE_L_ICON} size="2x" />
             </div>
             <div className={styles.card} onClick={() => navigateTo(ROUTES.COLLECTIONS)}>
-                <FontAwesomeIcon icon={COLLECTION_ICON} size="lg" />
+                <FontAwesomeIcon icon={COLLECTION_ICON} size="2x" />
             </div>
             <div className={styles.card} onClick={() => navigateTo(ROUTES.LOGIN)}>
-                <FontAwesomeIcon icon={USER_ICON} size="lg" />
+                <FontAwesomeIcon icon={USER_ICON} size="2x" />
             </div>
         </section>
     );
