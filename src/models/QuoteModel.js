@@ -34,7 +34,10 @@ export default class QuoteModel {
 
     @action updateCollectionId = async collectionId => {
         this.isUpdatingCollection = true;
-        await updateQuoteById(this);
+        await updateQuoteById({
+            ...this,
+            collectionId,
+        });
         runInAction(() => {
             this.collectionId = collectionId;
             this.updatedAt = new Date();
