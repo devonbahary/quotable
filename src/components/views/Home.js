@@ -15,13 +15,13 @@ const Home = observer(({ store }) => {
     const randIndex = Math.floor(Math.random() * quoteLen);
     const randomQuote = quoteLen ? store.quotes[randIndex] : null;
 
-    const onClickQuote = () => history.push(ROUTES.QUOTES);
+    const onClickQuote = () => history.push(ROUTES.QUOTES); // TODO: send to direct quote?
 
     return (
         <View>
             {Boolean(randomQuote) && (
                 <ul className={styles.home}>
-                    <Quote onClickQuote={onClickQuote} quote={randomQuote} store={store} />
+                    <Quote onClickItem={onClickQuote} item={randomQuote} store={store} />
                 </ul>
             )}
         </View>

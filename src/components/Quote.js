@@ -19,7 +19,7 @@ import styles from "./styles/quotes.scss";
 
 const Quote = observer(({
     isEditing,
-    onClickQuote = () => {},
+    onClickItem: onClickQuote = () => {},
     onLeave,
     item: quote,
     shouldRenderToolBar,
