@@ -20,8 +20,4 @@ export default class CollectionsRepository extends BaseMySQLRepository {
             'title',
         ];
     }
-
-    async saveNew(userId, title) {
-        return super.saveNew(userId, title);
-    };
 };
