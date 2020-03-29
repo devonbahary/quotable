@@ -47,14 +47,15 @@ const CollectionSelectionModal = ({
 const Quotes = observer(({ store }) => {
     const { collections, quotes } = store;
 
-    const { id } = useParams();
+    const { id: queriedCollectionId } = useParams();
 
     let collection;
-    if (id) collection = store.collections.find(c => c.id === parseInt(id));
+    if (queriedCollectionId) collection = store.collections.find(c => c.id === parseInt(queriedCollectionId));
     const collectionId = collection ? collection.id : null;
 
     const [ pendingAddQuote, setPendingAddQuote ] = useState(null);
     const [ quoteIdEditing, setQuoteIdEditing ] = useState(null);
+
     const [ collectionSelectionModalQuote, setCollectionSelectionModalQuote ] = useState(null);
     const [ isCameraModalOpen, setIsCameraModalOpen ] = useState(false);
 
@@ -87,10 +88,10 @@ const Quotes = observer(({ store }) => {
         if (!quote.text) await store.removeQuote(quote);
     };
 
-    if (!collection && id) {
+    if (!collection && queriedCollectionId) {
         return (
             <View>
-                <SingleMessageView message={`Couldn't find a collection with id ${id}`} />
+                <SingleMessageView message={`Couldn't find a collection with id ${queriedCollectionId}`} />
             </View>
         );
     }
