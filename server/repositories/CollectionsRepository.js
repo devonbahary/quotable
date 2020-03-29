@@ -5,15 +5,6 @@ export default class CollectionsRepository extends BaseMySQLRepository {
         super('collections', [ 'user_id', 'title' ]);
     };
 
-    findByUserId(userId) {
-        return this.query(
-            `SELECT *
-            FROM ${this.tableName}
-            WHERE user_id = ?`,
-            [ userId ],
-        );
-    };
-
     updateTitle(id, title) {
         return this.query(
             `UPDATE ${this.tableName}

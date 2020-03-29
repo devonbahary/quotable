@@ -5,15 +5,6 @@ export default class QuotesRepository extends BaseMySQLRepository {
         super('quotes', [ 'user_id', 'text', 'collection_id' ]);
     };
 
-    findByUserId(userId) {
-        return this.query(
-            `SELECT *
-            FROM ${this.tableName}
-            WHERE user_id = ?`,
-            [ userId ],
-        );
-    };
-
     updateById(id, collectionId, text) {
         return this.query(
             `UPDATE ${this.tableName}

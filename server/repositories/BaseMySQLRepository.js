@@ -37,6 +37,15 @@ export default class BaseMySQLRepository {
         );
     };
 
+    findByUserId(userId) {
+        return this.query(
+            `SELECT *
+            FROM ${this.tableName}
+            WHERE user_id = ?`,
+            [ userId ],
+        );
+    };
+
     saveNew(...values) {
         return this.query(
             `INSERT INTO ${this.tableName}
