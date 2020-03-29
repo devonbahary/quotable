@@ -23,10 +23,6 @@ export default class QuotesRepository extends BaseMySQLRepository {
         ];
     }
 
-    async saveNew(userId, text, collectionId) {
-        return super.saveNew(userId, text, collectionId);
-    };
-
     deleteByCollectionId(collectionId) {
         return this.query(
             `DELETE
