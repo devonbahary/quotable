@@ -3,38 +3,18 @@ import { validateUser } from "../auth";
 import { errorHandler, ownerHandler } from "./util";
 import CollectionsRepository from "../repositories/CollectionsRepository";
 import CollectionsService from "../services/CollectionsService";
+import CRUDRouter from "./CRUDRouter";
 
 const router = express.Router();
 const collectionsRepository = new CollectionsRepository();
 const collectionsService = new CollectionsService();
 
-router.get('/', validateUser, (req, res) => {
-    errorHandler(res, async () => {
-        const collections = await collectionsRepository.findByUserId(req.user.id);
-        res.send(collections);
-    });
-});
 
-router.post('/', validateUser, async (req, res) => {
-    const { title } = req.body;
+CRUDRouter.get(router, collectionsRepository);
 
-    errorHandler(res, async () => {
-        const { insertId } = await collectionsRepository.saveNew(req.user.id, title);
-        res.send({ insertId });
-    });
-});
+CRUDRouter.post(router, collectionsRepository, 'title');
 
-router.put('/:id', validateUser, (req, res) => {
-    const { id: collectionId } = req.params;
-    const { title } = req.body;
-
-    errorHandler(res, () => {
-        ownerHandler(collectionsRepository, collectionId, req.user.id, res, async () => {
-            await collectionsRepository.updateById(collectionId, title);
-            res.sendStatus(200);
-        });
-    });
-});
+CRUDRouter.put(router, collectionsRepository, 'title');
 
 router.delete('/:id', validateUser, async (req, res) => {
     const { id: collectionId } = req.params;

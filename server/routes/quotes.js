@@ -2,38 +2,17 @@ import express from "express";
 import { validateUser } from "../auth";
 import { errorHandler, ownerHandler } from "./util";
 import QuotesRepository from "../repositories/QuotesRepository";
+import CRUDRouter from "./CRUDRouter";
 
 const router = express.Router();
 const quotesRepository = new QuotesRepository();
 
 
-router.get('/', validateUser, async (req, res) => {
-    errorHandler(res, async () => {
-        const quotes = await quotesRepository.findByUserId(req.user.id);
-        res.send(quotes);
-    });
-});
+CRUDRouter.get(router, quotesRepository);
 
-router.post('/', validateUser, async (req, res) => {
-    const { collectionId, text } = req.body;
+CRUDRouter.post(router, quotesRepository, 'collectionId', 'text');
 
-    errorHandler(res, async () => {
-        const { insertId } = await quotesRepository.saveNew(req.user.id, text, collectionId);
-        res.send({ insertId });
-    });
-});
-
-router.put('/:id', validateUser, async (req, res) => {
-    const { id: quoteId } = req.params;
-    const { collectionId, text } = req.body;
-
-    errorHandler(res, () => {
-        ownerHandler(quotesRepository, quoteId, req.user.id, res, async () => {
-            await quotesRepository.updateById(quoteId, collectionId, text);
-            res.sendStatus(200);
-        });
-    });
-});
+CRUDRouter.put(router, quotesRepository, 'collectionId', 'text');
 
 router.delete('/:id', validateUser, async (req, res) => {
     const { id: quoteId } = req.params;
