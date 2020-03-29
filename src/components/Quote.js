@@ -21,9 +21,9 @@ const Quote = observer(({
     isEditing,
     onClickQuote = () => {},
     onLeave,
-    quote,
+    item: quote,
     shouldRenderToolBar,
-    setQuoteIdEditing = () => {},
+    setItemIdEditing: setQuoteIdEditing = () => {},
     setCollectionSelectionModalQuote,
     store,
 }) => {

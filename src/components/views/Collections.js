@@ -3,12 +3,11 @@ import { useHistory } from "react-router-dom";
 import { inject, observer } from "mobx-react";
 
 import Collection from "../Collection";
-import SingleMessageView from "../SingleMessageView";
-import View from "./View";
 import { ADD_ICON } from "../../constants/icons";
 import ROUTES from "../../../constants/routes";
 
 import CollectionModel from "../../models/Collection";
+import CRUD from "./CRUD";
 
 
 const Collections = observer(({ store }) => {
@@ -26,7 +25,7 @@ const Collections = observer(({ store }) => {
         setPendingAddCollection(newCollection);
     };
 
-    const onClickCollection = collectionId => history.push(`${ROUTES.COLLECTIONS}/${collectionId}`);
+    const onClickCollection = collection => history.push(`${ROUTES.COLLECTIONS}/${collection.id}`);
 
     const onLeaveNewCollection = async () => {
         if (pendingAddCollection.title) await store.addCollection(pendingAddCollection);
@@ -38,46 +37,29 @@ const Collections = observer(({ store }) => {
         await collection.save();
     };
 
-    const displayNoResults = !collections.length && !pendingAddCollection;
-
     const headerButtons = [{
         icon: ADD_ICON,
         onClick: addCollection,
     }];
 
+    const sortedCollections = collections
+        .slice() // observable array warning
+        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+
     return (
-        <View headerButtons={headerButtons}>
-            {!displayNoResults ? (
-                <ul>
-                    {pendingAddCollection && (
-                        <Collection
-                            collection={pendingAddCollection}
-                            isEditing
-                            onLeave={onLeaveNewCollection}
-                            setCollectionIdEditing={setCollectionIdEditing}
-                            shouldRenderToolBar
-                        />
-                    )}
-                    {collections
-                        .slice() // observable array warning
-                        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
-                        .map(collection=> (
-                            <Collection
-                                key={collection.id}
-                                collection={collection}
-                                store={store}
-                                isEditing={collectionIdEditing === collection.id}
-                                onClickCollection={() => onClickCollection(collection.id)}
-                                onLeave={onLeaveCollection}
-                                shouldRenderToolBar
-                                setCollectionIdEditing={setCollectionIdEditing}
-                            />
-                        ))}
-                </ul>
-            ) : (
-                <SingleMessageView message="No collections found" />
-            )}
-        </View>
+        <CRUD
+            headerButtons={headerButtons}
+            ItemComponent={Collection}
+            itemIdEditing={collectionIdEditing}
+            items={sortedCollections}
+            noItemsMessage="No collections found"
+            onClickItem={onClickCollection}
+            onLeaveNewItem={onLeaveNewCollection}
+            onLeaveItem={onLeaveCollection}
+            pendingAddItem={pendingAddCollection}
+            pendingAddItem={pendingAddCollection}
+            setItemIdEditing={setCollectionIdEditing}
+        />
     );
 });
 

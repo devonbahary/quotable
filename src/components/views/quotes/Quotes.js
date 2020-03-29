@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { inject, observer } from "mobx-react";
 
 import Collection from "../../Collection";
+import CRUD from "../CRUD";
 import Modal from "../../Modal";
 import Quote from "../../Quote";
 import SingleMessageView from "../../SingleMessageView";
@@ -43,68 +44,6 @@ const CollectionSelectionModal = ({
     );
 };
 
-const QuoteList = ({
-    collectionId,
-    pendingAddQuote,
-    quoteIdEditing,
-    quotes,
-    setCollectionSelectionModalQuote,
-    setPendingAddQuote,
-    setQuoteIdEditing,
-    store,
-}) => {
-    const onLeaveNewQuote = async () => {
-        if (pendingAddQuote.text) await store.addQuote(pendingAddQuote, collectionId);
-        setPendingAddQuote(null);
-    };
-
-    const onLeaveQuote = async quote => {
-        setQuoteIdEditing(null);
-        if (!quote.text) await store.removeQuote(quote);
-    };
-
-    const filteredAndSortedQuotes = quotes
-        .slice() // observable array warning
-        .filter(q => collectionId ? q.collectionId === collectionId : q)
-        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-
-    const displayNoResults = !filteredAndSortedQuotes.length && !pendingAddQuote;
-
-    const collectionTitle = store.getCollectionTitleById(collectionId);
-
-    return (
-        <>
-            {!displayNoResults ? (
-                <ul>
-                    {pendingAddQuote && (
-                        <Quote
-                            isEditing
-                            onLeave={onLeaveNewQuote}
-                            quote={pendingAddQuote}
-                            shouldRenderToolBar
-                        />
-                    )}
-                    {filteredAndSortedQuotes
-                        .map(quote=> (
-                            <Quote
-                                key={quote.id}
-                                isEditing={quoteIdEditing === quote.id}
-                                onLeave={onLeaveQuote}
-                                quote={quote}
-                                setQuoteIdEditing={setQuoteIdEditing}
-                                setCollectionSelectionModalQuote={setCollectionSelectionModalQuote}
-                                shouldRenderToolBar
-                                store={store}
-                            />
-                        ))}
-                </ul>
-            ) : (
-                <SingleMessageView message={collectionId ? `No quotes found for collection "${collectionTitle}"` : `No quotes found`} />
-            )}
-        </>
-    );
-};
-
 const Quotes = observer(({ store }) => {
     const { collections, quotes } = store;
 
@@ -112,6 +51,7 @@ const Quotes = observer(({ store }) => {
 
     let collection;
     if (id) collection = store.collections.find(c => c.id === parseInt(id));
+    const collectionId = collection ? collection.id : null;
 
     const [ pendingAddQuote, setPendingAddQuote ] = useState(null);
     const [ quoteIdEditing, setQuoteIdEditing ] = useState(null);
@@ -135,6 +75,16 @@ const Quotes = observer(({ store }) => {
     const closeModal = () => {
         setCollectionSelectionModalQuote(null);
         setIsCameraModalOpen(false);
+    };
+
+    const onLeaveNewQuote = async () => {
+        if (pendingAddQuote.text) await store.addQuote(pendingAddQuote, collectionId);
+        setPendingAddQuote(null);
+    };
+
+    const onLeaveQuote = async quote => {
+        setQuoteIdEditing(null);
+        if (!quote.text) await store.removeQuote(quote);
     };
 
     if (!collection && id) {
@@ -162,8 +112,23 @@ const Quotes = observer(({ store }) => {
         headerButtons.push(...addQuoteButtons);
     }
 
+    const sortedQuotes = quotes
+        .slice() // observable array warning
+        .filter(q => collectionId ? q.collectionId === collectionId : q)
+        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+
     return (
-        <View headerButtons={headerButtons}>
+        <CRUD
+            headerButtons={headerButtons}
+            ItemComponent={Quote}
+            itemIdEditing={quoteIdEditing}
+            items={sortedQuotes}
+            onLeaveItem={onLeaveQuote}
+            onLeaveNewItem={onLeaveNewQuote}
+            pendingAddItem={pendingAddQuote}
+            setCollectionSelectionModalQuote={setCollectionSelectionModalQuote}
+            setItemIdEditing={setQuoteIdEditing}
+        >
             <CameraModal
                 addQuote={addQuote}
                 isOpen={isCameraModalOpen}
@@ -174,17 +139,7 @@ const Quotes = observer(({ store }) => {
                 collectionSelectionModalQuote={collectionSelectionModalQuote}
                 onClickCollection={onChangeCollection}
             />
-            <QuoteList
-                collectionId={collection ? collection.id : null}
-                pendingAddQuote={pendingAddQuote}
-                quoteIdEditing={quoteIdEditing}
-                quotes={quotes}
-                setCollectionSelectionModalQuote={setCollectionSelectionModalQuote}
-                setPendingAddQuote={setPendingAddQuote}
-                setQuoteIdEditing={setQuoteIdEditing}
-                store={store}
-            />
-        </View>
+        </CRUD>
     );
 });
 

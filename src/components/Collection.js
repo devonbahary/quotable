@@ -12,12 +12,12 @@ import styles from "./styles/collection.scss";
 export const UNTITLED_COLLECTION = "unnamed collection";
 
 const Collection = observer(({
-    collection,
+    item: collection,
     isEditing,
-    onClickCollection = () => {},
+    onClickItem: onClickCollection = () => {},
     onLeave,
     shouldRenderToolBar,
-    setCollectionIdEditing,
+    setItemIdEditing: setCollectionIdEditing,
     store,
  }) => {
     const inputRef = useRef(null);
