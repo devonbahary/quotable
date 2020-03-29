@@ -10,8 +10,8 @@ import SingleMessageView from "../../SingleMessageView";
 import View from "../View";
 import { ADD_ICON, CAMERA_ICON, CLOSE_ICON } from "../../../constants/icons";
 
-import CollectionModel from "../../../models/Collection";
-import QuoteModel from "../../../models/Quote";
+import CollectionModel from "../../../models/CollectionModel";
+import QuoteModel from "../../../models/QuoteModel";
 
 import styles from "../../styles/quotes.scss";
 import CameraModal from "./CameraModal";

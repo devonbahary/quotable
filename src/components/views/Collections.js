@@ -6,7 +6,7 @@ import Collection from "../Collection";
 import { ADD_ICON } from "../../constants/icons";
 import ROUTES from "../../../constants/routes";
 
-import CollectionModel from "../../models/Collection";
+import CollectionModel from "../../models/CollectionModel";
 import CRUD from "./CRUD";
 
 

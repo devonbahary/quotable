@@ -1,7 +1,7 @@
 import { observable, runInAction } from "mobx";
 import { updateCollectionById } from "../api";
 
-export default class Collection {
+export default class CollectionModel {
     @observable title;
     @observable updatedAt;
     @observable isSaving;

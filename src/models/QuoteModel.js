@@ -2,7 +2,7 @@ import { debounce } from "lodash";
 import { action, observable, runInAction } from "mobx";
 import { updateQuoteById } from "../api";
 
-export default class Quote {
+export default class QuoteModel {
     @observable text;
     @observable isSavingText;
     @observable isUpdatingCollection;

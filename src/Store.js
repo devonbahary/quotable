@@ -1,8 +1,8 @@
 import { debounce, get } from "lodash";
 import { action, observable, reaction, runInAction } from "mobx";
-import Quote from "./models/Quote";
-import User from "./models/User";
-import Collection from "./models/Collection";
+import QuoteModel from "./models/QuoteModel";
+import UserModel from "./models/UserModel";
+import CollectionModel from "./models/CollectionModel";
 import { UNTITLED_COLLECTION } from "./components/Collection";
 import {
     authenticateUser,
@@ -32,7 +32,7 @@ class Store {
     };
 
     @action setUser = async googleUser => {
-        this.user = new User();
+        this.user = new UserModel();
         this.user.setGoogleProfile(googleUser);
         const userSettings = await getUserSettings();
         await this.user.setUserSettings(userSettings);
@@ -43,7 +43,7 @@ class Store {
 
         const collections = await getUserCollections();
         runInAction(() => {
-            this.collections = collections.map(c => new Collection(c));
+            this.collections = collections.map(c => new CollectionModel(c));
         });
     };
 
@@ -75,7 +75,7 @@ class Store {
 
         const quotes = await getUserQuotes();
         runInAction(() => {
-            this.quotes = quotes.map(q => new Quote(q));
+            this.quotes = quotes.map(q => new QuoteModel(q));
         });
     };
 
@@ -109,7 +109,7 @@ class Store {
         return get(this.collections.find(c => c.id === collectionId), 'title', UNTITLED_COLLECTION);
     };
 
-    // TODO: can probably get rid of debounce if we leverage gapi.load('auth2', ...) instead of using gapi.signin2.render(...) in <User />
+    // TODO: can probably get rid of debounce if we leverage gapi.load('auth2', ...) instead of using gapi.signin2.render(...) in <UserModel />
     onSignIn = debounce(async googleUser => { // debounce to prevent multiple signIn calls on page load
         if (this.user) return;
         const authResponse = googleUser.getAuthResponse();

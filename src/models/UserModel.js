@@ -3,7 +3,7 @@ import { observable, runInAction } from "mobx";
 import { updateUserSettings } from "../api";
 import { subscribeToPushNotifications } from "../push-notifications";
 
-export default class User {
+export default class UserModel {
     @observable isNotificationsOn;
 
     setGoogleProfile(googleUser) {
