@@ -2,18 +2,26 @@ import BaseMySQLRepository from "./BaseMySQLRepository";
 
 export default class QuotesRepository extends BaseMySQLRepository {
     constructor() {
-        super('quotes', [ 'user_id', 'text', 'collection_id' ]);
-    };
-
-    updateById(id, collectionId, text) {
-        return this.query(
-            `UPDATE ${this.tableName}
-            SET collection_id = ?,
-            text = ?
-            WHERE id = ?`,
-            [ collectionId, text, id ],
+        super(
+            'quotes',
+            QuotesRepository.insertColumns(),
+            QuotesRepository.updateColumns(),
         );
     };
+
+    static insertColumns() {
+        return [
+            'user_id',
+            'text',
+            'collection_id',
+        ];
+    }
+    static updateColumns() {
+        return [
+            'collection_id',
+            'text',
+        ];
+    }
 
     async saveNew(userId, text, collectionId) {
         return super.saveNew(userId, text, collectionId);

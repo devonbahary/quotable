@@ -2,17 +2,24 @@ import BaseMySQLRepository from "./BaseMySQLRepository";
 
 export default class CollectionsRepository extends BaseMySQLRepository {
     constructor() {
-        super('collections', [ 'user_id', 'title' ]);
-    };
-
-    updateTitle(id, title) {
-        return this.query(
-            `UPDATE ${this.tableName}
-            SET title = ?
-            WHERE id = ?`,
-            [ title, id ],
+        super(
+            'collections',
+            CollectionsRepository.insertColumns(),
+            CollectionsRepository.updateColumns(),
         );
     };
+
+    static insertColumns() {
+        return [
+            'user_id',
+            'title',
+        ];
+    }
+    static updateColumns() {
+        return [
+            'title',
+        ];
+    }
 
     async saveNew(userId, title) {
         return super.saveNew(userId, title);

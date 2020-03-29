@@ -30,7 +30,7 @@ router.put('/:id', validateUser, (req, res) => {
 
     errorHandler(res, () => {
         ownerHandler(collectionsRepository, collectionId, req.user.id, res, async () => {
-            await collectionsRepository.updateTitle(collectionId, title);
+            await collectionsRepository.updateById(collectionId, title);
             res.sendStatus(200);
         });
     });

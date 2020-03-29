@@ -1,9 +1,10 @@
 import pool from "../databases/mysql-connect";
 
 export default class BaseMySQLRepository {
-    constructor(tableName, insertColumns = []) {
+    constructor(tableName, insertColumns = [], updateColumns = []) {
       this.tableName = tableName;
       this.insertColumns = insertColumns;
+      this.updateColumns = updateColumns;
     };
 
     query(sql, values = []) {
@@ -43,6 +44,16 @@ export default class BaseMySQLRepository {
             FROM ${this.tableName}
             WHERE user_id = ?`,
             [ userId ],
+        );
+    };
+
+    updateById(id, ...values) {
+        console.log('id', ...values);
+        return this.query(
+            `UPDATE ${this.tableName}
+            SET ${this.updateColumns.map(c => `${c} = ?`).join(', ')}
+            WHERE id = ?`,
+            [ ...values, id ],
         );
     };
 
