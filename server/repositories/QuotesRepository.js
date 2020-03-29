@@ -12,8 +12,8 @@ export default class QuotesRepository extends BaseMySQLRepository {
     static insertColumns() {
         return [
             'user_id',
-            'text',
             'collection_id',
+            'text',
         ];
     }
     static updateColumns() {
