@@ -118,12 +118,15 @@ const Quotes = observer(({ store }) => {
         .filter(q => collectionId ? q.collectionId === collectionId : q)
         .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
 
+    const noQuotesMessage = collection ? `No quotes found for collection "${collection.title}"` : 'No quotes found';
+
     return (
         <CRUD
             headerButtons={headerButtons}
             ItemComponent={Quote}
             itemIdEditing={quoteIdEditing}
             items={sortedQuotes}
+            noItemsMessage={noQuotesMessage}
             onLeaveItem={onLeaveQuote}
             onLeaveNewItem={onLeaveNewQuote}
             pendingAddItem={pendingAddQuote}
