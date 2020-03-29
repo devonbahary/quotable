@@ -35,9 +35,9 @@ const CollectionSelectionModal = ({
                 Select a collection for the quote.
             </div>
             <ul>
-                <Collection collection={noCollectionDummy} onClickCollection={onClickCollection} />
+                <Collection item={noCollectionDummy} onClickItem={onClickCollection} />
                 {collections.map(c => (
-                    <Collection key={c.id} collection={c} onClickCollection={onClickCollection} />
+                    <Collection key={c.id} item={c} onClickItem={onClickCollection} />
                 ))}
             </ul>
         </Modal>
