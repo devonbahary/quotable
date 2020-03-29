@@ -48,7 +48,6 @@ export default class BaseMySQLRepository {
     };
 
     updateById(id, ...values) {
-        console.log('id', ...values);
         return this.query(
             `UPDATE ${this.tableName}
             SET ${this.updateColumns.map(c => `${c} = ?`).join(', ')}
