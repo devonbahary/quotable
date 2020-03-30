@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { inject, observer } from "mobx-react";
 
+import CollectionModel from "../../models/CollectionModel";
+
 import Collection from "../Collection";
+import CRUD from "./CRUD";
+
 import { ADD_ICON } from "../../constants/icons";
 import ROUTES from "../../../constants/routes";
-
-import CollectionModel from "../../models/CollectionModel";
-import CRUD from "./CRUD";
 
 
 const Collections = observer(({ store }) => {
@@ -56,7 +57,6 @@ const Collections = observer(({ store }) => {
             onClickItem={onClickCollection}
             onLeaveNewItem={onLeaveNewCollection}
             onLeaveItem={onLeaveCollection}
-            pendingAddItem={pendingAddCollection}
             pendingAddItem={pendingAddCollection}
             setItemIdEditing={setCollectionIdEditing}
         />
