@@ -15,6 +15,7 @@ const RelationalQuoteItem = ({
     item,
     isEditing,
     newItemText,
+    onClickItem,
     onLeave,
     onTextChange,
     removeItem,
@@ -33,6 +34,8 @@ const RelationalQuoteItem = ({
         if (!isEditing) return;
         await onLeave(item);
     };
+
+    const onClick = () => onClickItem(item);
 
     const onDelete = async () => {
         if (!confirm(`Are you sure you want to delete author "${item.name || item.title}"?`)) return;
@@ -58,7 +61,7 @@ const RelationalQuoteItem = ({
     // TODO: change styles.title to more generic
     const content = (
         <div className={styles.content}>
-            <div className={styles.title}>
+            <div className={styles.title} onClick={onClick}>
                 <input
                     className={inputClassName}
                     type="text"

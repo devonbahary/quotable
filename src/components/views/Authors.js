@@ -10,12 +10,13 @@ import RelationalQuoteItemList from "../RelationalQuoteItemList";
 export const UNNAMED_AUTHOR = "unnamed author";
 
 export const Author = observer(({
-     item: author,
-     isEditing,
-     onLeave,
-     shouldRenderToolBar,
-     setItemIdEditing: setAuthorIdEditing,
-     store,
+    item: author,
+    isEditing,
+    onClickItem,
+    onLeave,
+    shouldRenderToolBar,
+    setItemIdEditing: setAuthorIdEditing,
+    store,
  }) => {
     const getQuoteCountByAuthorId = store ? store.getQuoteCountByAuthorId : () => 0;
 
@@ -29,6 +30,7 @@ export const Author = observer(({
             item={author}
             isEditing={isEditing}
             newItemText="new author"
+            onClickItem={onClickItem}
             onLeave={onLeave}
             onTextChange={onNameChange}
             removeItem={removeAuthor}

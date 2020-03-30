@@ -12,6 +12,7 @@ export const UNTITLED_COLLECTION = "unnamed collection";
 export const Collection = observer(({
     item: collection,
     isEditing,
+    onClickItem,
     onLeave,
     shouldRenderToolBar,
     setItemIdEditing: setCollectionIdEditing,
@@ -29,6 +30,7 @@ export const Collection = observer(({
             item={collection}
             isEditing={isEditing}
             newItemText="new collection"
+            onClickItem={onClickItem}
             onLeave={onLeave}
             onTextChange={onTitleChange}
             removeItem={removeCollection}
