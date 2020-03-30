@@ -18,23 +18,77 @@ import { UNTITLED_COLLECTION } from "./components/Collection";
 
 
 class Store {
-    @observable user;
     @observable authors = [];
     @observable collections = [];
     @observable quotes = [];
+    @observable user;
 
     getQuoteCountByAuthorId = authorId => {
-        if (!authorId) return 0;
-        return this.quotes.filter(q => q.authorId === authorId).length;
+        return authorId ? this.quotes.filter(q => q.authorId === authorId).length : 0;
     };
 
     getQuoteCountByCollectionId = collectionId => {
-        if (!collectionId) return 0;
-        return this.quotes.filter(q => q.collectionId === collectionId).length;
+        return collectionId ? this.quotes.filter(q => q.collectionId === collectionId).length : 0;
     };
 
     getCollectionTitleById = collectionId => {
         return get(this.collections.find(c => c.id === collectionId), 'title', UNTITLED_COLLECTION);
+    };
+
+    addAuthor = async author => this.addRelationalItem(author, this.authors, saveNewAuthor);
+    addCollection = async collection => this.addRelationalItem(collection, this.collections, saveNewCollection);
+
+    @action addRelationalItem = async (item, storeItems, apiCall) => {
+        item.isSaving = true;
+        const { insertId } = await apiCall(item);
+        runInAction(() => {
+            item.id = insertId;
+            storeItems.unshift(item);
+            item.isSaving = false;
+        });
+    };
+
+    @action addQuote = async (quote, collectionId = null) => {
+        if (!this.collections.some(c => c.id === collectionId)) collectionId = null;
+
+        quote.isSavingText = true;
+        const { insertId } = await saveNewQuote(quote, collectionId);
+
+        runInAction(() => {
+            quote.id = insertId;
+            quote.collectionId = collectionId;
+            this.quotes.unshift(quote);
+            quote.isSavingText = false;
+        });
+    };
+
+    removeAuthor = async (author, removeQuotesByAuthor) => {
+        await this.removeRelationalItem(author, 'authors', 'authorId', deleteAuthor, removeQuotesByAuthor);
+    };
+
+    removeCollection = async (collection, removeQuotesInCollection) => {
+        await this.removeRelationalItem(collection, 'collections', 'collectionId', deleteCollection, removeQuotesInCollection);
+    };
+
+    @action removeQuote = async quote => {
+        await deleteQuote(quote);
+        runInAction(() => {
+            this.quotes = this.quotes.filter(q => q.id !== quote.id);
+        });
+    };
+
+    @action removeRelationalItem = async (item, storeItemsProp, itemProp, apiCall, removeRelatedQuotes = false) => {
+        await apiCall(item, removeRelatedQuotes);
+
+        runInAction(() => {
+            this[storeItemsProp] = this[storeItemsProp].filter(i => i.id !== item.id);
+
+            if (removeRelatedQuotes) {
+                this.quotes = this.quotes.filter(q => q[itemProp] !== item.id);
+            } else {
+                this.quotes = this.quotes.map(q => q[itemProp] === item.id ? ({ ...q, [itemProp]: null }) : q);
+            }
+        });
     };
 
     @action setUser = async googleUser => {
@@ -54,73 +108,6 @@ class Store {
         });
 
         await this.user.setUserSettings(user);
-    };
-
-    @action addCollection = async collection => {
-        collection.isSaving = true;
-        const { insertId } = await saveNewCollection(collection);
-        collection.id = insertId;
-        this.collections.unshift(collection);
-        collection.isSaving = false;
-    };
-
-    @action removeCollection = async (collection, removeQuotesInCollection) => {
-        await deleteCollection(collection, removeQuotesInCollection);
-        runInAction(() => {
-            this.collections = this.collections.filter(c => c.id !== collection.id);
-            if (removeQuotesInCollection) {
-                this.quotes = this.quotes.filter(q => q.collectionId !== collection.id);
-            } else {
-                this.quotes = this.quotes.map(q => q.collectionId === collection.id ? ({
-                    ...q,
-                    collectionId: null,
-                }) : q);
-            }
-        });
-    };
-
-    @action addQuote = async (quote, collectionId = null) => {
-        if (!this.collections.some(c => c.id === collectionId)) collectionId = null;
-
-        quote.isSavingText = true;
-        const { insertId } = await saveNewQuote(quote, collectionId);
-
-        runInAction(() => {
-            quote.id = insertId;
-            quote.collectionId = collectionId;
-            this.quotes.unshift(quote);
-            quote.isSavingText = false;
-        });
-    };
-
-    @action removeQuote = async quote => {
-        await deleteQuote(quote);
-        runInAction(() => {
-            this.quotes = this.quotes.filter(q => q.id !== quote.id);
-        });
-    };
-
-    @action addAuthor = async author => {
-        author.isSaving = true;
-        const { insertId } = await saveNewAuthor(author);
-        author.id = insertId;
-        this.authors.unshift(author);
-        author.isSaving = false;
-    };
-
-    @action removeAuthor = async (author, removeQuotesByAuthor) => {
-        await deleteAuthor(author, removeQuotesByAuthor);
-        runInAction(() => {
-            this.authors = this.authors.filter(a => a.id !== author.id);
-            if (removeQuotesByAuthor) {
-                this.quotes = this.quotes.filter(a => a.authorId !== author.id);
-            } else {
-                this.quotes = this.quotes.map(a => a.authorId === author.id ? ({
-                    ...a,
-                    authorId: null,
-                }) : a);
-            }
-        });
     };
 
     // TODO: can probably get rid of debounce if we leverage gapi.load('auth2', ...) instead of using gapi.signin2.render(...) in <UserModel />
