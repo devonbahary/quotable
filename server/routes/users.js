@@ -7,11 +7,13 @@ import QuotesRepository from "../repositories/QuotesRepository";
 import UsersRepository from "../repositories/UsersRepository";
 import { validateUser } from "../auth";
 import { errorHandler } from "./util";
+import TopicsRepository from "../repositories/relational-items/TopicsRepository";
 
 const router = express.Router();
 const authorsRepository = new AuthorsRepository();
 const collectionsRepository = new CollectionsRepository();
 const quotesRepository = new QuotesRepository();
+const topicsRepository = new TopicsRepository();
 const usersRepository = new UsersRepository();
 
 
@@ -21,20 +23,25 @@ router.get('/me', validateUser, async (req, res) => {
         [camelCase(key)]: val
     }), {});
 
+    const userId = req.user.id;
+
     const [
         authors,
         collections,
         quotes,
+        topics,
     ] = await Promise.all([
-        authorsRepository.findByUserId(req.user.id),
-        collectionsRepository.findByUserId(req.user.id),
-        quotesRepository.findByUserId(req.user.id),
+        authorsRepository.findByUserId(userId),
+        collectionsRepository.findByUserId(userId),
+        quotesRepository.findByUserId(userId),
+        topicsRepository.findByUserId(userId),
     ]);
 
     res.send({
         authors,
         collections,
         quotes,
+        topics,
         user,
     });
 });

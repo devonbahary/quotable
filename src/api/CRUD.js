@@ -4,6 +4,7 @@ import { errorHandler } from "./util";
 const AUTHORS_PATH = `/api/authors`;
 const COLLECTIONS_PATH = `/api/collections`;
 const QUOTES_PATH = `/api/quotes`;
+const TOPICS_PATH = `/api/topics`;
 
 
 export const saveNewAuthor = async author => errorHandler(async () => {
@@ -22,6 +23,11 @@ export const saveNewQuote = async (quote, collectionId) => errorHandler(async ()
     return data;
 });
 
+export const saveNewTopic = async topic => errorHandler(async () => {
+    const { data } = await axios.post(TOPICS_PATH, topic);
+    return data;
+});
+
 export const updateAuthorById = async (id, name) => errorHandler(async () => {
     await axios.put(`${AUTHORS_PATH}/${id}`, { name });
 });
@@ -32,6 +38,10 @@ export const updateCollectionById = async (id, name) => errorHandler(async () =>
 
 export const updateQuoteById = async quote => errorHandler(async () => {
     await axios.put(`${QUOTES_PATH}/${quote.id}`, { ...quote });
+});
+
+export const updateTopicById = async (id, name) => errorHandler(async () => {
+    await axios.put(`${TOPICS_PATH}/${id}`, { name });
 });
 
 export const deleteAuthor = async (author, removeQuotesByAuthor) => errorHandler(async () => {
@@ -54,4 +64,13 @@ export const deleteCollection = async (collection, removeQuotesInCollection) => 
 
 export const deleteQuote = async quote => errorHandler(async () => {
     await axios.delete(`${QUOTES_PATH}/${quote.id}`);
+});
+
+export const deleteTopic = async (topic, removeQuotesInTopic) => errorHandler(async () => {
+    const config = {
+        data: {
+            removeQuotesInTopic,
+        },
+    };
+    await axios.delete(`${TOPICS_PATH}/${topic.id}`, config);
 });

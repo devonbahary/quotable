@@ -5,6 +5,7 @@ import { inject, observer } from "mobx-react";
 import AuthorModel from "../../../models/relational-items/AuthorModel";
 import CollectionModel from "../../../models/relational-items/CollectionModel";
 import QuoteModel from "../../../models/QuoteModel";
+import TopicModel from "../../../models/relational-items/TopicModel";
 
 import { Author } from "../Authors";
 import CameraModal from "./CameraModal";
@@ -13,6 +14,7 @@ import CRUD from "../CRUD";
 import Modal from "../../Modal";
 import Quote from "../../Quote";
 import SingleMessageView from "../../SingleMessageView";
+import { Topic } from "../Topics";
 import View from "../View";
 
 import { ADD_ICON, CAMERA_ICON, CLOSE_ICON } from "../../../constants/icons";
@@ -26,11 +28,13 @@ const RelationalItemSelectionModal = ({
     collectionSelectionModalQuote,
     onChangeAuthor,
     onChangeCollection,
+    onChangeTopic,
     store,
+    topicSelectionModalQuote,
 }) => {
-    const { sortedAuthors, sortedCollections } = store;
+    const { sortedAuthors, sortedCollections, sortedTopics } = store;
 
-    const quoteForSelection = authorSelectionModalQuote || collectionSelectionModalQuote;
+    const quoteForSelection = authorSelectionModalQuote || collectionSelectionModalQuote || topicSelectionModalQuote;
 
     if (!quoteForSelection) return null;
 
@@ -53,6 +57,15 @@ const RelationalItemSelectionModal = ({
         RelationalItemComponent = Collection;
         onClickItem = onChangeCollection;
         relationalItems = sortedCollections;
+    } else if (topicSelectionModalQuote) {
+        instructionalText = 'Select a topic for the quote';
+        noRelationalItemDummy = new TopicModel({
+            id: null, // important
+            name: 'no topic',
+        });
+        RelationalItemComponent = Topic;
+        onClickItem = onChangeTopic;
+        relationalItems = sortedTopics;
     }
 
     return (
@@ -84,6 +97,7 @@ const Quotes = observer(({ store }) => {
 
     const [ authorSelectionModalQuote, setAuthorSelectionModalQuote ] = useState(null);
     const [ collectionSelectionModalQuote, setCollectionSelectionModalQuote ] = useState(null);
+    const [ topicSelectionModalQuote, setTopicSelectionModalQuote ] = useState(null);
     const [ isCameraModalOpen, setIsCameraModalOpen ] = useState(false);
 
     const addQuote = (text = '') => {
@@ -103,6 +117,11 @@ const Quotes = observer(({ store }) => {
     const onChangeCollection = async collection => {
         setCollectionSelectionModalQuote(null);
         await collectionSelectionModalQuote.updateCollectionId(collection.id);
+    };
+
+    const onChangeTopic = async topic => {
+        setTopicSelectionModalQuote(null);
+        await topicSelectionModalQuote.updateTopicId(topic.id);
     };
 
     const closeModal = () => {
@@ -161,6 +180,7 @@ const Quotes = observer(({ store }) => {
             pendingAddItem={pendingAddQuote}
             setAuthorSelectionModalQuote={setAuthorSelectionModalQuote}
             setCollectionSelectionModalQuote={setCollectionSelectionModalQuote}
+            setTopicSelectionModalQuote={setTopicSelectionModalQuote}
             setItemIdEditing={setQuoteIdEditing}
         >
             <CameraModal
@@ -171,8 +191,10 @@ const Quotes = observer(({ store }) => {
             <RelationalItemSelectionModal
                 authorSelectionModalQuote={authorSelectionModalQuote}
                 collectionSelectionModalQuote={collectionSelectionModalQuote}
+                topicSelectionModalQuote={topicSelectionModalQuote}
                 onChangeAuthor={onChangeAuthor}
                 onChangeCollection={onChangeCollection}
+                onChangeTopic={onChangeTopic}
                 store={store}
             />
         </CRUD>

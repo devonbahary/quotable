@@ -8,6 +8,7 @@ import collections from "./routes/collections";
 import googleCloudVision from "./routes/google-cloud-vision";
 import quotes from "./routes/quotes";
 import subscriptions from "./routes/subscriptions";
+import topics from "./routes/topics";
 import users from "./routes/users";
 
 const app = express();
@@ -21,6 +22,7 @@ app.use('/api/collections', collections);
 app.use('/api/google-cloud-vision', googleCloudVision);
 app.use('/api/quotes', quotes);
 app.use('/api/subscriptions', subscriptions);
+app.use('/api/topics', topics);
 app.use('/api/users', users);
 
 if (process.env.NODE_ENV === 'production') {

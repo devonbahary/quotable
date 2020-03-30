@@ -6,6 +6,7 @@ import {
     faCheck,
     faCog,
     faHome,
+    faLightbulb,
     faPen,
     faPlusSquare,
     faQuoteLeft,
@@ -29,5 +30,6 @@ export const MENU_ICON = faBars;
 export const QUOTE_L_ICON = faQuoteLeft;
 export const QUOTE_R_ICON = faQuoteRight;
 export const SPINNER_ICON = faSpinner;
+export const TOPIC_ICON = faLightbulb;
 export const TRASH_ICON = faTrash;
 export const USER_ICON = faCog;

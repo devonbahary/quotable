@@ -16,6 +16,7 @@ export default class QuoteModel {
         this.authorId = quote.author_id;
         this.collectionId = quote.collection_id;
         this.text = quote.text || '';
+        this.topicId = quote.topic_id;
         this.updatedAt = quote.updated_at;
 
         this.isSavingText = false;
@@ -38,6 +39,7 @@ export default class QuoteModel {
         });
     };
 
+    // TODO: refactor these 3?
     @action updateAuthorId = async authorId => {
         this.isUpdatingAuthor = true;
         await updateQuoteById({
@@ -61,6 +63,19 @@ export default class QuoteModel {
             this.collectionId = collectionId;
             this.updatedAt = new Date();
             this.isUpdatingCollection = false;
+        });
+    };
+
+    @action updateTopicId = async topicId => {
+        this.isUpdatingAuthor = true;
+        await updateQuoteById({
+            ...this,
+            topicId,
+        });
+        runInAction(() => {
+            this.topicId = topicId;
+            this.updatedAt = new Date();
+            this.isUpdatingAuthor = false;
         });
     };
 

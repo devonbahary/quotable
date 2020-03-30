@@ -12,6 +12,7 @@ import {
     QUOTE_L_ICON,
     QUOTE_R_ICON,
     SPINNER_ICON,
+    TOPIC_ICON,
     TRASH_ICON,
 } from "../constants/icons";
 import KEY_CODES from "../constants/keyCodes";
@@ -26,9 +27,10 @@ const Quote = observer(({
     setItemIdEditing: setQuoteIdEditing = () => {},
     setAuthorSelectionModalQuote,
     setCollectionSelectionModalQuote,
+    setTopicSelectionModalQuote,
     store,
 }) => {
-    const { isSavingText, isUpdatingAuthor, isUpdatingCollection } = quote;
+    const { isSavingText, isUpdatingAuthor, isUpdatingCollection, isUpdatingTopic } = quote;
 
     const beginEditQuote = () => setQuoteIdEditing(quote.id);
 
@@ -37,6 +39,8 @@ const Quote = observer(({
     const onCollectionSelection = () => setCollectionSelectionModalQuote(quote);
 
     const onAuthorSelection = () => setAuthorSelectionModalQuote(quote);
+
+    const onTopicSelection = () => setTopicSelectionModalQuote(quote);
 
     const onDelete = async () => {
         if (!confirm('Are you sure you want to delete this quote?')) return;
@@ -62,6 +66,7 @@ const Quote = observer(({
 
     const authorIcon = isUpdatingAuthor ? SPINNER_ICON : AUTHOR_ICON;
     const collectionIcon = isUpdatingCollection ? SPINNER_ICON : COLLECTION_ICON;
+    const topicIcon = isUpdatingTopic ? SPINNER_ICON : TOPIC_ICON;
 
     let content;
     if (isEditing) {
@@ -92,7 +97,7 @@ const Quote = observer(({
                         <FontAwesomeIcon icon={QUOTE_R_ICON} size='xs' />
                     </span>
                 </div>
-                {(quote.authorId || quote.collectionId) && (
+                {(quote.authorId || quote.collectionId || quote.topicId) && (
                     <div className={styles.secondaryProperties}>
                         {quote.authorId && (
                             <div>
@@ -102,6 +107,11 @@ const Quote = observer(({
                         {quote.collectionId && (
                             <div>
                                 <FontAwesomeIcon icon={COLLECTION_ICON} size="xs"/> {store.getCollectionNameById(quote.collectionId)}
+                            </div>
+                        )}
+                        {quote.topicId && (
+                            <div>
+                                <FontAwesomeIcon icon={TOPIC_ICON} size="xs"/> {store.getTopicNameById(quote.topicId)}
                             </div>
                         )}
                     </div>
@@ -130,6 +140,12 @@ const Quote = observer(({
                     icon: authorIcon,
                     onClick: onAuthorSelection,
                     shouldRotate: isUpdatingAuthor,
+                });
+
+                toolBarButtons.push({
+                    icon: topicIcon,
+                    onClick: onTopicSelection,
+                    shouldRotate: isUpdatingTopic,
                 });
             }
 

@@ -1,28 +1,37 @@
 import { debounce, get, orderBy, toLower } from "lodash";
 import { action, computed, observable, runInAction } from "mobx";
+
 import AuthorModel from "./models/relational-items/AuthorModel";
 import CollectionModel from "./models/relational-items/CollectionModel";
 import QuoteModel from "./models/QuoteModel";
+import TopicModel from "./models/relational-items/TopicModel";
 import UserModel from "./models/UserModel";
+
 import {
     deleteAuthor,
     deleteCollection,
     deleteQuote,
+    deleteTopic,
     saveNewAuthor,
     saveNewCollection,
     saveNewQuote,
+    saveNewTopic,
 } from "./api/CRUD";
 import { authenticateUser, getUser } from "./api/user"
+
 import { UNNAMED_AUTHOR } from "./components/views/Authors";
 import { UNNAMED_COLLECTION } from "./components/views/Collections";
+import { UNNAMED_TOPIC } from "./components/views/Topics";
 
 
 class Store {
     @observable authors = [];
     @observable collections = [];
     @observable quotes = [];
+    @observable topics = [];
     @observable user;
 
+    // GETTERS
     @computed get sortedAuthors() {
         return orderBy(this.authors, [ a => toLower(a.name) ], [ 'asc' ]);
     };
@@ -35,12 +44,8 @@ class Store {
         return orderBy(this.quotes, [ q => new Date(q.updatedAt) ], [ 'desc' ]);
     };
 
-    getQuoteCountByAuthorId = authorId => {
-        return authorId ? this.quotes.filter(q => q.authorId === authorId).length : 0;
-    };
-
-    getQuoteCountByCollectionId = collectionId => {
-        return collectionId ? this.quotes.filter(q => q.collectionId === collectionId).length : 0;
+    @computed get sortedTopics() {
+        return orderBy(this.topics, [ t => toLower(t.name) ], [ 'asc' ]);
     };
 
     getAuthorNameById = authorId => {
@@ -51,8 +56,26 @@ class Store {
         return get(this.collections.find(c => c.id === collectionId), 'name', UNNAMED_COLLECTION);
     };
 
+    getTopicNameById = topicId => {
+        return get(this.topics.find(t => t.id === topicId), 'name', UNNAMED_TOPIC);
+    };
+
+    getQuoteCountByAuthorId = authorId => {
+        return authorId ? this.quotes.filter(q => q.authorId === authorId).length : 0;
+    };
+
+    getQuoteCountByCollectionId = collectionId => {
+        return collectionId ? this.quotes.filter(q => q.collectionId === collectionId).length : 0;
+    };
+
+    getQuoteCountByTopicId = topicId => {
+        return topicId ? this.quotes.filter(q => q.topicId === topicId).length : 0;
+    };
+
+    // ACTIONS
     addAuthor = async author => this.addRelationalItem(author, this.authors, saveNewAuthor);
     addCollection = async collection => this.addRelationalItem(collection, this.collections, saveNewCollection);
+    addTopic = async topic => this.addRelationalItem(topic, this.topics, saveNewTopic);
 
     @action addRelationalItem = async (item, storeItems, apiCall) => {
         item.isSaving = true;
@@ -86,6 +109,10 @@ class Store {
         await this.removeRelationalItem(collection, 'collections', 'collectionId', deleteCollection, removeQuotesInCollection);
     };
 
+    removeTopic = async (topic, removeQuotesInTopic) => {
+        await this.removeRelationalItem(topic, 'topics', 'topicId', deleteTopic, removeQuotesInTopic);
+    };
+
     @action removeQuote = async quote => {
         await deleteQuote(quote);
         runInAction(() => {
@@ -115,12 +142,14 @@ class Store {
             collections,
             quotes,
             user,
+            topics,
         } = await getUser();
 
         runInAction(() => {
             this.authors = authors.map(a => new AuthorModel(a));
             this.collections = collections.map(c => new CollectionModel(c));
             this.quotes = quotes.map(q => new QuoteModel(q));
+            this.topics = topics.map(t => new TopicModel(t));
         });
 
         await this.user.setUserSettings(user);

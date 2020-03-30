@@ -12,7 +12,7 @@ export default class QuotesRepository extends BaseMySQLRepository {
     static insertColumns() {
         return [
             'user_id',
-            'collection_id',
+            'collection_id', // TODO: deprecated?
             'text',
         ];
     }
@@ -21,6 +21,7 @@ export default class QuotesRepository extends BaseMySQLRepository {
             'author_id',
             'collection_id',
             'text',
+            'topic_id',
         ];
     }
 
@@ -39,6 +40,15 @@ export default class QuotesRepository extends BaseMySQLRepository {
             FROM ${this.tableName}
             WHERE collection_id = ?`,
             [ collectionId ],
+        );
+    }
+
+    deleteByTopicId(topicId) {
+        return this.query(
+            `DELETE
+            FROM ${this.tableName}
+            WHERE topic_id = ?`,
+            [ topicId ],
         );
     }
 

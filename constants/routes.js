@@ -4,4 +4,5 @@ export default {
     HOME: '/',
     LOGIN: '/login',
     QUOTES: '/quotes',
+    TOPICS: '/topics',
 };
