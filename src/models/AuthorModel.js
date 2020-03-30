@@ -1,5 +1,5 @@
 import { observable, runInAction } from "mobx";
-import { updateAuthorById } from "../api";
+import { updateAuthorById } from "../api/CRUD";
 
 export default class AuthorModel {
     @observable name;

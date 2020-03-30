@@ -1,25 +1,10 @@
 import axios from "axios";
+import { errorHandler } from "./util";
 
 const AUTHORS_PATH = `/api/authors`;
 const COLLECTIONS_PATH = `/api/collections`;
-const GOOGLE_CLOUD_VISION_PATH = `/api/google-cloud-vision`;
 const QUOTES_PATH = `/api/quotes`;
-const SUBSCRIPTIONS_PATH = `/api/subscriptions`;
-const USERS_PATH = `/api/users`;
 
-
-const errorHandler = cb => {
-    try {
-        return cb();
-    } catch (err) {
-        console.error(err);
-    }
-};
-
-export const authenticateUser = async token => {
-    const { data: jwt } = await axios.post('/api/authentication/token', { token });
-    axios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
-};
 
 export const saveNewAuthor = async author => {
     return errorHandler(async () => {
@@ -87,33 +72,5 @@ export const deleteCollection = async (collection, removeQuotesInCollection) => 
 export const deleteQuote = async quote => {
     return errorHandler(async () => {
         await axios.delete(`${QUOTES_PATH}/${quote.id}`);
-    });
-};
-
-export const getUser = async () => {
-    return errorHandler(async () => {
-         const { data } = await axios.get(`${USERS_PATH}/me`);
-         return data;
-    });
-};
-
-// TODO: consolidate updateUserSettings + updatePushNotificationSubscription
-// or maybe they belong in separate tables?
-export const updateUserSettings = async isNotificationsOn => {
-    return errorHandler(async () => {
-        await axios.put(`${USERS_PATH}/me`, { isNotificationsOn });
-    });
-};
-
-export const updatePushNotificationSubscription = subscription => {
-    return errorHandler(async () => {
-        await axios.post(SUBSCRIPTIONS_PATH, { subscription });
-    });
-};
-
-export const uploadImageForTextDetection = formData => {
-    return errorHandler(async () => {
-        const { data } = await axios.post(GOOGLE_CLOUD_VISION_PATH, formData);
-        return data;
     });
 };

@@ -1,5 +1,5 @@
 import { observable, runInAction } from "mobx";
-import { updateCollectionById } from "../api";
+import { updateCollectionById } from "../api/CRUD";
 
 export default class CollectionModel {
     @observable title;

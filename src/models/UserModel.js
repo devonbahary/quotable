@@ -1,6 +1,6 @@
 import { throttle } from "lodash";
 import { observable, runInAction } from "mobx";
-import { updateUserSettings } from "../api";
+import { updateUserSettings } from "../api/user";
 import { subscribeToPushNotifications } from "../push-notifications";
 
 export default class UserModel {

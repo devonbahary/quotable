@@ -5,7 +5,7 @@ import classNames from "classnames";
 import LoadingIcon from "../../LoadingIcon";
 import Modal from "../../Modal";
 import { ARROW_CIRCLE_UP_ICON } from "../../../constants/icons";
-import { uploadImageForTextDetection } from "../../../api";
+import { uploadImageForTextDetection } from "../../../api/googleCloudVision";
 
 import styles from "../../styles/camera-modal.scss";
 

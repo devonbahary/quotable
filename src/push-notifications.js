@@ -1,4 +1,4 @@
-import { updatePushNotificationSubscription } from "./api";
+import { updatePushNotificationSubscription } from "./api/subscriptions";
 
 const VAPID_PUBLIC_KEY = 'BM5bTVwSadL32BFJaO7zmrTUd9NW1rksd6BxhTaf-vKmaPgJVTArkbB2GqkcVk6axyX7GI20bF1lrlugUanwaY8';
 

@@ -5,15 +5,14 @@ import CollectionModel from "./models/CollectionModel";
 import QuoteModel from "./models/QuoteModel";
 import UserModel from "./models/UserModel";
 import {
-    authenticateUser,
     deleteAuthor,
     deleteCollection,
     deleteQuote,
-    getUser,
     saveNewAuthor,
     saveNewCollection,
     saveNewQuote,
-} from "./api";
+} from "./api/CRUD";
+import { authenticateUser, getUser } from "./api/user"
 import { UNNAMED_AUTHOR } from "./components/views/Authors";
 import { UNTITLED_COLLECTION } from "./components/Collection";
 
