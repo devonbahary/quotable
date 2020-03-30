@@ -1,5 +1,5 @@
 import { debounce, get } from "lodash";
-import { action, observable, reaction, runInAction } from "mobx";
+import { action, observable, runInAction } from "mobx";
 import AuthorModel from "./models/AuthorModel";
 import CollectionModel from "./models/CollectionModel";
 import QuoteModel from "./models/QuoteModel";
@@ -9,10 +9,7 @@ import {
     deleteAuthor,
     deleteCollection,
     deleteQuote,
-    getUserAuthors,
-    getUserCollections,
-    getUserQuotes,
-    getUserSettings,
+    getUser,
     saveNewAuthor,
     saveNewCollection,
     saveNewQuote,
@@ -26,31 +23,23 @@ class Store {
     @observable collections = [];
     @observable quotes = [];
 
-    constructor() {
-        reaction(
-            () => this.user,
-            async () => {
-                await this.getUserAuthors();
-                await this.getUserCollections();
-                await this.getUserQuotes();
-            },
-        );
-    };
-
     @action setUser = async googleUser => {
         this.user = new UserModel();
         this.user.setGoogleProfile(googleUser);
-        const userSettings = await getUserSettings();
-        await this.user.setUserSettings(userSettings);
-    };
+        const {
+            authors,
+            collections,
+            quotes,
+            user,
+        } = await getUser();
 
-    @action getUserCollections = async () => {
-        if (!this.user) return;
-
-        const collections = await getUserCollections();
         runInAction(() => {
+            this.authors = authors.map(a => new AuthorModel(a));
             this.collections = collections.map(c => new CollectionModel(c));
+            this.quotes = quotes.map(q => new QuoteModel(q));
         });
+
+        await this.user.setUserSettings(user);
     };
 
     @action addCollection = async collection => {
@@ -76,15 +65,6 @@ class Store {
         });
     };
 
-    @action getUserQuotes = async () => {
-        if (!this.user) return;
-
-        const quotes = await getUserQuotes();
-        runInAction(() => {
-            this.quotes = quotes.map(q => new QuoteModel(q));
-        });
-    };
-
     @action addQuote = async (quote, collectionId = null) => {
         if (!this.collections.some(c => c.id === collectionId)) collectionId = null;
 
@@ -103,15 +83,6 @@ class Store {
         await deleteQuote(quote);
         runInAction(() => {
             this.quotes = this.quotes.filter(q => q.id !== quote.id);
-        });
-    };
-
-    @action getUserAuthors = async () => {
-        if (!this.user) return;
-
-        const authors = await getUserAuthors();
-        runInAction(() => {
-            this.authors = authors.map(a => new AuthorModel(a));
         });
     };
 

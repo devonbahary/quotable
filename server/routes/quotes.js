@@ -8,7 +8,7 @@ const router = express.Router();
 const quotesRepository = new QuotesRepository();
 
 
-CRUDRouter.get(router, quotesRepository);
+// CRUDRouter.get(router, quotesRepository); TODO: not needed?
 
 CRUDRouter.post(router, quotesRepository, 'collectionId', 'text');
 

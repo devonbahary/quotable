@@ -10,7 +10,7 @@ const authorsRepository = new AuthorsRepository();
 const quotesService = new QuotesService();
 
 
-CRUDRouter.get(router, authorsRepository);
+// CRUDRouter.get(router, authorsRepository); TODO: not needed?
 
 CRUDRouter.post(router, authorsRepository, 'name');
 

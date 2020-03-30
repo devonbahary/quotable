@@ -21,13 +21,6 @@ export const authenticateUser = async token => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
 };
 
-export const getUserAuthors = async () => {
-    return errorHandler(async () => {
-        const { data: authors } = await axios.get(AUTHORS_PATH);
-        return authors;
-    });
-};
-
 export const updateAuthorById = async (id, name) => {
     return errorHandler(async () => {
         await axios.put(`${AUTHORS_PATH}/${id}`, { name });
@@ -49,13 +42,6 @@ export const deleteAuthor = async (author, removeQuotesByAuthor) => {
             },
         };
         await axios.delete(`${AUTHORS_PATH}/${author.id}`, config);
-    });
-};
-
-export const getUserCollections = async () => {
-    return errorHandler(async () => {
-        const { data: collections } = await axios.get(COLLECTIONS_PATH);
-        return collections;
     });
 };
 
@@ -83,13 +69,6 @@ export const deleteCollection = async (collection, removeQuotesInCollection) => 
     });
 };
 
-export const getUserQuotes = async () => {
-    return errorHandler(async () => {
-        const { data: quotes } = await axios.get(QUOTES_PATH);
-        return quotes;
-    });
-};
-
 export const updateQuoteById = async quote => {
     return errorHandler(async () => {
         await axios.put(`${QUOTES_PATH}/${quote.id}`, { ...quote });
@@ -111,7 +90,7 @@ export const deleteQuote = async quote => {
     });
 };
 
-export const getUserSettings = async () => {
+export const getUser = async () => {
     return errorHandler(async () => {
          const { data } = await axios.get(`${USERS_PATH}/me`);
          return data;

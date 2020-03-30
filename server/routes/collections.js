@@ -10,7 +10,7 @@ const collectionsRepository = new CollectionsRepository();
 const quotesService = new QuotesService();
 
 
-CRUDRouter.get(router, collectionsRepository);
+// CRUDRouter.get(router, collectionsRepository); TODO: not needed?
 
 CRUDRouter.post(router, collectionsRepository, 'title');
 
