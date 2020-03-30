@@ -1,7 +1,7 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
 
-import CollectionModel from "../../models/CollectionModel";
+import CollectionModel from "../../models/relational-items/CollectionModel";
 
 import RelationalQuoteItem from "../RelationalQuoteItem";
 import RelationalQuoteItemList from "../RelationalQuoteItemList";

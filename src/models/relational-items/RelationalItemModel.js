@@ -1,21 +1,22 @@
 import { observable, runInAction } from "mobx";
-import { updateAuthorById } from "../api/CRUD";
 
-export default class AuthorModel {
+export default class RelationalItemModel {
     @observable name;
     @observable updatedAt;
     @observable isSaving;
 
-    constructor(author = {}) {
-        this.id = author.id;
-        this.name = author.name || '';
-        this.updatedAt = author.updated_at;
+    constructor(item = {}, updateItemById) {
+        this.id = item.id;
+        this.name = item.name || '';
+        this.updatedAt = item.updated_at;
+
         this.isSaving = false;
+        this.updateItemById = updateItemById;
     };
 
     save = async () => {
         this.isSaving = true;
-        await updateAuthorById(this.id, this.name);
+        await this.updateItemById(this.id, this.name);
 
         runInAction(() => {
             this.updatedAt = new Date();

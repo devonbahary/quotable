@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { inject, observer } from "mobx-react";
 
-import AuthorModel from "../../../models/AuthorModel";
-import CollectionModel from "../../../models/CollectionModel";
+import AuthorModel from "../../../models/relational-items/AuthorModel";
+import CollectionModel from "../../../models/relational-items/CollectionModel";
 import QuoteModel from "../../../models/QuoteModel";
 
 import { Author } from "../Authors";

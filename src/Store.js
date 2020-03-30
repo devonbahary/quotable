@@ -1,7 +1,7 @@
 import { debounce, get } from "lodash";
 import { action, observable, runInAction } from "mobx";
-import AuthorModel from "./models/AuthorModel";
-import CollectionModel from "./models/CollectionModel";
+import AuthorModel from "./models/relational-items/AuthorModel";
+import CollectionModel from "./models/relational-items/CollectionModel";
 import QuoteModel from "./models/QuoteModel";
 import UserModel from "./models/UserModel";
 import {
