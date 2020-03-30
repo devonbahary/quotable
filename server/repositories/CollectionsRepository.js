@@ -12,12 +12,12 @@ export default class CollectionsRepository extends BaseMySQLRepository {
     static insertColumns() {
         return [
             'user_id',
-            'title',
+            'name',
         ];
     }
     static updateColumns() {
         return [
-            'title',
+            'name',
         ];
     }
 };

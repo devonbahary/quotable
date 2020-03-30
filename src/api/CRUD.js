@@ -35,9 +35,9 @@ export const updateAuthorById = async (id, name) => {
     });
 };
 
-export const updateCollectionById = async (id, title) => {
+export const updateCollectionById = async (id, name) => {
     return errorHandler(async () => {
-        await axios.put(`${COLLECTIONS_PATH}/${id}`, { title });
+        await axios.put(`${COLLECTIONS_PATH}/${id}`, { name });
     });
 };
 

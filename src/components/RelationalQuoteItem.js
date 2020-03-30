@@ -38,11 +38,11 @@ const RelationalQuoteItem = ({
     const onClick = () => onClickItem(item);
 
     const onDelete = async () => {
-        if (!confirm(`Are you sure you want to delete author "${item.name || item.title}"?`)) return;
+        if (!confirm(`Are you sure you want to delete author "${item.name}"?`)) return;
 
         let removeRelatedQuotes = false;
         if (quoteCountByRelationship) {
-            removeRelatedQuotes = confirm(`Do you want to delete ${quoteCountByRelationship} quotes in "${item.name || item.title}" as well?`);
+            removeRelatedQuotes = confirm(`Do you want to delete ${quoteCountByRelationship} quotes in "${item.name}" as well?`);
         }
 
         await removeItem(item, removeRelatedQuotes);

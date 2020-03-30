@@ -7,7 +7,7 @@ import RelationalQuoteItem from "../RelationalQuoteItem";
 import RelationalQuoteItemList from "../RelationalQuoteItemList";
 
 
-export const UNTITLED_COLLECTION = "unnamed collection";
+export const UNNAMED_COLLECTION = "unnamed collection";
 
 export const Collection = observer(({
     item: collection,
@@ -20,7 +20,7 @@ export const Collection = observer(({
 }) => {
     const getQuoteCountByCollectionId = store ? store.getQuoteCountByCollectionId : () => 0;
 
-    const onTitleChange = e => collection.title = e.target.value;
+    const onNameChange = e => collection.name = e.target.value;
 
     const removeCollection = store ? store.removeCollection : () => {};
 
@@ -32,12 +32,12 @@ export const Collection = observer(({
             newItemText="new collection"
             onClickItem={onClickItem}
             onLeave={onLeave}
-            onTextChange={onTitleChange}
+            onTextChange={onNameChange}
             removeItem={removeCollection}
             shouldRenderToolBar={shouldRenderToolBar}
             setItemIdEditing={setCollectionIdEditing}
-            unnamedItemText={UNTITLED_COLLECTION}
-            value={collection.title}
+            unnamedItemText={UNNAMED_COLLECTION}
+            value={collection.name}
         />
     );
 });
@@ -46,7 +46,7 @@ const Collections = observer(({ store }) => {
     const { collections } = store;
 
     const addNewCollection = async collection => {
-        if (collection.title) await store.addCollection(collection);
+        if (collection.name) await store.addCollection(collection);
     };
 
     const createNewCollection = () => new CollectionModel();

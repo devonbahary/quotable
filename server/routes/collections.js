@@ -12,9 +12,9 @@ const quotesService = new QuotesService();
 
 // CRUDRouter.get(router, collectionsRepository); TODO: not needed?
 
-CRUDRouter.post(router, collectionsRepository, 'title');
+CRUDRouter.post(router, collectionsRepository, 'name');
 
-CRUDRouter.put(router, collectionsRepository, 'title');
+CRUDRouter.put(router, collectionsRepository, 'name');
 
 router.delete('/:id', validateUser, async (req, res) => {
     const { id: collectionId } = req.params;

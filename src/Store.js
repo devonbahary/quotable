@@ -14,7 +14,7 @@ import {
 } from "./api/CRUD";
 import { authenticateUser, getUser } from "./api/user"
 import { UNNAMED_AUTHOR } from "./components/views/Authors";
-import { UNTITLED_COLLECTION } from "./components/views/Collections";
+import { UNNAMED_COLLECTION } from "./components/views/Collections";
 
 
 class Store {
@@ -35,8 +35,8 @@ class Store {
         return get(this.authors.find(a => a.id === authorId), 'name', UNNAMED_AUTHOR);
     };
 
-    getCollectionTitleById = collectionId => {
-        return get(this.collections.find(c => c.id === collectionId), 'title', UNTITLED_COLLECTION);
+    getCollectionNameById = collectionId => {
+        return get(this.collections.find(c => c.id === collectionId), 'name', UNNAMED_COLLECTION);
     };
 
     addAuthor = async author => this.addRelationalItem(author, this.authors, saveNewAuthor);

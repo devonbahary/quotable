@@ -101,7 +101,7 @@ const Quote = observer(({
                         )}
                         {quote.collectionId && (
                             <div>
-                                <FontAwesomeIcon icon={COLLECTION_ICON} size="xs"/> {store.getCollectionTitleById(quote.collectionId)}
+                                <FontAwesomeIcon icon={COLLECTION_ICON} size="xs"/> {store.getCollectionNameById(quote.collectionId)}
                             </div>
                         )}
                     </div>
