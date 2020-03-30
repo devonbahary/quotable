@@ -1,3 +1,4 @@
+import { orderBy, toLower } from "lodash";
 import React from "react";
 import { inject, observer } from "mobx-react";
 
@@ -48,9 +49,7 @@ const Collections = observer(({ store }) => {
 
     const createNewCollection = () => new CollectionModel();
 
-    const sortedCollections = collections
-        .slice() // observable array warning
-        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+    const sortedCollections = orderBy(collections, [ c => toLower(c.name) ], [ 'asc' ]);
 
     return (
         <RelationalQuoteItemList
