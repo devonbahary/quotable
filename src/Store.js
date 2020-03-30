@@ -14,7 +14,7 @@ import {
 } from "./api/CRUD";
 import { authenticateUser, getUser } from "./api/user"
 import { UNNAMED_AUTHOR } from "./components/views/Authors";
-import { UNTITLED_COLLECTION } from "./components/Collection";
+import { UNTITLED_COLLECTION } from "./components/views/Collections";
 
 
 class Store {

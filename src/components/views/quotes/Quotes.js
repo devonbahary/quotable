@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { inject, observer } from "mobx-react";
 
-import Collection from "../../Collection";
+import { Collection } from "../../views/Collections";
 import CRUD from "../CRUD";
 import Modal from "../../Modal";
 import Quote from "../../Quote";
