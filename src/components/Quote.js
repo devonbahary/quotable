@@ -20,7 +20,6 @@ import styles from "./styles/quotes.scss";
 
 const Quote = observer(({
     isEditing,
-    onClickItem: onClickQuote = () => {},
     onLeave,
     item: quote,
     shouldRenderToolBar,
@@ -84,7 +83,7 @@ const Quote = observer(({
     } else {
         content = (
             <>
-                <div className={styles.content} onClick={onClickQuote}>
+                <div className={styles.content}>
                     <span className={styles.quoteLeft}>
                         <FontAwesomeIcon icon={QUOTE_L_ICON} size='xs' />
                     </span>
