@@ -8,7 +8,7 @@ import Card from "./Card";
 import { CONFIRM_ICON, EDIT_ICON, QUOTE_L_ICON, SPINNER_ICON, TRASH_ICON } from "../constants/icons";
 import KEY_CODES from "../constants/keyCodes";
 
-import styles from "./styles/collection.scss";
+import styles from "./styles/relational-item.scss";
 
 const RelationalQuoteItem = ({
     getQuoteCountByRelationshipId,
@@ -58,10 +58,9 @@ const RelationalQuoteItem = ({
 
     const inputClassName = classNames({ [styles.muted]: item.id === null });
 
-    // TODO: change styles.title to more generic
     const content = (
         <div className={styles.content}>
-            <div className={styles.title} onClick={onClick}>
+            <div className={styles.body} onClick={onClick}>
                 <input
                     className={inputClassName}
                     type="text"
