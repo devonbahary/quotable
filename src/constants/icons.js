@@ -4,6 +4,7 @@ import {
     faBook,
     faCamera,
     faCheck,
+    faCog,
     faHome,
     faPen,
     faPlusSquare,
@@ -17,6 +18,7 @@ import {
 
 export const ADD_ICON = faPlusSquare;
 export const ARROW_CIRCLE_UP_ICON = faArrowCircleUp;
+export const AUTHOR_ICON = faUser;
 export const CAMERA_ICON = faCamera;
 export const CLOSE_ICON = faTimes;
 export const COLLECTION_ICON = faBook;
@@ -28,4 +30,4 @@ export const QUOTE_L_ICON = faQuoteLeft;
 export const QUOTE_R_ICON = faQuoteRight;
 export const SPINNER_ICON = faSpinner;
 export const TRASH_ICON = faTrash;
-export const USER_ICON = faUser;
+export const USER_ICON = faCog;

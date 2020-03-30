@@ -12,7 +12,7 @@ CRUDRouter.get(router, quotesRepository);
 
 CRUDRouter.post(router, quotesRepository, 'collectionId', 'text');
 
-CRUDRouter.put(router, quotesRepository, 'collectionId', 'text');
+CRUDRouter.put(router, quotesRepository, 'authorId', 'collectionId', 'text');
 
 router.delete('/:id', validateUser, async (req, res) => {
     const { id: quoteId } = req.params;

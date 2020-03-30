@@ -5,14 +5,17 @@ import { updateQuoteById } from "../api";
 export default class QuoteModel {
     @observable text;
     @observable isSavingText;
+    @observable isUpdatingAuthor;
     @observable isUpdatingCollection;
 
     constructor(quote) {
         this.id = quote.id;
+        this.authorId = quote.author_id;
         this.collectionId = quote.collection_id;
         this.text = quote.text;
         this.updatedAt = quote.updated_at;
         this.isSavingText = false;
+        this.isUpdatingAuthor = false;
         this.isUpdatingCollection = false;
     };
 
@@ -29,6 +32,19 @@ export default class QuoteModel {
         runInAction(() => {
             this.updatedAt = new Date();
             this.isSavingText = false;
+        });
+    };
+
+    @action updateAuthorId = async authorId => {
+        this.isUpdatingAuthor = true;
+        await updateQuoteById({
+            ...this,
+            authorId,
+        });
+        runInAction(() => {
+            this.authorId = authorId;
+            this.updatedAt = new Date();
+            this.isUpdatingAuthor = false;
         });
     };
 

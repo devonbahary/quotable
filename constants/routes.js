@@ -1,6 +1,7 @@
 export default {
-    HOME: '/',
+    AUTHORS: '/authors',
     COLLECTIONS: '/collections',
-    QUOTES: '/quotes',
+    HOME: '/',
     LOGIN: '/login',
+    QUOTES: '/quotes',
 };

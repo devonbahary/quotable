@@ -10,12 +10,42 @@ import SingleMessageView from "../../SingleMessageView";
 import View from "../View";
 import { ADD_ICON, CAMERA_ICON, CLOSE_ICON } from "../../../constants/icons";
 
+import AuthorModel from "../../../models/AuthorModel";
 import CollectionModel from "../../../models/CollectionModel";
 import QuoteModel from "../../../models/QuoteModel";
 
-import styles from "../../styles/quotes.scss";
+import { Author } from "../Authors";
 import CameraModal from "./CameraModal";
 
+import styles from "../../styles/quotes.scss";
+
+
+const AuthorSelectionModal = ({
+    authors,
+    authorSelectionModalQuote,
+    onClickAuthor,
+}) => {
+    if (!authorSelectionModalQuote) return null;
+
+    const noAuthorDummy = new AuthorModel({
+        id: null, // important
+        name: 'no author',
+    });
+
+    return (
+        <Modal>
+            <div className={styles.instruction}>
+                Select a collection for the quote.
+            </div>
+            <ul>
+                <Author item={noAuthorDummy} onClickItem={onClickAuthor} />
+                {authors.map(c => (
+                    <Author key={c.id} item={c} onClickItem={onClickAuthor} />
+                ))}
+            </ul>
+        </Modal>
+    );
+};
 
 const CollectionSelectionModal = ({
     collections,
@@ -45,7 +75,7 @@ const CollectionSelectionModal = ({
 };
 
 const Quotes = observer(({ store }) => {
-    const { collections, quotes } = store;
+    const { authors, collections, quotes } = store;
 
     const { id: queriedCollectionId } = useParams();
 
@@ -56,6 +86,7 @@ const Quotes = observer(({ store }) => {
     const [ pendingAddQuote, setPendingAddQuote ] = useState(null);
     const [ quoteIdEditing, setQuoteIdEditing ] = useState(null);
 
+    const [ authorSelectionModalQuote, setAuthorSelectionModalQuote ] = useState(null);
     const [ collectionSelectionModalQuote, setCollectionSelectionModalQuote ] = useState(null);
     const [ isCameraModalOpen, setIsCameraModalOpen ] = useState(false);
 
@@ -67,6 +98,11 @@ const Quotes = observer(({ store }) => {
     };
 
     const openCameraModal = () => setIsCameraModalOpen(true);
+
+    const onChangeAuthor = async author => {
+        setAuthorSelectionModalQuote(null);
+        await authorSelectionModalQuote.updateAuthorId(author.id);
+    };
 
     const onChangeCollection = async collection => {
         setCollectionSelectionModalQuote(null);
@@ -130,6 +166,7 @@ const Quotes = observer(({ store }) => {
             onLeaveItem={onLeaveQuote}
             onLeaveNewItem={onLeaveNewQuote}
             pendingAddItem={pendingAddQuote}
+            setAuthorSelectionModalQuote={setAuthorSelectionModalQuote}
             setCollectionSelectionModalQuote={setCollectionSelectionModalQuote}
             setItemIdEditing={setQuoteIdEditing}
         >
@@ -137,6 +174,11 @@ const Quotes = observer(({ store }) => {
                 addQuote={addQuote}
                 isOpen={isCameraModalOpen}
                 setIsCameraModalOpen={setIsCameraModalOpen}
+            />
+            <AuthorSelectionModal
+                authors={authors}
+                authorSelectionModalQuote={authorSelectionModalQuote}
+                onClickAuthor={onChangeAuthor}
             />
             <CollectionSelectionModal
                 collections={collections}

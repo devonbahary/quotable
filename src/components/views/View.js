@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import ROUTES from "../../../constants/routes";
-import { COLLECTION_ICON, HOME_ICON, MENU_ICON, QUOTE_L_ICON, USER_ICON } from "../../constants/icons";
+import { AUTHOR_ICON, COLLECTION_ICON, HOME_ICON, MENU_ICON, QUOTE_L_ICON, USER_ICON } from "../../constants/icons";
 
 import styles from "../styles/view.scss";
 
@@ -30,6 +30,9 @@ const Menu = ({ history, isOpen, toggleMenu }) => {
             </div>
             <div className={styles.card} onClick={() => navigateTo(ROUTES.COLLECTIONS)}>
                 <FontAwesomeIcon icon={COLLECTION_ICON} size="2x" />
+            </div>
+            <div className={styles.card} onClick={() => navigateTo(ROUTES.AUTHORS)}>
+                <FontAwesomeIcon icon={AUTHOR_ICON} size="2x" />
             </div>
             <div className={styles.card} onClick={() => navigateTo(ROUTES.LOGIN)}>
                 <FontAwesomeIcon icon={USER_ICON} size="2x" />

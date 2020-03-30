@@ -16,6 +16,7 @@ const CRUD = observer(({
     onLeaveItem,
     onLeaveNewItem,
     pendingAddItem,
+    setAuthorSelectionModalQuote,
     setCollectionSelectionModalQuote,
     setItemIdEditing,
     store,
@@ -46,6 +47,7 @@ const CRUD = observer(({
                             item={item}
                             setItemIdEditing={setItemIdEditing}
                             setCollectionSelectionModalQuote={setCollectionSelectionModalQuote}
+                            setAuthorSelectionModalQuote={setAuthorSelectionModalQuote}
                             shouldRenderToolBar
                             store={store}
                         />

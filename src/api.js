@@ -1,5 +1,6 @@
 import axios from "axios";
 
+const AUTHORS_PATH = `/api/authors`;
 const COLLECTIONS_PATH = `/api/collections`;
 const GOOGLE_CLOUD_VISION_PATH = `/api/google-cloud-vision`;
 const QUOTES_PATH = `/api/quotes`;
@@ -18,6 +19,37 @@ const errorHandler = cb => {
 export const authenticateUser = async token => {
     const { data: jwt } = await axios.post('/api/authentication/token', { token });
     axios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
+};
+
+export const getUserAuthors = async () => {
+    return errorHandler(async () => {
+        const { data: authors } = await axios.get(AUTHORS_PATH);
+        return authors;
+    });
+};
+
+export const updateAuthorById = async (id, name) => {
+    return errorHandler(async () => {
+        await axios.put(`${AUTHORS_PATH}/${id}`, { name });
+    });
+};
+
+export const saveNewAuthor = async author => {
+    return errorHandler(async () => {
+        const { data } = await axios.post(AUTHORS_PATH, author);
+        return data;
+    });
+};
+
+export const deleteAuthor = async (author, removeQuotesByAuthor) => {
+    return errorHandler(async () => {
+        const config = {
+            data: {
+                removeQuotesByAuthor,
+            },
+        };
+        await axios.delete(`${AUTHORS_PATH}/${author.id}`, config);
+    });
 };
 
 export const getUserCollections = async () => {

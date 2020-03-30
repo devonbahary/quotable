@@ -18,9 +18,19 @@ export default class QuotesRepository extends BaseMySQLRepository {
     }
     static updateColumns() {
         return [
+            'author_id',
             'collection_id',
             'text',
         ];
+    }
+
+    deleteByAuthorId(authorId) {
+        return this.query(
+            `DELETE
+            FROM ${this.tableName}
+            WHERE author_id = ?`,
+            [ authorId ],
+        );
     }
 
     deleteByCollectionId(collectionId) {

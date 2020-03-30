@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TextareaAutosize from "react-textarea-autosize";
 import Card from "./Card";
 import {
+    AUTHOR_ICON,
     COLLECTION_ICON,
     CONFIRM_ICON,
     EDIT_ICON,
@@ -24,16 +25,19 @@ const Quote = observer(({
     item: quote,
     shouldRenderToolBar,
     setItemIdEditing: setQuoteIdEditing = () => {},
+    setAuthorSelectionModalQuote,
     setCollectionSelectionModalQuote,
     store,
 }) => {
-    const { isSavingText, isUpdatingCollection } = quote;
+    const { isSavingText, isUpdatingAuthor, isUpdatingCollection } = quote;
 
     const beginEditQuote = () => setQuoteIdEditing(quote.id);
 
     const onBlur = () => setTimeout(() => onLeave(quote), 0);
 
     const onCollectionSelection = () => setCollectionSelectionModalQuote(quote);
+
+    const onAuthorSelection = () => setAuthorSelectionModalQuote(quote);
 
     const onDelete = async () => {
         if (!confirm('Are you sure you want to delete this quote?')) return;
@@ -57,6 +61,7 @@ const Quote = observer(({
     else if (isEditing) editIcon = CONFIRM_ICON;
     else editIcon = EDIT_ICON;
 
+    const authorIcon = isUpdatingAuthor ? SPINNER_ICON : AUTHOR_ICON;
     const collectionIcon = isUpdatingCollection ? SPINNER_ICON : COLLECTION_ICON;
 
     let content;
@@ -106,11 +111,19 @@ const Quote = observer(({
         });
 
         if (!isEditing) {
-            if (quote.id) toolBarButtons.push({
-                icon: collectionIcon,
-                onClick: onCollectionSelection,
-                shouldRotate: isUpdatingCollection,
-            });
+            if (quote.id) {
+                toolBarButtons.push({
+                    icon: collectionIcon,
+                    onClick: onCollectionSelection,
+                    shouldRotate: isUpdatingCollection,
+                });
+
+                toolBarButtons.push({
+                    icon: authorIcon,
+                    onClick: onAuthorSelection,
+                    shouldRotate: isUpdatingAuthor,
+                });
+            }
 
             toolBarButtons.push({
                 icon: TRASH_ICON,

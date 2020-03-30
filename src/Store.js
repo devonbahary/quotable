@@ -1,23 +1,28 @@
 import { debounce, get } from "lodash";
 import { action, observable, reaction, runInAction } from "mobx";
+import AuthorModel from "./models/AuthorModel";
+import CollectionModel from "./models/CollectionModel";
 import QuoteModel from "./models/QuoteModel";
 import UserModel from "./models/UserModel";
-import CollectionModel from "./models/CollectionModel";
-import { UNTITLED_COLLECTION } from "./components/Collection";
 import {
     authenticateUser,
+    deleteAuthor,
     deleteCollection,
     deleteQuote,
+    getUserAuthors,
     getUserCollections,
     getUserQuotes,
     getUserSettings,
+    saveNewAuthor,
     saveNewCollection,
     saveNewQuote,
 } from "./api";
+import { UNTITLED_COLLECTION } from "./components/Collection";
 
 
 class Store {
     @observable user;
+    @observable authors = [];
     @observable collections = [];
     @observable quotes = [];
 
@@ -25,6 +30,7 @@ class Store {
         reaction(
             () => this.user,
             async () => {
+                await this.getUserAuthors();
                 await this.getUserCollections();
                 await this.getUserQuotes();
             },
@@ -98,6 +104,43 @@ class Store {
         runInAction(() => {
             this.quotes = this.quotes.filter(q => q.id !== quote.id);
         });
+    };
+
+    @action getUserAuthors = async () => {
+        if (!this.user) return;
+
+        const authors = await getUserAuthors();
+        runInAction(() => {
+            this.authors = authors.map(a => new AuthorModel(a));
+        });
+    };
+
+    @action addAuthor = async author => {
+        author.isSaving = true;
+        const { insertId } = await saveNewAuthor(author);
+        author.id = insertId;
+        this.authors.unshift(author);
+        author.isSaving = false;
+    };
+
+    @action removeAuthor = async (author, removeQuotesByAuthor) => {
+        await deleteAuthor(author, removeQuotesByAuthor);
+        runInAction(() => {
+            this.authors = this.authors.filter(a => a.id !== author.id);
+            if (removeQuotesByAuthor) {
+                this.quotes = this.quotes.filter(a => a.authorId !== author.id);
+            } else {
+                this.quotes = this.quotes.map(a => a.authorId === author.id ? ({
+                    ...a,
+                    authorId: null,
+                }) : a);
+            }
+        });
+    };
+
+    getQuoteCountByAuthorId = authorId => {
+        if (!authorId) return 0;
+        return this.quotes.filter(q => q.authorId === authorId).length;
     };
 
     getQuoteCountByCollectionId = collectionId => {

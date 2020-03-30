@@ -3,6 +3,7 @@ import fileUpload from "express-fileupload";
 import express from "express";
 import path from "path";
 import authentication from "./routes/authentication";
+import authors from "./routes/authors";
 import collections from "./routes/collections";
 import googleCloudVision from "./routes/google-cloud-vision";
 import quotes from "./routes/quotes";
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 app.use(fileUpload({}));
 
 app.use('/api/authentication', authentication);
+app.use('/api/authors', authors);
 app.use('/api/collections', collections);
 app.use('/api/google-cloud-vision', googleCloudVision);
 app.use('/api/quotes', quotes);
