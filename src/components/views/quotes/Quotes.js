@@ -47,7 +47,7 @@ const RelationalItemSelectionModal = ({
         instructionalText = 'Select a collection for the quote';
         noRelationalItemDummy = new CollectionModel({
             id: null, // important
-            name: 'no collection',
+            title: 'no collection',
         });
         RelationalItemComponent = Collection;
         onClickItem = onChangeCollection;
