@@ -20,8 +20,6 @@ export const Collection = observer(({
 }) => {
     const getQuoteCountByCollectionId = store ? store.getQuoteCountByCollectionId : () => 0;
 
-    const onNameChange = e => collection.name = e.target.value;
-
     const removeCollection = store ? store.removeCollection : () => {};
 
     return (
@@ -32,7 +30,6 @@ export const Collection = observer(({
             newItemText="new collection"
             onClickItem={onClickItem}
             onLeave={onLeave}
-            onTextChange={onNameChange}
             removeItem={removeCollection}
             shouldRenderToolBar={shouldRenderToolBar}
             setItemIdEditing={setCollectionIdEditing}

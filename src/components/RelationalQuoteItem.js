@@ -17,7 +17,6 @@ const RelationalQuoteItem = ({
     newItemText,
     onClickItem = () => {},
     onLeave,
-    onTextChange,
     removeItem,
     shouldRenderToolBar,
     setItemIdEditing,
@@ -34,6 +33,8 @@ const RelationalQuoteItem = ({
         if (!isEditing) return;
         await onLeave(item);
     };
+
+    const onChange = e => item.name = e.target.value;
 
     const onClick = () => onClickItem(item);
 
@@ -65,7 +66,7 @@ const RelationalQuoteItem = ({
                     className={inputClassName}
                     type="text"
                     onBlur={onBlur}
-                    onChange={onTextChange}
+                    onChange={onChange}
                     onKeyDown={onKeyDown}
                     placeholder={item.id ? unnamedItemText : newItemText}
                     readOnly={!isEditing}

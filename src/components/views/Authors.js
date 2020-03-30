@@ -20,8 +20,6 @@ export const Author = observer(({
  }) => {
     const getQuoteCountByAuthorId = store ? store.getQuoteCountByAuthorId : () => 0;
 
-    const onNameChange = e => author.name = e.target.value;
-
     const removeAuthor = store ? store.removeAuthor : () => {};
 
     return (
@@ -32,7 +30,6 @@ export const Author = observer(({
             newItemText="new author"
             onClickItem={onClickItem}
             onLeave={onLeave}
-            onTextChange={onNameChange}
             removeItem={removeAuthor}
             shouldRenderToolBar={shouldRenderToolBar}
             setItemIdEditing={setAuthorIdEditing}
