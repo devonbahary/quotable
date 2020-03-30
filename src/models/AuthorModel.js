@@ -6,7 +6,7 @@ export default class AuthorModel {
     @observable updatedAt;
     @observable isSaving;
 
-    constructor(author) {
+    constructor(author = {}) {
         this.id = author.id;
         this.name = author.name || '';
         this.updatedAt = author.updated_at;

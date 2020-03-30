@@ -1,5 +1,4 @@
-import React, { useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useRef } from "react";
 import { inject, observer } from "mobx-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
@@ -7,10 +6,8 @@ import classNames from "classnames";
 import AuthorModel from "../../models/AuthorModel";
 
 import Card from "../Card";
-import CRUD from "./CRUD";
 
 import {
-    ADD_ICON,
     CONFIRM_ICON,
     EDIT_ICON,
     QUOTE_L_ICON,
@@ -20,6 +17,7 @@ import {
 import KEY_CODES from "../../constants/keyCodes";
 
 import styles from "../styles/collection.scss";
+import RelationalQuoteItemList from "../RelationalQuoteItemList";
 
 
 export const UNNAMED_AUTHOR = "unnamed author";
@@ -119,52 +117,23 @@ export const Author = observer(({
 const Authors = observer(({ store }) => {
     const { authors } = store;
 
-    const [ authorIdEditing, setAuthorIdEditing ] = useState(null);
-    const [ pendingAddAuthor, setPendingAddAuthor ] = useState(null);
-
-    const history = useHistory();
-
-    const addAuthor = () => {
-        setAuthorIdEditing(null);
-
-        const newAuthor = new AuthorModel({ title: '' });
-        setPendingAddAuthor(newAuthor);
+    const addNewAuthor = async author => {
+        if (author.name) await store.addAuthor(author);
     };
 
-    // const onClickAuthor = author => history.push(`${ROUTES.AUTHORS}/${author.id}`);
-    const onClickAuthor = () => {}; // TODO
-
-    const onLeaveNewAuthor = async () => {
-        if (pendingAddAuthor.name) await store.addAuthor(pendingAddAuthor);
-        setPendingAddAuthor(null);
-    };
-
-    const onLeaveAuthor = async author => {
-        setAuthorIdEditing(null);
-        await author.save();
-    };
-
-    const headerButtons = [{
-        icon: ADD_ICON,
-        onClick: addAuthor,
-    }];
+    const createNewAuthor = () => new AuthorModel();
 
     const sortedAuthors = authors
         .slice() // observable array warning
         .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
 
     return (
-        <CRUD
-            headerButtons={headerButtons}
+        <RelationalQuoteItemList
+            addNewItem={addNewAuthor}
+            createNewItem={createNewAuthor}
             ItemComponent={Author}
-            itemIdEditing={authorIdEditing}
             items={sortedAuthors}
             noItemsMessage="No authors found"
-            onClickItem={onClickAuthor}
-            onLeaveNewItem={onLeaveNewAuthor}
-            onLeaveItem={onLeaveAuthor}
-            pendingAddItem={pendingAddAuthor}
-            setItemIdEditing={setAuthorIdEditing}
         />
     );
 });

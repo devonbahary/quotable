@@ -6,7 +6,7 @@ export default class CollectionModel {
     @observable updatedAt;
     @observable isSaving;
 
-    constructor(collection) {
+    constructor(collection = {}) {
         this.id = collection.id;
         this.title = collection.title || '';
         this.updatedAt = collection.updated_at;
