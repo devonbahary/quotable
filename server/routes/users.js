@@ -1,8 +1,8 @@
 import { entries } from "lodash";
 import { camelCase } from "change-case";
 import express from "express";
-import AuthorsRepository from "../repositories/AuthorsRepository";
-import CollectionsRepository from "../repositories/CollectionsRepository";
+import AuthorsRepository from "../repositories/relational-items/AuthorsRepository";
+import CollectionsRepository from "../repositories/relational-items/CollectionsRepository";
 import QuotesRepository from "../repositories/QuotesRepository";
 import UsersRepository from "../repositories/UsersRepository";
 import { validateUser } from "../auth";

@@ -1,7 +1,7 @@
 import express from "express";
 import { validateUser } from "../auth";
 import { errorHandler, ownerHandler } from "./util";
-import AuthorsRepository from "../repositories/AuthorsRepository";
+import AuthorsRepository from "../repositories/relational-items/AuthorsRepository";
 import QuotesService from "../services/QuotesService";
 import CRUDRouter from "./CRUDRouter";
 

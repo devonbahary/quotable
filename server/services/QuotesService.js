@@ -1,5 +1,5 @@
-import AuthorsRepository from "../repositories/AuthorsRepository";
-import CollectionsRepository from "../repositories/CollectionsRepository";
+import AuthorsRepository from "../repositories/relational-items/AuthorsRepository";
+import CollectionsRepository from "../repositories/relational-items/CollectionsRepository";
 import QuotesRepository from "../repositories/QuotesRepository";
 
 export default class QuotesService {
