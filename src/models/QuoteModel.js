@@ -7,6 +7,7 @@ export default class QuoteModel {
     @observable isSavingText;
     @observable isUpdatingAuthor;
     @observable isUpdatingCollection;
+    @observable updatedAt;
 
     constructor(quote) {
         this.id = quote.id;
@@ -23,7 +24,6 @@ export default class QuoteModel {
         if (text.length > 4000) text = text.slice(0, 4000);
         this.text = text;
         if (this.id) this.debouncedSaveText();
-        this.updatedAt = new Date();
     };
 
     saveText = async () => {

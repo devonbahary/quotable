@@ -22,13 +22,14 @@ import styles from "../../styles/quotes.scss";
 
 
 const RelationalItemSelectionModal = ({
-    authors,
     authorSelectionModalQuote,
-    collections,
     collectionSelectionModalQuote,
     onChangeAuthor,
     onChangeCollection,
+    store,
 }) => {
+    const { sortedAuthors, sortedCollections } = store;
+
     const quoteForSelection = authorSelectionModalQuote || collectionSelectionModalQuote;
 
     if (!quoteForSelection) return null;
@@ -42,7 +43,7 @@ const RelationalItemSelectionModal = ({
         });
         onClickItem = onChangeAuthor;
         RelationalItemComponent = Author;
-        relationalItems = authors;
+        relationalItems = sortedAuthors;
     } else if (collectionSelectionModalQuote) {
         instructionalText = 'Select a collection for the quote';
         noRelationalItemDummy = new CollectionModel({
@@ -51,7 +52,7 @@ const RelationalItemSelectionModal = ({
         });
         RelationalItemComponent = Collection;
         onClickItem = onChangeCollection;
-        relationalItems = collections;
+        relationalItems = sortedCollections;
     }
 
     return (
@@ -70,7 +71,7 @@ const RelationalItemSelectionModal = ({
 };
 
 const Quotes = observer(({ store }) => {
-    const { authors, collections, quotes } = store;
+    let { sortedQuotes } = store;
 
     const { id: queriedCollectionId } = useParams();
 
@@ -144,10 +145,7 @@ const Quotes = observer(({ store }) => {
         headerButtons.push(...addQuoteButtons);
     }
 
-    const sortedQuotes = quotes
-        .slice() // observable array warning
-        .filter(q => collectionId ? q.collectionId === collectionId : q)
-        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+    sortedQuotes = sortedQuotes.filter(q => collectionId ? q.collectionId === collectionId : q); // TODO: necessary anymore?
 
     const noQuotesMessage = collection ? `No quotes found for collection "${collection.name}"` : 'No quotes found';
 
@@ -171,12 +169,11 @@ const Quotes = observer(({ store }) => {
                 setIsCameraModalOpen={setIsCameraModalOpen}
             />
             <RelationalItemSelectionModal
-                authors={authors}
                 authorSelectionModalQuote={authorSelectionModalQuote}
-                collections={collections}
                 collectionSelectionModalQuote={collectionSelectionModalQuote}
                 onChangeAuthor={onChangeAuthor}
                 onChangeCollection={onChangeCollection}
+                store={store}
             />
         </CRUD>
     );

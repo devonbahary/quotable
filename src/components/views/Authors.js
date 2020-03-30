@@ -41,15 +41,13 @@ export const Author = observer(({
 });
 
 const Authors = observer(({ store }) => {
-    const { authors } = store;
+    const { sortedAuthors } = store;
 
     const addNewAuthor = async author => {
         if (author.name) await store.addAuthor(author);
     };
 
     const createNewAuthor = () => new AuthorModel();
-
-    const sortedAuthors = orderBy(authors, [ a => toLower(a.name) ], [ 'asc' ]);
 
     return (
         <RelationalQuoteItemList

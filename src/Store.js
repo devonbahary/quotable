@@ -1,5 +1,5 @@
-import { debounce, get } from "lodash";
-import { action, observable, runInAction } from "mobx";
+import { debounce, get, orderBy, toLower } from "lodash";
+import { action, computed, observable, runInAction } from "mobx";
 import AuthorModel from "./models/relational-items/AuthorModel";
 import CollectionModel from "./models/relational-items/CollectionModel";
 import QuoteModel from "./models/QuoteModel";
@@ -22,6 +22,18 @@ class Store {
     @observable collections = [];
     @observable quotes = [];
     @observable user;
+
+    @computed get sortedAuthors() {
+        return orderBy(this.authors, [ a => toLower(a.name) ], [ 'asc' ]);
+    };
+
+    @computed get sortedCollections() {
+        return orderBy(this.collections, [ c => toLower(c.name) ], [ 'asc' ]);
+    };
+
+    @computed get sortedQuotes() {
+        return orderBy(this.quotes, [ q => new Date(q.updatedAt) ], [ 'desc' ]);
+    };
 
     getQuoteCountByAuthorId = authorId => {
         return authorId ? this.quotes.filter(q => q.authorId === authorId).length : 0;

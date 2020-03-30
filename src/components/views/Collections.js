@@ -41,15 +41,13 @@ export const Collection = observer(({
 });
 
 const Collections = observer(({ store }) => {
-    const { collections } = store;
+    const { sortedCollections } = store;
 
     const addNewCollection = async collection => {
         if (collection.name) await store.addCollection(collection);
     };
 
     const createNewCollection = () => new CollectionModel();
-
-    const sortedCollections = orderBy(collections, [ c => toLower(c.name) ], [ 'asc' ]);
 
     return (
         <RelationalQuoteItemList
