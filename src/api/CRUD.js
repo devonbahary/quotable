@@ -17,7 +17,7 @@ export const saveNewCollection = async collection => errorHandler(async () => {
 });
 
 export const saveNewQuote = async (quote, collectionId) => errorHandler(async () => {
-    const quoteWithCollectionId = Object.assign(quote, { collectionId });
+    const quoteWithCollectionId = Object.assign(quote, { collectionId }); // TODO: may be obsolete
     const { data } = await axios.post(QUOTES_PATH, quoteWithCollectionId);
     return data;
 });
