@@ -4,10 +4,12 @@ import { updateQuoteById } from "../api/CRUD";
 
 export default class QuoteModel {
     @observable text;
+    @observable updatedAt;
+
     @observable isSavingText;
     @observable isUpdatingAuthor;
     @observable isUpdatingCollection;
-    @observable updatedAt;
+
 
     constructor(quote) {
         this.id = quote.id;
@@ -15,6 +17,7 @@ export default class QuoteModel {
         this.collectionId = quote.collection_id;
         this.text = quote.text || '';
         this.updatedAt = quote.updated_at;
+
         this.isSavingText = false;
         this.isUpdatingAuthor = false;
         this.isUpdatingCollection = false;
