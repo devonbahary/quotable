@@ -15,7 +15,7 @@ const RelationalQuoteItem = ({
     item,
     isEditing,
     newItemText,
-    onClickItem,
+    onClickItem = () => {},
     onLeave,
     onTextChange,
     removeItem,
