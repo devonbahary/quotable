@@ -21,16 +21,44 @@ export const authenticateUser = async token => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
 };
 
+export const saveNewAuthor = async author => {
+    return errorHandler(async () => {
+        const { data } = await axios.post(AUTHORS_PATH, author);
+        return data;
+    });
+};
+
+export const saveNewCollection = async collection => {
+    return errorHandler(async () => {
+        const { data } = await axios.post(COLLECTIONS_PATH, collection);
+        return data;
+    });
+};
+
+export const saveNewQuote = async (quote, collectionId) => {
+    const quoteWithCollectionId = Object.assign(quote, { collectionId });
+
+    return errorHandler(async () => {
+        const { data } = await axios.post(QUOTES_PATH, quoteWithCollectionId);
+        return data;
+    });
+};
+
 export const updateAuthorById = async (id, name) => {
     return errorHandler(async () => {
         await axios.put(`${AUTHORS_PATH}/${id}`, { name });
     });
 };
 
-export const saveNewAuthor = async author => {
+export const updateCollectionById = async (id, title) => {
     return errorHandler(async () => {
-        const { data } = await axios.post(AUTHORS_PATH, author);
-        return data;
+        await axios.put(`${COLLECTIONS_PATH}/${id}`, { title });
+    });
+};
+
+export const updateQuoteById = async quote => {
+    return errorHandler(async () => {
+        await axios.put(`${QUOTES_PATH}/${quote.id}`, { ...quote });
     });
 };
 
@@ -45,19 +73,6 @@ export const deleteAuthor = async (author, removeQuotesByAuthor) => {
     });
 };
 
-export const updateCollectionById = async (id, title) => {
-    return errorHandler(async () => {
-        await axios.put(`${COLLECTIONS_PATH}/${id}`, { title });
-    });
-};
-
-export const saveNewCollection = async collection => {
-    return errorHandler(async () => {
-        const { data } = await axios.post(COLLECTIONS_PATH, collection);
-        return data;
-    });
-};
-
 export const deleteCollection = async (collection, removeQuotesInCollection) => {
     return errorHandler(async () => {
         const config = {
@@ -66,21 +81,6 @@ export const deleteCollection = async (collection, removeQuotesInCollection) => 
             },
         };
         await axios.delete(`${COLLECTIONS_PATH}/${collection.id}`, config);
-    });
-};
-
-export const updateQuoteById = async quote => {
-    return errorHandler(async () => {
-        await axios.put(`${QUOTES_PATH}/${quote.id}`, { ...quote });
-    });
-};
-
-export const saveNewQuote = async (quote, collectionId) => {
-    const quoteWithCollectionId = Object.assign(quote, { collectionId });
-
-    return errorHandler(async () => {
-        const { data } = await axios.post(QUOTES_PATH, quoteWithCollectionId);
-        return data;
     });
 };
 
