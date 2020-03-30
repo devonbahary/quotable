@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { inject } from "mobx-react";
+import { inject, observer } from "mobx-react";
 import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -10,7 +10,7 @@ import KEY_CODES from "../constants/keyCodes";
 
 import styles from "./styles/relational-item.scss";
 
-const RelationalQuoteItem = ({
+const RelationalQuoteItem = observer(({
     getQuoteCountByRelationshipId,
     item,
     isEditing,
@@ -104,6 +104,6 @@ const RelationalQuoteItem = ({
     return (
         <Card content={content} toolBarButtons={toolBarButtons} />
     );
-};
+});
 
 export default inject('store')(RelationalQuoteItem);
