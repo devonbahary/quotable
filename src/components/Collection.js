@@ -33,7 +33,12 @@ const Collection = observer(({
         if (!confirm(`Are you sure you want to delete collection "${collection.title}"?`)) return;
 
         const quoteCountInCollection = store.getQuoteCountByCollectionId(collection.id);
-        const removeQuotesInCollection = confirm(`Do you want to delete ${quoteCountInCollection} quotes in "${collection.title}" as well?`);
+
+        let removeQuotesInCollection = false;
+        if (quoteCountInCollection) {
+            removeQuotesInCollection = confirm(`Do you want to delete ${quoteCountInCollection} quotes in "${collection.title}" as well?`);
+        }
+
         await store.removeCollection(collection, removeQuotesInCollection);
     };
 
