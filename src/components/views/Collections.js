@@ -1,4 +1,3 @@
-import { orderBy, toLower } from "lodash";
 import React from "react";
 import { inject, observer } from "mobx-react";
 
