@@ -8,7 +8,7 @@ export default class CollectionModel {
 
     constructor(collection) {
         this.id = collection.id;
-        this.title = collection.title;
+        this.title = collection.title || '';
         this.updatedAt = collection.updated_at;
         this.isSaving = false;
     };

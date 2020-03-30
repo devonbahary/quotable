@@ -8,7 +8,7 @@ export default class AuthorModel {
 
     constructor(author) {
         this.id = author.id;
-        this.name = author.name;
+        this.name = author.name || '';
         this.updatedAt = author.updated_at;
         this.isSaving = false;
     };

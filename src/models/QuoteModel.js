@@ -12,7 +12,7 @@ export default class QuoteModel {
         this.id = quote.id;
         this.authorId = quote.author_id;
         this.collectionId = quote.collection_id;
-        this.text = quote.text;
+        this.text = quote.text || '';
         this.updatedAt = quote.updated_at;
         this.isSavingText = false;
         this.isUpdatingAuthor = false;
