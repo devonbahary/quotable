@@ -35,7 +35,7 @@ const AuthorSelectionModal = ({
     return (
         <Modal>
             <div className={styles.instruction}>
-                Select a collection for the quote.
+                Select an author for the quote.
             </div>
             <ul>
                 <Author item={noAuthorDummy} onClickItem={onClickAuthor} />
