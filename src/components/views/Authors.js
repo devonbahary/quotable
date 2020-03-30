@@ -22,7 +22,7 @@ import KEY_CODES from "../../constants/keyCodes";
 import styles from "../styles/collection.scss";
 
 
-const UNNAMED_AUTHOR = "unnamed author";
+export const UNNAMED_AUTHOR = "unnamed author";
 
 export const Author = observer(({
      item: author,

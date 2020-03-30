@@ -93,9 +93,18 @@ const Quote = observer(({
                         <FontAwesomeIcon icon={QUOTE_R_ICON} size='xs' />
                     </span>
                 </div>
-                {quote.collectionId && (
+                {(quote.authorId || quote.collectionId) && (
                     <div className={styles.secondaryProperties}>
-                        <FontAwesomeIcon icon={COLLECTION_ICON} size="xs"/> {store.getCollectionTitleById(quote.collectionId)}
+                        {quote.authorId && (
+                            <div>
+                                <FontAwesomeIcon icon={AUTHOR_ICON} size="xs"/> {store.getAuthorNameById(quote.authorId)}
+                            </div>
+                        )}
+                        {quote.collectionId && (
+                            <div>
+                                <FontAwesomeIcon icon={COLLECTION_ICON} size="xs"/> {store.getCollectionTitleById(quote.collectionId)}
+                            </div>
+                        )}
                     </div>
                 )}
             </>

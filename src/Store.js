@@ -14,6 +14,7 @@ import {
     saveNewCollection,
     saveNewQuote,
 } from "./api";
+import { UNNAMED_AUTHOR } from "./components/views/Authors";
 import { UNTITLED_COLLECTION } from "./components/Collection";
 
 
@@ -29,6 +30,10 @@ class Store {
 
     getQuoteCountByCollectionId = collectionId => {
         return collectionId ? this.quotes.filter(q => q.collectionId === collectionId).length : 0;
+    };
+
+    getAuthorNameById = authorId => {
+        return get(this.authors.find(a => a.id === authorId), 'name', UNNAMED_AUTHOR);
     };
 
     getCollectionTitleById = collectionId => {
