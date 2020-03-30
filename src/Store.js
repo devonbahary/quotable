@@ -23,6 +23,20 @@ class Store {
     @observable collections = [];
     @observable quotes = [];
 
+    getQuoteCountByAuthorId = authorId => {
+        if (!authorId) return 0;
+        return this.quotes.filter(q => q.authorId === authorId).length;
+    };
+
+    getQuoteCountByCollectionId = collectionId => {
+        if (!collectionId) return 0;
+        return this.quotes.filter(q => q.collectionId === collectionId).length;
+    };
+
+    getCollectionTitleById = collectionId => {
+        return get(this.collections.find(c => c.id === collectionId), 'title', UNTITLED_COLLECTION);
+    };
+
     @action setUser = async googleUser => {
         this.user = new UserModel();
         this.user.setGoogleProfile(googleUser);
@@ -107,20 +121,6 @@ class Store {
                 }) : a);
             }
         });
-    };
-
-    getQuoteCountByAuthorId = authorId => {
-        if (!authorId) return 0;
-        return this.quotes.filter(q => q.authorId === authorId).length;
-    };
-
-    getQuoteCountByCollectionId = collectionId => {
-        if (!collectionId) return 0;
-        return this.quotes.filter(q => q.collectionId === collectionId).length;
-    };
-
-    getCollectionTitleById = collectionId => {
-        return get(this.collections.find(c => c.id === collectionId), 'title', UNTITLED_COLLECTION);
     };
 
     // TODO: can probably get rid of debounce if we leverage gapi.load('auth2', ...) instead of using gapi.signin2.render(...) in <UserModel />
