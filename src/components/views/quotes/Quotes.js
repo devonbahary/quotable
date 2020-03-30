@@ -2,72 +2,67 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { inject, observer } from "mobx-react";
 
-import { Collection } from "../../views/Collections";
-import CRUD from "../CRUD";
-import Modal from "../../Modal";
-import Quote from "../../Quote";
-import SingleMessageView from "../../SingleMessageView";
-import View from "../View";
-import { ADD_ICON, CAMERA_ICON, CLOSE_ICON } from "../../../constants/icons";
-
 import AuthorModel from "../../../models/AuthorModel";
 import CollectionModel from "../../../models/CollectionModel";
 import QuoteModel from "../../../models/QuoteModel";
 
 import { Author } from "../Authors";
 import CameraModal from "./CameraModal";
+import { Collection } from "../../views/Collections";
+import CRUD from "../CRUD";
+import Modal from "../../Modal";
+import Quote from "../../Quote";
+import SingleMessageView from "../../SingleMessageView";
+import View from "../View";
+
+import { ADD_ICON, CAMERA_ICON, CLOSE_ICON } from "../../../constants/icons";
+
 
 import styles from "../../styles/quotes.scss";
 
 
-const AuthorSelectionModal = ({
+const RelationalItemSelectionModal = ({
     authors,
     authorSelectionModalQuote,
-    onClickAuthor,
-}) => {
-    if (!authorSelectionModalQuote) return null;
-
-    const noAuthorDummy = new AuthorModel({
-        id: null, // important
-        name: 'no author',
-    });
-
-    return (
-        <Modal>
-            <div className={styles.instruction}>
-                Select an author for the quote.
-            </div>
-            <ul>
-                <Author item={noAuthorDummy} onClickItem={onClickAuthor} />
-                {authors.map(c => (
-                    <Author key={c.id} item={c} onClickItem={onClickAuthor} />
-                ))}
-            </ul>
-        </Modal>
-    );
-};
-
-const CollectionSelectionModal = ({
     collections,
     collectionSelectionModalQuote,
-    onClickCollection,
+    onChangeAuthor,
+    onChangeCollection,
 }) => {
-    if (!collectionSelectionModalQuote) return null;
+    const quoteForSelection = authorSelectionModalQuote || collectionSelectionModalQuote;
 
-    const noCollectionDummy = new CollectionModel({
-        id: null, // important
-        title: 'no collection',
-    });
+    if (!quoteForSelection) return null;
+
+    let instructionalText, noRelationalItemDummy, onClickItem, RelationalItemComponent, relationalItems;
+    if (authorSelectionModalQuote) {
+        instructionalText = 'Select an author for the quote';
+        noRelationalItemDummy = new AuthorModel({
+            id: null, // important
+            name: 'no author',
+        });
+        onClickItem = onChangeAuthor;
+        RelationalItemComponent = Author;
+        relationalItems = authors;
+    } else if (collectionSelectionModalQuote) {
+        instructionalText = 'Select a collection for the quote';
+        noRelationalItemDummy = new CollectionModel({
+            id: null, // important
+            name: 'no collection',
+        });
+        RelationalItemComponent = Collection;
+        onClickItem = onChangeCollection;
+        relationalItems = collections;
+    }
 
     return (
         <Modal>
             <div className={styles.instruction}>
-                Select a collection for the quote.
+                {instructionalText}
             </div>
             <ul>
-                <Collection item={noCollectionDummy} onClickItem={onClickCollection} />
-                {collections.map(c => (
-                    <Collection key={c.id} item={c} onClickItem={onClickCollection} />
+                <RelationalItemComponent item={noRelationalItemDummy} onClickItem={onClickItem} />
+                {relationalItems.map(i => (
+                    <RelationalItemComponent key={i.id} item={i} onClickItem={onClickItem} />
                 ))}
             </ul>
         </Modal>
@@ -175,15 +170,13 @@ const Quotes = observer(({ store }) => {
                 isOpen={isCameraModalOpen}
                 setIsCameraModalOpen={setIsCameraModalOpen}
             />
-            <AuthorSelectionModal
+            <RelationalItemSelectionModal
                 authors={authors}
                 authorSelectionModalQuote={authorSelectionModalQuote}
-                onClickAuthor={onChangeAuthor}
-            />
-            <CollectionSelectionModal
                 collections={collections}
                 collectionSelectionModalQuote={collectionSelectionModalQuote}
-                onClickCollection={onChangeCollection}
+                onChangeAuthor={onChangeAuthor}
+                onChangeCollection={onChangeCollection}
             />
         </CRUD>
     );
