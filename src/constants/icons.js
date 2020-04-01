@@ -1,5 +1,4 @@
 import {
-    faArrowCircleUp,
     faBars,
     faBook,
     faCamera,
@@ -18,7 +17,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 export const ADD_ICON = faPlusSquare;
-export const ARROW_CIRCLE_UP_ICON = faArrowCircleUp;
 export const AUTHOR_ICON = faUser;
 export const CAMERA_ICON = faCamera;
 export const CLOSE_ICON = faTimes;

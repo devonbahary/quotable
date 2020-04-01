@@ -184,7 +184,6 @@ const Quotes = observer(({ store }) => {
             setItemIdEditing={setQuoteIdEditing}
         >
             <CameraModal
-                addQuote={addQuote}
                 isOpen={isCameraModalOpen}
                 setIsCameraModalOpen={setIsCameraModalOpen}
             />
