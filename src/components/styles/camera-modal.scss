@@ -19,6 +19,9 @@
       @include center();
 
       input {
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
         background: $gray;
         padding: 12px;
         border-radius: 4px;
