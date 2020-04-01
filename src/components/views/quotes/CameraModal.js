@@ -61,10 +61,10 @@ const CameraModal = ({ isOpen, setIsCameraModalOpen, store }) => {
         const text = await uploadImageForTextDetection(formData);
 
         if (text) {
-            setIsCameraModalOpen(false);
-            const quote = new QuoteModel({ text });
             setIsUploading(false);
+            const quote = new QuoteModel({ text, was_ocr: true });
             await store.addQuote(quote);
+            setIsCameraModalOpen(false);
         } else {
             setIsUploadImageError(true);
             setSelectedImage('');

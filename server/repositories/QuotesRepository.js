@@ -10,12 +10,9 @@ export default class QuotesRepository extends BaseMySQLRepository {
     };
 
     static insertColumns() {
-        return [
-            'user_id',
-            'collection_id', // TODO: deprecated?
-            'text',
-        ];
+        return []; // custom insert (saveNew)
     }
+
     static updateColumns() {
         return [
             'author_id',
@@ -24,6 +21,16 @@ export default class QuotesRepository extends BaseMySQLRepository {
             'topic_id',
         ];
     }
+
+    saveNew(userId, collectionId, text, wasOCR) { // TODO: collectionId deprecated?
+        wasOCR = wasOCR ? 1 : 0; // type conformation
+        return this.query(
+            `INSERT INTO ${this.tableName}
+            (user_id, collection_id, text, was_ocr)
+            VALUES (?, ?, ?, ?)`,
+            [ userId, collectionId, text, wasOCR ],
+        );
+    };
 
     deleteByAuthorId(authorId) {
         return this.query(

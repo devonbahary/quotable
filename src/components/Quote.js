@@ -6,6 +6,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import Card from "./Card";
 import {
     AUTHOR_ICON,
+    CAMERA_ICON,
     COLLECTION_ICON,
     CONFIRM_ICON,
     EDIT_ICON,
@@ -97,21 +98,26 @@ const Quote = observer(({
                         <FontAwesomeIcon icon={QUOTE_R_ICON} size='xs' />
                     </span>
                 </div>
-                {(quote.authorId || quote.collectionId || quote.topicId) && (
+                {(quote.authorId || quote.collectionId || quote.topicId || quote.wasOCR) && (
                     <div className={styles.secondaryProperties}>
                         {quote.authorId && (
                             <div>
-                                <FontAwesomeIcon icon={AUTHOR_ICON} size="xs"/> {store.getAuthorNameById(quote.authorId)}
+                                <FontAwesomeIcon icon={AUTHOR_ICON} size="xs" /> {store.getAuthorNameById(quote.authorId)}
                             </div>
                         )}
                         {quote.collectionId && (
                             <div>
-                                <FontAwesomeIcon icon={COLLECTION_ICON} size="xs"/> {store.getCollectionNameById(quote.collectionId)}
+                                <FontAwesomeIcon icon={COLLECTION_ICON} size="xs" /> {store.getCollectionNameById(quote.collectionId)}
                             </div>
                         )}
                         {quote.topicId && (
                             <div>
-                                <FontAwesomeIcon icon={TOPIC_ICON} size="xs"/> {store.getTopicNameById(quote.topicId)}
+                                <FontAwesomeIcon icon={TOPIC_ICON} size="xs" /> {store.getTopicNameById(quote.topicId)}
+                            </div>
+                        )}
+                        {quote.wasOCR && (
+                            <div>
+                                <FontAwesomeIcon icon={CAMERA_ICON} size="xs" />
                             </div>
                         )}
                     </div>

@@ -10,7 +10,7 @@ const quotesRepository = new QuotesRepository();
 
 // CRUDRouter.get(router, quotesRepository); TODO: not needed?
 
-CRUDRouter.post(router, quotesRepository, 'collectionId', 'text');
+CRUDRouter.post(router, quotesRepository, 'collectionId', 'text', 'wasOCR');
 
 CRUDRouter.put(router, quotesRepository, 'authorId', 'collectionId', 'text', 'topicId');
 
