@@ -23,7 +23,7 @@ router.post('/', (req, res) => {
 
         const responseYeah = await client.annotateImage(request);
         const [ response ] = responseYeah;
-        let imageToText = get(response, 'fullTextAnnotation.text');
+        let imageToText = get(response, 'fullTextAnnotation.text', '');
 
         imageToText = imageToText.replace(/-\n/g, ''); // concatenate strings broken up by "-\n"
         imageToText = imageToText.replace(/(?<!\n)\n(?!\n)/g, ' '); // replace remaining newlines (respect consecutive newlines)
