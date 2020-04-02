@@ -125,7 +125,9 @@ const Quotes = observer(({ store }) => {
     };
 
     const closeModal = () => {
+        setAuthorSelectionModalQuote(null);
         setCollectionSelectionModalQuote(null);
+        setTopicSelectionModalQuote(null);
         setIsCameraModalOpen(false);
     };
 
@@ -148,7 +150,7 @@ const Quotes = observer(({ store }) => {
     }
 
     const headerButtons = [];
-    if (collectionSelectionModalQuote || isCameraModalOpen) {
+    if (authorSelectionModalQuote || collectionSelectionModalQuote || topicSelectionModalQuote || isCameraModalOpen) {
         headerButtons.push({
             icon: CLOSE_ICON,
             onClick: closeModal,
