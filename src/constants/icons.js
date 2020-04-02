@@ -3,7 +3,9 @@ import {
     faBook,
     faCamera,
     faCheck,
+    faClipboard,
     faCog,
+    faCopy,
     faHome,
     faLightbulb,
     faPen,
@@ -21,6 +23,8 @@ export const AUTHOR_ICON = faUser;
 export const CAMERA_ICON = faCamera;
 export const CLOSE_ICON = faTimes;
 export const COLLECTION_ICON = faBook;
+export const CLIPBOARD_ICON = faClipboard;
+export const COPY_ICON = faCopy;
 export const CONFIRM_ICON = faCheck;
 export const EDIT_ICON = faPen;
 export const HOME_ICON = faHome;

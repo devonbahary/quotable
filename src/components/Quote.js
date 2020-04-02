@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { observer } from "mobx-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -7,8 +7,10 @@ import Card from "./Card";
 import {
     AUTHOR_ICON,
     CAMERA_ICON,
+    CLIPBOARD_ICON,
     COLLECTION_ICON,
     CONFIRM_ICON,
+    COPY_ICON,
     EDIT_ICON,
     QUOTE_L_ICON,
     QUOTE_R_ICON,
@@ -31,7 +33,9 @@ const Quote = observer(({
     setTopicSelectionModalQuote,
     store,
 }) => {
-    const { isSavingText, isUpdatingAuthor, isUpdatingCollection, isUpdatingTopic } = quote;
+    const [ isCopied, setIsCopied ] = useState(false);
+
+    const { isSavingText, isUpdatingAuthor, isUpdatingCollection, isUpdatingTopic, text } = quote;
 
     const beginEditQuote = () => setQuoteIdEditing(quote.id);
 
@@ -42,6 +46,13 @@ const Quote = observer(({
     const onAuthorSelection = () => setAuthorSelectionModalQuote(quote);
 
     const onTopicSelection = () => setTopicSelectionModalQuote(quote);
+
+    const onCopy = async () => {
+        if (navigator && navigator.clipboard) {
+            setIsCopied(true);
+            await navigator.clipboard.writeText(text);
+        }
+    };
 
     const onDelete = async () => {
         if (!confirm('Are you sure you want to delete this quote?')) return;
@@ -159,6 +170,13 @@ const Quote = observer(({
                 icon: TRASH_ICON,
                 onClick: onDelete,
             });
+
+            if (quote.id) {
+                toolBarButtons.push({
+                    icon: isCopied ? CLIPBOARD_ICON : COPY_ICON,
+                    onClick: onCopy,
+                });
+            }
         }
     }
 
