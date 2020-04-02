@@ -1,9 +1,11 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
 
+import LoadingIcon from "../LoadingIcon";
 import SingleMessageView from "../SingleMessageView";
 import View from "./View";
 
+import styles from "../styles/crud.scss";
 
 const CRUD = observer(({
     children,
@@ -22,12 +24,17 @@ const CRUD = observer(({
     setItemIdEditing,
     store,
 }) => {
+    const { isLoadingUserResources } = store;
     const displayNoResults = !items.length && !pendingAddItem;
 
     return (
         <View headerButtons={headerButtons}>
             {children}
-            {displayNoResults ? (
+            {isLoadingUserResources ? (
+                <div className={styles.loadingState}>
+                    <LoadingIcon />
+                </div>
+            ) : displayNoResults ? (
                 <SingleMessageView message={noItemsMessage}/>
             ) : (
                 <ul>

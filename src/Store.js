@@ -30,6 +30,7 @@ class Store {
     @observable quotes = [];
     @observable topics = [];
     @observable user;
+    @observable isLoadingUserResources = true;
 
     // GETTERS
     @computed get sortedAuthors() {
@@ -135,6 +136,7 @@ class Store {
     };
 
     @action setUser = async googleUser => {
+        this.isLoadingUserResources = true;
         this.user = new UserModel();
         this.user.setGoogleProfile(googleUser);
         const {
@@ -150,6 +152,7 @@ class Store {
             this.collections = collections.map(c => new CollectionModel(c));
             this.quotes = quotes.map(q => new QuoteModel(q));
             this.topics = topics.map(t => new TopicModel(t));
+            this.isLoadingUserResources = false;
         });
 
         await this.user.setUserSettings(user);
