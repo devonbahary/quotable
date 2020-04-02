@@ -18,7 +18,7 @@ export default class QuoteModel {
         this.text = quote.text || '';
         this.topicId = quote.topic_id;
         this.updatedAt = quote.updated_at;
-        this.wasOCR = quote.was_ocr;
+        this.wasOCR = Boolean(quote.was_ocr);
 
         this.isSavingText = false;
         this.isUpdatingAuthor = false;
